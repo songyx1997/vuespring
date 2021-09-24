@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dao.UserDao">
+
+    <resultMap id="BaseResultMap" type="com.example.entity.User">
+        <!--@Table user-->
+        <result property="id" column="ID" jdbcType="VARCHAR"/>
+        <result property="userName" column="USER_NAME" jdbcType="VARCHAR"/>
+        <result property="userPassword" column="USER_PASSWORD" jdbcType="VARCHAR"/>
+        <result property="userPhone" column="USER_PHONE" jdbcType="VARCHAR"/>
+        <result property="userEmail" column="USER_EMAIL" jdbcType="VARCHAR"/>
+        <result property="creationTime" column="CREATION_TIME" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="BaseResultMap">
+        select ID, USER_NAME, USER_PASSWORD, USER_PHONE, USER_EMAIL, CREATION_TIME
+        from library.user
+        where ID = #{id}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="BaseResultMap">
+        select
+          ID, USER_NAME, USER_PASSWORD, USER_PHONE, USER_EMAIL, CREATION_TIME
+        from library.user
+        <where>
+            <if test="id != null and id != ''">
+                and ID = #{id}
+            </if>
+            <if test="userName != null and userName != ''">
+                and USER_NAME = #{userName}
+            </if>
+            <if test="userPassword != null and userPassword != ''">
+                and USER_PASSWORD = #{userPassword}
+            </if>
+            <if test="userPhone != null and userPhone != ''">
+                and USER_PHONE = #{userPhone}
+            </if>
+            <if test="userEmail != null and userEmail != ''">
+                and USER_EMAIL = #{userEmail}
+            </if>
+            <if test="creationTime != null">
+                and CREATION_TIME = #{creationTime}
+            </if>
+        </where>
+    </select>
+
+</mapper>

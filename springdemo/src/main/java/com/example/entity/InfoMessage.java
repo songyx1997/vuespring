@@ -1,4 +1,4 @@
-package com.example.bean;
+package com.example.entity;
 
 /**
  * <p>Title: InfoMessage</p>
@@ -25,4 +25,5 @@ public class InfoMessage {
     public void setReturnMessage(String returnMessage) {
         this.returnMessage = returnMessage;
     }
+
 }

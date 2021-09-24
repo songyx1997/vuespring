@@ -9,7 +9,7 @@
     密码：
     <input
       type="password"
-      v-model="loginForm.password"
+      v-model="loginForm.userPassword"
       placeholder="请输入密码"
     />
     <br /><br />
@@ -23,7 +23,7 @@ export default {
     return {
       loginForm: {
         userName: '',
-        password: ''
+        userPassword: ''
       },
       responseResult: []
     }
@@ -31,14 +31,13 @@ export default {
   methods: {
     login () {
       this.$axios
-        .post('/login', {
+        .post('/user/login', {
           userName: this.loginForm.userName,
-          password: this.loginForm.password
+          userPassword: this.loginForm.userPassword
         })
         .then(successResponse => {
-          debugger
           if (successResponse.data.returnCode === '200') {
-            this.$router.replace({path: '/index'})
+            this.$router.replace({ path: '/index' })
           }
         })
         .catch(failResponse => {})

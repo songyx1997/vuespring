@@ -2,6 +2,7 @@ package com.example.controller;
 
 import com.example.entity.InfoMessage;
 import com.example.entity.User;
+import com.example.service.MailService;
 import com.example.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,6 +31,8 @@ public class UserController {
 
     @Resource
     private UserService userService;
+    @Resource
+    private MailService mailService;
 
     /**
      * <p>Title: login</p>
@@ -54,4 +58,13 @@ public class UserController {
         return infoMessage;
     }
 
+    /**
+     * <p>Title: sendMailCode</p>
+     * <p>Description: 发送邮件验证码</p>
+     * @param userEmail 收件人邮箱
+     */
+    @PostMapping(value = "/sendMailCode")
+    public void sendMailCode(@RequestParam(value = "userEmail") String userEmail) {
+        mailService.sendMailCode(userEmail);
+    }
 }

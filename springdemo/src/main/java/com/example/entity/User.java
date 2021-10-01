@@ -35,7 +35,6 @@ public class User implements Serializable {
     */
     private Date creationTime;
 
-
     public String getId() {
         return id;
     }
@@ -83,5 +82,4 @@ public class User implements Serializable {
     public void setCreationTime(Date creationTime) {
         this.creationTime = creationTime;
     }
-
 }

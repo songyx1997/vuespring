@@ -25,5 +25,4 @@ public class InfoMessage {
     public void setReturnMessage(String returnMessage) {
         this.returnMessage = returnMessage;
     }
-
 }

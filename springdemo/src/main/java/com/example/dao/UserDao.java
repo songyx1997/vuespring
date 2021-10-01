@@ -25,5 +25,4 @@ public interface UserDao {
      * @return java.util.List<com.example.entity.User>
      */
     List<User> queryAll(User user);
-
 }

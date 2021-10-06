@@ -61,10 +61,14 @@ public class UserController {
     /**
      * <p>Title: sendMailCode</p>
      * <p>Description: 发送邮件验证码</p>
-     * @param userEmail 收件人邮箱
+     * @param requestUser 注册用户
      */
+    @CrossOrigin
     @PostMapping(value = "/sendMailCode")
-    public void sendMailCode(@RequestParam(value = "userEmail") String userEmail) {
+    @ResponseBody
+    public void sendMailCode(@RequestBody User requestUser) {
+        String userEmail = requestUser.getUserEmail();
+        LOG.info("注册邮箱为：{}", userEmail);
         mailService.sendMailCode(userEmail);
     }
 }

@@ -77,7 +77,7 @@ body {
 }
 .user-background {
   background: url('../assets/user/background.jpg') no-repeat;
-  background-position: center;
+  background-position: bottom;
   height: 100vh;
   width: 100vw;
   position: fixed;

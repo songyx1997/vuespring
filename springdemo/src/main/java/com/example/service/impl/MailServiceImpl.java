@@ -1,13 +1,11 @@
 package com.example.service.impl;
 
 import com.example.service.MailService;
-import com.example.utils.RandomStringUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
@@ -35,9 +33,7 @@ public class MailServiceImpl implements MailService {
 
     @Async
     @Override
-    public void sendMailCode(String sendEmailAddress) {
-        String mailCode = RandomStringUtil.randomMailCode();
-        LOG.info("生成6位数字验证码:{}", mailCode);
+    public void sendMailCode(String sendEmailAddress, String mailCode) {
         SimpleMailMessage email = new SimpleMailMessage();
         //邮件标题
         email.setSubject("注册验证码");
@@ -50,11 +46,8 @@ public class MailServiceImpl implements MailService {
         email.setTo(sendEmailAddress);
         //发件人邮箱地址
         email.setFrom(fromEmailAddress);
-        try {
-            javaMailSender.send(email);
-            LOG.info("验证码邮件已经发送");
-        } catch (MailException e) {
-            LOG.error("发送验证码邮件时出现异常！", e);
-        }
+        LOG.info("开始发送验证码邮件");
+        javaMailSender.send(email);
+        LOG.info("验证码邮件发送成功！");
     }
 }

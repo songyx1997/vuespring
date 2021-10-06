@@ -4,13 +4,14 @@ import com.example.entity.InfoMessage;
 import com.example.entity.User;
 import com.example.service.MailService;
 import com.example.service.UserService;
+import com.example.utils.RandomStringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.mail.MailException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -66,9 +67,21 @@ public class UserController {
     @CrossOrigin
     @PostMapping(value = "/sendMailCode")
     @ResponseBody
-    public void sendMailCode(@RequestBody User requestUser) {
+    public InfoMessage sendMailCode(@RequestBody User requestUser) {
+        InfoMessage infoMessage = new InfoMessage();
         String userEmail = requestUser.getUserEmail();
         LOG.info("注册邮箱为：{}", userEmail);
-        mailService.sendMailCode(userEmail);
+        String mailCode = RandomStringUtil.randomMailCode();
+        LOG.info("生成6位数字验证码:{}", mailCode);
+        try {
+            mailService.sendMailCode(userEmail, mailCode);
+            infoMessage.setReturnCode(InfoMessage.SUCCESS);
+            infoMessage.setReturnMessage("发送成功！");
+        } catch (MailException e) {
+            LOG.error("发送验证码邮件时出现异常！", e);
+            infoMessage.setReturnCode(InfoMessage.FAIL);
+            infoMessage.setReturnMessage("发送失败，请确认邮箱号！");
+        }
+        return infoMessage;
     }
 }

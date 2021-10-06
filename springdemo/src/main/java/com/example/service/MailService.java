@@ -11,6 +11,7 @@ public interface MailService {
      * <p>Title: sendMailCode</p>
      * <p>Description: 发送邮箱验证码</p>
      * @param emailAddress 收件人邮箱地址
+     * @param mailCode 6位数字验证码
      */
-    void sendMailCode(String emailAddress);
+    void sendMailCode(String emailAddress, String mailCode);
 }

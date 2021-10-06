@@ -166,11 +166,9 @@ export default {
               if (successResponse.data.returnCode === '200') {
                 this.$router.replace({ path: '/index' })
               } else {
-                this.$notify.error({
-                  title: '错误',
+                this.$message({
                   message: '账号不存在或密码错误',
-                  position: 'bottom-right',
-                  showClose: false
+                  type: 'error'
                 })
               }
             })
@@ -179,8 +177,26 @@ export default {
       })
     },
     sendMailCode () {
-      this.$axios.post('/user/sendMailCode', {
-        userEmail: this.registerForm.userEmail
+      this.$refs['registerForm'].validateField('userEmail', valid => {
+        if (!valid) {
+          this.$axios
+            .post('/user/sendMailCode', {
+              userEmail: this.registerForm.userEmail
+            })
+            .then(result => {
+              if (result.data.returnCode === 'SUCCESS') {
+                this.$message({
+                  message: result.data.returnMessage,
+                  type: 'success'
+                })
+              } else {
+                this.$message({
+                  message: result.data.returnMessage,
+                  type: 'error'
+                })
+              }
+            })
+        }
       })
     },
     register () {

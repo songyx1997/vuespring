@@ -53,7 +53,11 @@
                   v-model="registerForm.mailCode"
                   placeholder="6位数字验证码"
                 >
-                  <el-button type="text" slot="suffix" @click="sendMailCode"
+                  <el-button
+                    id="sendMailCode"
+                    type="text"
+                    slot="suffix"
+                    @click="sendMailCode"
                     >获取验证码&nbsp;</el-button
                   >
                 </el-input>
@@ -107,6 +111,8 @@ body {
 }
 </style>
 <script>
+import $ from 'jquery'
+
 export default {
   name: 'User',
   data () {
@@ -185,6 +191,8 @@ export default {
             })
             .then(result => {
               if (result.data.returnCode === 'SUCCESS') {
+                var obj = $('#sendMailCode')
+                obj.attr('disabled', true)
                 this.$message({
                   message: result.data.returnMessage,
                   type: 'success'

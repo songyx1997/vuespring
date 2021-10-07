@@ -7,11 +7,12 @@ package com.example.service;
  * @date 2021/10/2
  */
 public interface MailService {
+
     /**
      * <p>Title: sendMailCode</p>
-     * <p>Description: 发送邮箱验证码</p>
+     * <p>Description: </p>
      * @param emailAddress 收件人邮箱地址
-     * @param mailCode 6位数字验证码
+     * @return java.lang.String
      */
-    void sendMailCode(String emailAddress, String mailCode);
+    String sendMailCode(String emailAddress);
 }

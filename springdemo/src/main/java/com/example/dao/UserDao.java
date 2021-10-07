@@ -25,4 +25,20 @@ public interface UserDao {
      * @return java.util.List<com.example.entity.User>
      */
     List<User> queryAll(User user);
+
+    /**
+     * <p>Title: init</p>
+     * <p>Description: 新增所有列</p>
+     * @param user 实例对象
+     * @return int
+     */
+    int insert(User user);
+
+    /**
+     * <p>Title: updateAllByUserEmail</p>
+     * <p>Description: 通过主键修改数据</p>
+     * @param user 实例对象
+     * @return int
+     */
+    int updateAllByUserEmail(User user);
 }

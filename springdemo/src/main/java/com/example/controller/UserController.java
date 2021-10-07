@@ -2,12 +2,14 @@ package com.example.controller;
 
 import com.example.entity.InfoMessage;
 import com.example.entity.User;
+import com.example.enums.WebExceptionEnum;
+import com.example.exception.WebException;
 import com.example.service.MailService;
 import com.example.service.UserService;
-import com.example.utils.RandomStringUtil;
+import com.example.utils.DateUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.mail.MailException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -29,6 +32,8 @@ import java.util.List;
 public class UserController {
 
     private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
+
+    private static final int RESEND_THRESHOLD = 1;
 
     @Resource
     private UserService userService;
@@ -62,26 +67,38 @@ public class UserController {
     /**
      * <p>Title: sendMailCode</p>
      * <p>Description: 发送邮件验证码</p>
-     * @param requestUser 注册用户
+     * @param registerUser 注册用户
      */
     @CrossOrigin
     @PostMapping(value = "/sendMailCode")
     @ResponseBody
-    public InfoMessage sendMailCode(@RequestBody User requestUser) {
+    public InfoMessage sendMailCode(@RequestBody User registerUser) {
         InfoMessage infoMessage = new InfoMessage();
-        String userEmail = requestUser.getUserEmail();
+        String userEmail = registerUser.getUserEmail();
         LOG.info("注册邮箱为：{}", userEmail);
-        String mailCode = RandomStringUtil.randomMailCode();
-        LOG.info("生成6位数字验证码:{}", mailCode);
+        List<User> users = userService.queryAll(registerUser);
         try {
-            mailService.sendMailCode(userEmail, mailCode);
-            infoMessage.setReturnCode(InfoMessage.SUCCESS);
-            infoMessage.setReturnMessage("发送成功！");
-        } catch (MailException e) {
-            LOG.error("发送验证码邮件时出现异常！", e);
+            if (users.isEmpty()) {
+                LOG.info("首次注册发送邮件，初始化入库");
+                registerUser.setNewestMailCode(mailService.sendMailCode(userEmail));
+                userService.init(registerUser);
+            } else if (!StringUtils.isBlank(users.get(0).getUserPassword())) {
+                throw new WebException(WebExceptionEnum.WEB_DEMO_000000, "该邮箱已被注册！");
+            } else if (DateUtil.getDiffMinutes(users.get(0).getCreationTime(), new Date()) < RESEND_THRESHOLD) {
+                throw new WebException(WebExceptionEnum.WEB_DEMO_000000, "邮件验证码仍未过期！");
+            } else {
+                LOG.info("非首次注册发送邮件，更新入库");
+                registerUser.setNewestMailCode(mailService.sendMailCode(userEmail));
+                userService.updateAllByUserEmail(registerUser);
+            }
+        } catch (WebException e) {
+            LOG.error("注册数据入库时出现异常！", e);
             infoMessage.setReturnCode(InfoMessage.FAIL);
-            infoMessage.setReturnMessage("发送失败，请确认邮箱号！");
+            infoMessage.setReturnMessage(e.getMessage());
+            return infoMessage;
         }
+        infoMessage.setReturnCode(InfoMessage.SUCCESS);
+        infoMessage.setReturnMessage("发送成功！");
         return infoMessage;
     }
 }

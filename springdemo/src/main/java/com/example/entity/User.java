@@ -11,29 +11,37 @@ import java.io.Serializable;
  */
 public class User implements Serializable {
     /**
-    * 无意义主键
-    */
+     * 无意义主键
+     */
     private String id;
     /**
-    * 用户名
-    */
+     * 用户名
+     */
     private String userName;
     /**
-    * 密码
-    */
+     * 密码
+     */
     private String userPassword;
     /**
-    * 手机号码
-    */
+     * 手机号码
+     */
     private String userPhone;
     /**
-    * 用户邮箱
-    */
+     * 用户邮箱
+     */
     private String userEmail;
     /**
-    * 创建时间
-    */
+     * 创建时间
+     */
     private Date creationTime;
+    /**
+     * 最后登录时间
+     */
+    private Date lastLoginTime;
+    /**
+     * 最新邮箱验证码
+     */
+    private String newestMailCode;
 
     public String getId() {
         return id;
@@ -81,5 +89,21 @@ public class User implements Serializable {
 
     public void setCreationTime(Date creationTime) {
         this.creationTime = creationTime;
+    }
+
+    public Date getLastLoginTime() {
+        return lastLoginTime;
+    }
+
+    public void setLastLoginTime(Date lastLoginTime) {
+        this.lastLoginTime = lastLoginTime;
+    }
+
+    public String getNewestMailCode() {
+        return newestMailCode;
+    }
+
+    public void setNewestMailCode(String newestMailCode) {
+        this.newestMailCode = newestMailCode;
     }
 }

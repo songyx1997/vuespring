@@ -11,11 +11,13 @@
         <result property="userPhone" column="USER_PHONE" jdbcType="VARCHAR"/>
         <result property="userEmail" column="USER_EMAIL" jdbcType="VARCHAR"/>
         <result property="creationTime" column="CREATION_TIME" jdbcType="TIMESTAMP"/>
+        <result property="lastLoginTime" column="LAST_LOGIN_TIME" jdbcType="TIMESTAMP"/>
+        <result property="newestMailCode" column="NEWEST_MAIL_CODE" jdbcType="VARCHAR"/>
     </resultMap>
 
     <!--查询单个-->
     <select id="queryById" resultMap="BaseResultMap">
-        select ID, USER_NAME, USER_PASSWORD, USER_PHONE, USER_EMAIL, CREATION_TIME
+        select ID, USER_NAME, USER_PASSWORD, USER_PHONE, USER_EMAIL, CREATION_TIME, LAST_LOGIN_TIME, NEWEST_MAIL_CODE
         from library.user
         where ID = #{id}
     </select>
@@ -23,7 +25,7 @@
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="BaseResultMap">
         select
-          ID, USER_NAME, USER_PASSWORD, USER_PHONE, USER_EMAIL, CREATION_TIME
+          ID, USER_NAME, USER_PASSWORD, USER_PHONE, USER_EMAIL, CREATION_TIME, LAST_LOGIN_TIME, NEWEST_MAIL_CODE
         from library.user
         <where>
             <if test="id != null and id != ''">
@@ -44,7 +46,48 @@
             <if test="creationTime != null">
                 and CREATION_TIME = #{creationTime}
             </if>
+            <if test="lastLoginTime != null">
+                and LAST_LOGIN_TIME = #{lastLoginTime}
+            </if>
+            <if test="newestMailCode != null and newestMailCode != ''">
+                and NEWEST_MAIL_CODE = #{newestMailCode}
+            </if>
         </where>
     </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="" useGeneratedKeys="true">
+        insert into library.user(ID, USER_NAME, USER_PASSWORD, USER_PHONE, USER_EMAIL, CREATION_TIME, LAST_LOGIN_TIME, NEWEST_MAIL_CODE)
+        values (#{id}, #{userName}, #{userPassword}, #{userPhone}, #{userEmail}, #{creationTime}, #{lastLoginTime}, #{newestMailCode})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="updateAllByUserEmail">
+        update library.user
+        <set>
+            <if test="userName != null and userName != ''">
+                USER_NAME = #{userName},
+            </if>
+            <if test="userPassword != null and userPassword != ''">
+                USER_PASSWORD = #{userPassword},
+            </if>
+            <if test="userPhone != null and userPhone != ''">
+                USER_PHONE = #{userPhone},
+            </if>
+            <if test="userEmail != null and userEmail != ''">
+                USER_EMAIL = #{userEmail},
+            </if>
+            <if test="creationTime != null">
+                CREATION_TIME = #{creationTime},
+            </if>
+            <if test="lastLoginTime != null">
+                LAST_LOGIN_TIME = #{lastLoginTime},
+            </if>
+            <if test="newestMailCode != null and newestMailCode != ''">
+                NEWEST_MAIL_CODE = #{newestMailCode},
+            </if>
+        </set>
+        where USER_EMAIL = #{userEmail}
+    </update>
 
 </mapper>

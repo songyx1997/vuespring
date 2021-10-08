@@ -97,7 +97,7 @@ body {
   margin: 0px;
 }
 .user-background {
-  background: url('../assets/user/background.jpg') no-repeat;
+  background: url('../assets/user/background.png') no-repeat;
   background-position: center;
   background-size: cover;
   height: 100vh;
@@ -105,7 +105,7 @@ body {
 }
 .user-panal {
   position: relative;
-  top: 30vh;
+  top: 35vh;
 }
 #tab-login {
   font-weight: 900;

@@ -70,12 +70,12 @@
                   placeholder="6位数字验证码"
                 >
                   <el-button
-                    id="sendMailCode"
                     type="text"
                     :disabled="btnTime >= 60 ? false : true"
                     slot="suffix"
                     @click="sendMailCode"
-                    >获取验证码&nbsp;</el-button
+                    v-loading.fullscreen.lock="fullscreenLoading"
+                    >{{ btnContent }}&nbsp;</el-button
                   >
                 </el-input>
               </el-form-item>
@@ -128,8 +128,6 @@ body {
 }
 </style>
 <script>
-import $ from 'jquery'
-
 export default {
   name: 'User',
   data () {
@@ -175,6 +173,9 @@ export default {
       activeName: 'login',
       // 按钮点击倒计时
       btnTime: 60,
+      // 初始化全屏加载
+      fullscreenLoading: false,
+      btnContent: '获取验证码',
       loginForm: { userName: '', userPassword: '' },
       registerForm: {
         userEmail: '',
@@ -200,6 +201,7 @@ export default {
   methods: {
     // 登录入口
     login () {
+      var _this = this
       this.$refs['loginForm'].validate(valid => {
         if (valid) {
           this.$axios
@@ -214,7 +216,11 @@ export default {
                   message: result.data.returnMessage,
                   type: 'success'
                 })
-                this.$router.replace({ path: '/index' })
+                _this.$store.commit('user', _this.loginForm)
+                var path = this.$route.query.redirect
+                this.$router.replace({
+                  path: path === '/' || path === undefined ? '/index' : path
+                })
               } else {
                 this.$message({
                   showClose: true,
@@ -230,13 +236,15 @@ export default {
     sendMailCode () {
       this.$refs['registerForm'].validateField('userEmail', valid => {
         if (!valid) {
+          this.fullscreenLoading = true
           this.$axios
             .post('/user/sendMailCode', {
               userEmail: this.registerForm.userEmail
             })
             .then(result => {
+              this.fullscreenLoading = false
               if (result.data.returnCode === 'SUCCESS') {
-                this.setButtonTime($('#sendMailCode'))
+                this.setButtonTime()
                 this.$message({
                   showClose: true,
                   message: result.data.returnMessage,
@@ -254,19 +262,20 @@ export default {
       })
     },
     // 按钮显示时间
-    setButtonTime (jqueryObj) {
+    setButtonTime () {
       let clock = window.setInterval(() => {
-        jqueryObj.html(this.btnTime + 's&nbsp;')
         this.btnTime--
+        this.btnContent = this.btnTime + 's'
         if (this.btnTime < 0) {
           window.clearInterval(clock)
-          jqueryObj.html('获取验证码&nbsp;')
           this.btnTime = 60
+          this.btnContent = '获取验证码'
         }
       }, 1000)
     },
     // 注册入口
     register () {
+      var _this = this
       this.$refs['registerForm'].validate(valid => {
         if (valid) {
           this.$axios
@@ -274,7 +283,6 @@ export default {
               userEmail: this.registerForm.userEmail,
               userPassword: this.registerForm.userPassword,
               newestMailCode: this.registerForm.mailCode
-
             })
             .then(result => {
               if (result.data.returnCode === 'SUCCESS') {
@@ -283,8 +291,13 @@ export default {
                   message: result.data.returnMessage,
                   type: 'success'
                 })
+                _this.$store.commit('user', {
+                  userName: result.data.paraMap.user.userEmail,
+                  userPassword: result.data.paraMap.user.userPassword
+                })
+                var path = this.$route.query.redirect
                 this.$router.replace({
-                  path: '/index'
+                  path: path === '/' || path === undefined ? '/index' : path
                 })
               } else {
                 this.$message({

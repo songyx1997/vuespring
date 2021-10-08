@@ -20,7 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>Title: LoginController</p>
@@ -162,6 +164,9 @@ public class UserController {
         }
         infoMessage.setReturnCode(InfoMessage.SUCCESS);
         infoMessage.setReturnMessage("注册成功！");
+        Map<String, Object> paraMap = new HashMap<>();
+        paraMap.put("user", registerUser);
+        infoMessage.setParaMap(paraMap);
         return infoMessage;
     }
 }

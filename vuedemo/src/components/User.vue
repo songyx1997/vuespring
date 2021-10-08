@@ -26,7 +26,11 @@
                 ></el-input>
               </el-form-item>
               <el-form-item>
-                <el-button class="user-button" type="primary" @click="login"
+                <el-button
+                  class="user-button"
+                  type="primary"
+                  @click="login"
+                  v-loading.fullscreen.lock="fullscreenLoading"
                   >登录</el-button
                 >
               </el-form-item>
@@ -80,7 +84,11 @@
                 </el-input>
               </el-form-item>
               <el-form-item>
-                <el-button class="user-button" type="primary" @click="register"
+                <el-button
+                  class="user-button"
+                  type="primary"
+                  @click="register"
+                  v-loading.fullscreen.lock="fullscreenLoading"
                   >注册</el-button
                 >
               </el-form-item>
@@ -125,6 +133,10 @@ body {
 .user-button {
   font-weight: 900;
   width: 100%;
+}
+.el-loading-mask {
+  /* 设置加载中的背景透明 */
+  background-color: rgba(255, 255, 255, 0.1);
 }
 </style>
 <script>
@@ -204,12 +216,14 @@ export default {
       var _this = this
       this.$refs['loginForm'].validate(valid => {
         if (valid) {
+          this.fullscreenLoading = true
           this.$axios
             .post('/user/login', {
               userName: this.loginForm.userName,
               userPassword: this.loginForm.userPassword
             })
             .then(result => {
+              this.fullscreenLoading = false
               if (result.data.returnCode === 'SUCCESS') {
                 this.$message({
                   showClose: true,
@@ -278,6 +292,7 @@ export default {
       var _this = this
       this.$refs['registerForm'].validate(valid => {
         if (valid) {
+          this.fullscreenLoading = true
           this.$axios
             .post('/user/register', {
               userEmail: this.registerForm.userEmail,
@@ -285,6 +300,7 @@ export default {
               newestMailCode: this.registerForm.mailCode
             })
             .then(result => {
+              this.fullscreenLoading = false
               if (result.data.returnCode === 'SUCCESS') {
                 this.$message({
                   showClose: true,

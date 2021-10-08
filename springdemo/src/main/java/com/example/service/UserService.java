@@ -35,9 +35,9 @@ public interface UserService {
     void init(User user);
 
     /**
-     * <p>Title: updateAllByUserEmail</p>
-     * <p>Description: 通过主键修改数据</p>
+     * <p>Title: updateAllByKey</p>
+     * <p>Description: 通过主要信息修改数据</p>
      * @param user 实例对象
      */
-    void updateAllByUserEmail(User user);
+    void updateAllByKey(User user);
 }

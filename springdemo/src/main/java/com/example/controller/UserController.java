@@ -33,6 +33,8 @@ public class UserController {
 
     private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
 
+    private final InfoMessage infoMessage = new InfoMessage();
+
     private static final int RESEND_THRESHOLD = 1;
 
     @Resource
@@ -42,25 +44,40 @@ public class UserController {
 
     /**
      * <p>Title: login</p>
-     * <p>Description: 登录测试</p>
-     * @param requestUser 登录用户
+     * <p>Description: 登录</p>
+     * @param loginUser 登录用户
      * @return com.example.entity.InfoMessage
      */
     @CrossOrigin
     @PostMapping(value = "/login")
     @ResponseBody
-    public InfoMessage login(@RequestBody User requestUser) {
-        InfoMessage infoMessage = new InfoMessage();
-        String userName = requestUser.getUserName();
+    public InfoMessage login(@RequestBody User loginUser) {
+        String userName = loginUser.getUserName();
         LOG.info("登录账户名为：{}", userName);
-        List<User> users = userService.queryAll(requestUser);
-        if (users.isEmpty()) {
-            infoMessage.setReturnCode("400");
-            infoMessage.setReturnMessage("账号不存在或密码错误");
-        } else {
-            infoMessage.setReturnCode("200");
-            infoMessage.setReturnMessage("登录成功");
+        List<User> users = userService.queryAll(loginUser);
+        User anoUser = new User();
+        anoUser.setUserEmail(loginUser.getUserName());
+        anoUser.setUserPassword(loginUser.getUserPassword());
+        List<User> anoUsers = userService.queryAll(anoUser);
+        try {
+            if (users.isEmpty() && anoUsers.isEmpty()) {
+                throw new WebException(WebExceptionEnum.WEB_DEMO_000000, "账号不存在或密码错误！");
+            } else {
+                LOG.info("记录登陆时间，更新入库");
+                String id = users.isEmpty() ? anoUsers.get(0).getId() : users.get(0).getId();
+                loginUser.setUserName(null);
+                loginUser.setId(id);
+                loginUser.setLastLoginTime(new Date());
+                userService.updateAllByKey(loginUser);
+            }
+        } catch (WebException e) {
+            LOG.error("登陆时出现异常！", e);
+            infoMessage.setReturnCode(InfoMessage.FAIL);
+            infoMessage.setReturnMessage(e.getMessage());
+            return infoMessage;
         }
+        infoMessage.setReturnCode(InfoMessage.SUCCESS);
+        infoMessage.setReturnMessage("登录成功！");
         return infoMessage;
     }
 
@@ -73,7 +90,6 @@ public class UserController {
     @PostMapping(value = "/sendMailCode")
     @ResponseBody
     public InfoMessage sendMailCode(@RequestBody User registerUser) {
-        InfoMessage infoMessage = new InfoMessage();
         String userEmail = registerUser.getUserEmail();
         LOG.info("注册邮箱为：{}", userEmail);
         List<User> users = userService.queryAll(registerUser);
@@ -89,16 +105,60 @@ public class UserController {
             } else {
                 LOG.info("非首次注册发送邮件，更新入库");
                 registerUser.setNewestMailCode(mailService.sendMailCode(userEmail));
-                userService.updateAllByUserEmail(registerUser);
+                registerUser.setCreationTime(new Date());
+                userService.updateAllByKey(registerUser);
             }
         } catch (WebException e) {
-            LOG.error("注册数据入库时出现异常！", e);
+            LOG.error("发送邮件验证码出现异常！", e);
             infoMessage.setReturnCode(InfoMessage.FAIL);
             infoMessage.setReturnMessage(e.getMessage());
             return infoMessage;
         }
         infoMessage.setReturnCode(InfoMessage.SUCCESS);
         infoMessage.setReturnMessage("发送成功！");
+        return infoMessage;
+    }
+
+    /**
+     * <p>Title: register</p>
+     * <p>Description: 注册</p>
+     * @param registerUser 注册用户
+     * @return com.example.entity.InfoMessage
+     */
+    @CrossOrigin
+    @PostMapping(value = "/register")
+    @ResponseBody
+    public InfoMessage register(@RequestBody User registerUser) {
+        String userEmail = registerUser.getUserEmail();
+        String mailCode = registerUser.getNewestMailCode();
+        LOG.info("注册邮箱为：{}，输入邮箱验证码为：{}", userEmail, mailCode);
+        User anoUser = new User();
+        anoUser.setUserEmail(userEmail);
+        List<User> users = userService.queryAll(anoUser);
+        try {
+            if (users.isEmpty()) {
+                throw new WebException(WebExceptionEnum.WEB_DEMO_000000, "未发送邮箱验证码！");
+            } else if (!StringUtils.isBlank(users.get(0).getUserPassword())) {
+                throw new WebException(WebExceptionEnum.WEB_DEMO_000000, "该邮箱已被注册！");
+            } else if (DateUtil.getDiffMinutes(users.get(0).getCreationTime(), new Date()) >= RESEND_THRESHOLD) {
+                throw new WebException(WebExceptionEnum.WEB_DEMO_000000, "邮件验证码已过期！");
+            } else if (!StringUtils.equals(users.get(0).getNewestMailCode(), mailCode)) {
+                throw new WebException(WebExceptionEnum.WEB_DEMO_000000, "邮件验证码不正确！");
+            } else {
+                LOG.info("更新密码、创建时间、登陆时间");
+                Date currentTime = new Date();
+                registerUser.setCreationTime(currentTime);
+                registerUser.setLastLoginTime(currentTime);
+                userService.updateAllByKey(registerUser);
+            }
+        } catch (WebException e) {
+            LOG.error("注册时出现异常！", e);
+            infoMessage.setReturnCode(InfoMessage.FAIL);
+            infoMessage.setReturnMessage(e.getMessage());
+            return infoMessage;
+        }
+        infoMessage.setReturnCode(InfoMessage.SUCCESS);
+        infoMessage.setReturnMessage("注册成功！");
         return infoMessage;
     }
 }

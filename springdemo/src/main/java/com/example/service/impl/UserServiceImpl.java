@@ -46,9 +46,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateAllByUserEmail(User user) {
-        user.setCreationTime(new Date());
-        int updateNum = userDao.updateAllByUserEmail(user);
+    public void updateAllByKey(User user) {
+        int updateNum = userDao.updateAllByKey(user);
         if (updateNum != 1) {
             throw new WebException(WebExceptionEnum.WEB_DEMO_000002, "用户表");
         }

@@ -172,7 +172,7 @@ export default {
     }
     return {
       // 初始化表单为登录
-      activeName: 'register',
+      activeName: 'login',
       // 按钮点击倒计时
       btnTime: 60,
       loginForm: { userName: '', userPassword: '' },
@@ -207,17 +207,22 @@ export default {
               userName: this.loginForm.userName,
               userPassword: this.loginForm.userPassword
             })
-            .then(successResponse => {
-              if (successResponse.data.returnCode === '200') {
+            .then(result => {
+              if (result.data.returnCode === 'SUCCESS') {
+                this.$message({
+                  showClose: true,
+                  message: result.data.returnMessage,
+                  type: 'success'
+                })
                 this.$router.replace({ path: '/index' })
               } else {
                 this.$message({
-                  message: '账号不存在或密码错误',
+                  showClose: true,
+                  message: result.data.returnMessage,
                   type: 'error'
                 })
               }
             })
-            .catch(failResponse => {})
         }
       })
     },
@@ -233,11 +238,13 @@ export default {
               if (result.data.returnCode === 'SUCCESS') {
                 this.setButtonTime($('#sendMailCode'))
                 this.$message({
+                  showClose: true,
                   message: result.data.returnMessage,
                   type: 'success'
                 })
               } else {
                 this.$message({
+                  showClose: true,
                   message: result.data.returnMessage,
                   type: 'error'
                 })
@@ -262,7 +269,31 @@ export default {
     register () {
       this.$refs['registerForm'].validate(valid => {
         if (valid) {
-          console.log('注册测试')
+          this.$axios
+            .post('/user/register', {
+              userEmail: this.registerForm.userEmail,
+              userPassword: this.registerForm.userPassword,
+              newestMailCode: this.registerForm.mailCode
+
+            })
+            .then(result => {
+              if (result.data.returnCode === 'SUCCESS') {
+                this.$message({
+                  showClose: true,
+                  message: result.data.returnMessage,
+                  type: 'success'
+                })
+                this.$router.replace({
+                  path: '/index'
+                })
+              } else {
+                this.$message({
+                  showClose: true,
+                  message: result.data.returnMessage,
+                  type: 'error'
+                })
+              }
+            })
         }
       })
     },

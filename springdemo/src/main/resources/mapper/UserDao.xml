@@ -62,7 +62,7 @@
     </insert>
 
     <!--通过主键修改数据-->
-    <update id="updateAllByUserEmail">
+    <update id="updateAllByKey">
         update library.user
         <set>
             <if test="userName != null and userName != ''">
@@ -87,7 +87,17 @@
                 NEWEST_MAIL_CODE = #{newestMailCode},
             </if>
         </set>
-        where USER_EMAIL = #{userEmail}
+        <where>
+            <if test="id != null and id != ''">
+                and ID = #{id}
+            </if>
+            <if test="userName != null and userName != ''">
+                and USER_NAME = #{userName}
+            </if>
+            <if test="userEmail != null and userEmail != ''">
+                and USER_EMAIL = #{userEmail}
+            </if>
+        </where>
     </update>
 
 </mapper>

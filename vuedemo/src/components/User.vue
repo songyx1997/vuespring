@@ -47,6 +47,22 @@
                   placeholder="邮箱"
                 ></el-input>
               </el-form-item>
+              <el-form-item prop="userPassword">
+                <el-input
+                  prefix-icon="el-icon-lock"
+                  v-model="registerForm.userPassword"
+                  type="password"
+                  placeholder="密码"
+                ></el-input>
+              </el-form-item>
+              <el-form-item prop="checkPassword">
+                <el-input
+                  prefix-icon="el-icon-lock"
+                  v-model="registerForm.checkPassword"
+                  type="password"
+                  placeholder="确认密码"
+                ></el-input>
+              </el-form-item>
               <el-form-item prop="mailCode">
                 <el-input
                   prefix-icon="el-icon-edit-outline"
@@ -56,6 +72,7 @@
                   <el-button
                     id="sendMailCode"
                     type="text"
+                    :disabled="btnTime >= 60 ? false : true"
                     slot="suffix"
                     @click="sendMailCode"
                     >获取验证码&nbsp;</el-button
@@ -81,10 +98,10 @@ body {
 }
 .user-background {
   background: url('../assets/user/background.jpg') no-repeat;
-  background-position: bottom;
+  background-position: center;
+  background-size: cover;
   height: 100vh;
   width: 100vw;
-  position: fixed;
 }
 .user-panal {
   position: relative;
@@ -116,6 +133,7 @@ import $ from 'jquery'
 export default {
   name: 'User',
   data () {
+    // 登录用户名校验
     var validateUserName = (rules, value, callback) => {
       var emailPatt = new RegExp(
         '^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$'
@@ -131,6 +149,7 @@ export default {
         callback()
       }
     }
+    // 注册邮箱格式校验
     var validateMailCode = (rules, value, callback) => {
       var checkCodePatt = new RegExp('^\\d{6}$')
       if (value === '') {
@@ -141,16 +160,35 @@ export default {
         callback()
       }
     }
+    // 确认密码格式校验
+    var validateCheckPassword = (rules, value, callback) => {
+      if (value === '') {
+        callback(new Error('请再次输入密码'))
+      } else if (value !== this.registerForm.userPassword) {
+        callback(new Error('两次输入密码不一致!'))
+      } else {
+        callback()
+      }
+    }
     return {
+      // 初始化表单为登录
       activeName: 'register',
+      // 按钮点击倒计时
+      btnTime: 60,
       loginForm: { userName: '', userPassword: '' },
-      registerForm: { userEmail: '', mailCode: '' },
+      registerForm: {
+        userEmail: '',
+        userPassword: '',
+        checkPassword: '',
+        mailCode: ''
+      },
       rules: {
         userName: [{ validator: validateUserName, trigger: 'blur' }],
         userPassword: [
           { required: true, message: '请输入密码', trigger: 'blur' },
           { min: 6, max: 24, message: '密码长度为6~24个字符', trigger: 'blur' }
         ],
+        checkPassword: [{ validator: validateCheckPassword, trigger: 'blur' }],
         userEmail: [
           { required: true, message: '请输入邮箱', trigger: 'blur' },
           { type: 'email', message: '邮箱格式不正确', trigger: 'blur' }
@@ -160,6 +198,7 @@ export default {
     }
   },
   methods: {
+    // 登录入口
     login () {
       this.$refs['loginForm'].validate(valid => {
         if (valid) {
@@ -182,6 +221,7 @@ export default {
         }
       })
     },
+    // 发送验证码
     sendMailCode () {
       this.$refs['registerForm'].validateField('userEmail', valid => {
         if (!valid) {
@@ -191,8 +231,7 @@ export default {
             })
             .then(result => {
               if (result.data.returnCode === 'SUCCESS') {
-                var obj = $('#sendMailCode')
-                obj.attr('disabled', true)
+                this.setButtonTime($('#sendMailCode'))
                 this.$message({
                   message: result.data.returnMessage,
                   type: 'success'
@@ -207,6 +246,19 @@ export default {
         }
       })
     },
+    // 按钮显示时间
+    setButtonTime (jqueryObj) {
+      let clock = window.setInterval(() => {
+        jqueryObj.html(this.btnTime + 's&nbsp;')
+        this.btnTime--
+        if (this.btnTime < 0) {
+          window.clearInterval(clock)
+          jqueryObj.html('获取验证码&nbsp;')
+          this.btnTime = 60
+        }
+      }, 1000)
+    },
+    // 注册入口
     register () {
       this.$refs['registerForm'].validate(valid => {
         if (valid) {
@@ -214,6 +266,7 @@ export default {
         }
       })
     },
+    // 重置表单
     resetForm () {
       this.$refs['loginForm'].resetFields()
       this.$refs['registerForm'].resetFields()

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.List;
 
@@ -46,12 +47,13 @@ public class UserController {
      * <p>Title: login</p>
      * <p>Description: 登录</p>
      * @param loginUser 登录用户
+     * @param session 记录登录信息
      * @return com.example.entity.InfoMessage
      */
     @CrossOrigin
     @PostMapping(value = "/login")
     @ResponseBody
-    public InfoMessage login(@RequestBody User loginUser) {
+    public InfoMessage login(@RequestBody User loginUser, HttpSession session) {
         String userName = loginUser.getUserName();
         LOG.info("登录账户名为：{}", userName);
         List<User> users = userService.queryAll(loginUser);
@@ -76,6 +78,7 @@ public class UserController {
             infoMessage.setReturnMessage(e.getMessage());
             return infoMessage;
         }
+        session.setAttribute("user", loginUser);
         infoMessage.setReturnCode(InfoMessage.SUCCESS);
         infoMessage.setReturnMessage("登录成功！");
         return infoMessage;

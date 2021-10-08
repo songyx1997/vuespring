@@ -7,6 +7,8 @@ import User from '@/components/User'
 Vue.use(Router)
 
 export default new Router({
+  // 默认的hash模式切换为histroy模式
+  mode: 'history',
   routes: [
     {
       path: '/user',

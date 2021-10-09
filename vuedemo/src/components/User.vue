@@ -105,7 +105,7 @@ body {
   margin: 0px;
 }
 .user-background {
-  background: url('../assets/user/background.png') no-repeat;
+  background: url('../assets/user/background.svg') no-repeat;
   background-position: center;
   background-size: cover;
   height: 100vh;

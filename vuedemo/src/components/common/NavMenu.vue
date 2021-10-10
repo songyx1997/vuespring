@@ -4,14 +4,15 @@
     :default-active="'/index'"
     router
     mode="horizontal"
-    @select="handleSelect"
   >
+    <el-menu-item index="1">
+      <el-image :src="logoUrl" style="width:180px;margin-left:-20px"></el-image>
+    </el-menu-item>
   </el-menu>
 </template>
 <style>
 .nav-overall {
   background-color: #e4e7ed;
-  border-radius: 5px;
 }
 .nav-title {
   position: absolute;
@@ -22,10 +23,12 @@
 }
 </style>
 <script>
+import logo from '@/assets/index/logo1.png'
 export default {
   name: 'NavMenu',
   data () {
     return {
+      logoUrl: logo,
       navList: [{ name: '/index', navItem: '首页' }]
     }
   }

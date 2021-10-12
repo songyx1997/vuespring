@@ -237,14 +237,131 @@ input[type=text] {
 
 上述CSS为带有图标的输入框。
 
+##### 1.3高级
+
 ```css
-textarea {
-  width: 100%;
-  height: 150px;
-  resize: none;
+#div1 {
+  background: url(img_flower.jpg);
+  background-size: cover;
 }
 ```
 
-resize 属性可防止对 textareas 调整大小。
+background-size 属性可以通过长度、百分比或使用以下两个关键字之一来指定背景图像的大小：contain 或 cover。
 
-##### 1.3高级
+background-origin 属性指定背景图像的位置；background-clip 属性指定背景的绘制区域。两个属性均接受三个不同的值：border-box - 边框的外部边缘（默认）、padding-box - 内边距的外边缘、content-box - 内容框中。
+
+```css
+div {
+  box-shadow: 10px 10px 5px grey;
+}
+```
+
+box-shadow 属性应用阴影于元素，其语法与文字阴影相同。
+
+```css
+p.test {
+  width: 200px; 
+  border: 1px solid #000000;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+```
+
+text-overflow 属性规定应如何向用户呈现未显示的溢出内容，ellipsis为添加省略号。
+
+```css
+p.test:hover {
+  overflow: visible;
+}
+```
+
+鼠标悬停时文字将被显示。
+
+| transform                              | 移动、旋转、缩放和倾斜元素                                   |
+| -------------------------------------- | ------------------------------------------------------------ |
+| transform: translate(50px, 100px)      | 从其当前位置向右移动 50 个像素，并向下移动 100 个像素        |
+| transform: rotate(-20deg)              | 元素逆时针旋转 20 度                                         |
+| transform: scale(2, 3)                 | 元素增大为其原始宽度的两倍和其原始高度的三倍                 |
+| transform: skew(20deg, 10deg)          | 元素沿 X 轴倾斜 20 度，同时沿 Y 轴倾斜 10 度                 |
+| transform: matrix(1, -0.3, 0, 1, 0, 0) | matrix(scaleX(),skewY(),skewX(),scaleY(),translateX(),translateY()) |
+| transform: rotateX(150deg)             | 元素绕其 X 轴旋转给定角度                                    |
+
+```css
+div {
+  width: 100px;
+  transition: width 2s, transform 4s;
+}
+div:hover {
+  width: 300px;
+  transform: rotateZ(180deg);
+}
+```
+
+当光标放在元素上时，将开始过渡效果。
+
+[动画](https://www.w3school.com.cn/css/css3_animations.asp)、[工具提示](https://www.w3school.com.cn/css/css_tooltip.asp)、[图像样式](https://www.w3school.com.cn/css/css3_images.asp)、[按钮](https://www.w3school.com.cn/css/css3_buttons.asp)、[分页](https://www.w3school.com.cn/css/css3_pagination.asp)
+
+```css
+img {
+  width: 200px;
+  height: 400px;
+  object-fit: cover;
+}
+```
+
+object-fit 属性用于规定应如何调整 img 或 video 的大小来适应其容器。contain - 缩放替换后的内容以保持其纵横比，同时将其放入元素的内容框；cover - 调整图片尺寸，以在填充元素的整个内容框时保持其长宽比；none - 不对替换的内容调整大小；scale-down - 调整内容大小就像没有指定内容或包含内容一样。
+
+```css
+.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+```
+
+鼠标悬停在按钮上时会显示禁停标志，且按钮变为透明。
+
+```css
+div {
+  column-count: 3;
+  column-width: 200px;
+  column-gap: 40px;
+  column-rule-style: solid;
+  column-rule-width: 1px;
+  column-rule-color: red;
+}
+```
+
+依次为：列数、列宽、列间距、列之间的规则、规则宽度、规则颜色。
+
+```css
+div {
+  resize: both;
+  overflow: auto;
+}
+```
+
+resize属性包括：horizontal - 调整宽度；vertical - 调整高度；both - 调整宽度和高度；none - 禁用，如可防止对 textareas 调整大小。
+
+```css
+:root {
+  --blue: #1e90ff;
+  --white: #ffffff;
+}
+
+h2 { border-bottom: 2px solid var(--blue); }
+```
+
+变量名称必须以两个破折号（--）开头，且区分大小写。
+
+```css
+@media screen and (max-width: 600px) {
+  .topnav a {
+    float: none;
+    width: 100%;
+  }
+}
+```
+
+通过媒体查询，实现响应式导航栏。
+
+#### 2.Flexbox

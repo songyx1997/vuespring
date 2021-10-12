@@ -1,100 +1,102 @@
 <template>
-  <body class="user-background">
-    <div class="user-panal">
-      <div class="user-form">
-        <el-tabs v-model="activeName" @tab-click="resetForm">
-          <el-tab-pane label="登录" name="login">
-            <el-form
-              ref="loginForm"
-              :model="loginForm"
-              :rules="rules"
-              label-width="0px"
-            >
-              <el-form-item prop="userName">
-                <el-input
-                  prefix-icon="el-icon-user"
-                  v-model="loginForm.userName"
-                  placeholder="邮箱/用户名"
-                ></el-input>
-              </el-form-item>
-              <el-form-item prop="userPassword">
-                <el-input
-                  prefix-icon="el-icon-lock"
-                  v-model="loginForm.userPassword"
-                  type="password"
-                  placeholder="密码"
-                ></el-input>
-              </el-form-item>
-              <el-form-item>
-                <el-button
-                  class="user-button"
-                  type="primary"
-                  @click="login"
-                  v-loading.fullscreen.lock="fullscreenLoading"
-                  >登录</el-button
-                >
-              </el-form-item>
-            </el-form>
-          </el-tab-pane>
-          <el-tab-pane label="注册" name="register">
-            <el-form
-              ref="registerForm"
-              :model="registerForm"
-              :rules="rules"
-              label-width="0px"
-            >
-              <el-form-item prop="userEmail">
-                <el-input
-                  prefix-icon="el-icon-message"
-                  v-model="registerForm.userEmail"
-                  type="email"
-                  placeholder="邮箱"
-                ></el-input>
-              </el-form-item>
-              <el-form-item prop="userPassword">
-                <el-input
-                  prefix-icon="el-icon-lock"
-                  v-model="registerForm.userPassword"
-                  type="password"
-                  placeholder="密码"
-                ></el-input>
-              </el-form-item>
-              <el-form-item prop="checkPassword">
-                <el-input
-                  prefix-icon="el-icon-lock"
-                  v-model="registerForm.checkPassword"
-                  type="password"
-                  placeholder="确认密码"
-                ></el-input>
-              </el-form-item>
-              <el-form-item prop="mailCode">
-                <el-input
-                  prefix-icon="el-icon-edit-outline"
-                  v-model="registerForm.mailCode"
-                  placeholder="6位数字验证码"
-                >
+  <body>
+    <div class="user-panel">
+      <div class="user-content">
+        <div class="user-form">
+          <el-tabs v-model="activeName" @tab-click="resetForm">
+            <el-tab-pane label="登录" name="login">
+              <el-form
+                ref="loginForm"
+                :model="loginForm"
+                :rules="rules"
+                label-width="0px"
+              >
+                <el-form-item prop="userName">
+                  <el-input
+                    prefix-icon="el-icon-user"
+                    v-model="loginForm.userName"
+                    placeholder="邮箱/用户名"
+                  ></el-input>
+                </el-form-item>
+                <el-form-item prop="userPassword">
+                  <el-input
+                    prefix-icon="el-icon-lock"
+                    v-model="loginForm.userPassword"
+                    type="password"
+                    placeholder="密码"
+                  ></el-input>
+                </el-form-item>
+                <el-form-item>
                   <el-button
-                    type="text"
-                    :disabled="btnTime >= 60 ? false : true"
-                    slot="suffix"
-                    @click="sendMailCode"
+                    class="user-button"
+                    type="primary"
+                    @click="login"
                     v-loading.fullscreen.lock="fullscreenLoading"
-                    >{{ btnContent }}&nbsp;</el-button
+                    >登录</el-button
                   >
-                </el-input>
-              </el-form-item>
-              <el-form-item>
-                <el-button
-                  class="user-button"
-                  type="primary"
-                  @click="register"
-                  v-loading.fullscreen.lock="fullscreenLoading"
-                  >注册</el-button
-                >
-              </el-form-item>
-            </el-form>
-          </el-tab-pane>
-        </el-tabs>
+                </el-form-item>
+              </el-form>
+            </el-tab-pane>
+            <el-tab-pane label="注册" name="register">
+              <el-form
+                ref="registerForm"
+                :model="registerForm"
+                :rules="rules"
+                label-width="0px"
+              >
+                <el-form-item prop="userEmail">
+                  <el-input
+                    prefix-icon="el-icon-message"
+                    v-model="registerForm.userEmail"
+                    type="email"
+                    placeholder="邮箱"
+                  ></el-input>
+                </el-form-item>
+                <el-form-item prop="userPassword">
+                  <el-input
+                    prefix-icon="el-icon-lock"
+                    v-model="registerForm.userPassword"
+                    type="password"
+                    placeholder="密码"
+                  ></el-input>
+                </el-form-item>
+                <el-form-item prop="checkPassword">
+                  <el-input
+                    prefix-icon="el-icon-lock"
+                    v-model="registerForm.checkPassword"
+                    type="password"
+                    placeholder="确认密码"
+                  ></el-input>
+                </el-form-item>
+                <el-form-item prop="mailCode">
+                  <el-input
+                    prefix-icon="el-icon-edit-outline"
+                    v-model="registerForm.mailCode"
+                    placeholder="6位数字验证码"
+                  >
+                    <el-button
+                      type="text"
+                      :disabled="btnTime >= 60 ? false : true"
+                      slot="suffix"
+                      @click="sendMailCode"
+                      v-loading.fullscreen.lock="fullscreenLoading"
+                      >{{ btnContent }}&nbsp;</el-button
+                    >
+                  </el-input>
+                </el-form-item>
+                <el-form-item>
+                  <el-button
+                    class="user-button"
+                    type="primary"
+                    @click="register"
+                    v-loading.fullscreen.lock="fullscreenLoading"
+                    >注册</el-button
+                  >
+                </el-form-item>
+              </el-form>
+            </el-tab-pane>
+          </el-tabs>
+        </div>
       </div>
     </div>
   </body>
@@ -103,17 +105,21 @@
 body {
   /* 覆盖掉浏览器样式 */
   margin: 0px;
+  padding: 0px;
 }
-.user-background {
+.user-panel {
   background: url('../assets/user/background.svg') no-repeat;
   background-position: center;
   background-size: cover;
   height: 100vh;
   width: 100vw;
 }
-.user-panal {
-  position: relative;
-  top: 25vh;
+.user-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 }
 #tab-login {
   font-weight: 900;
@@ -122,9 +128,7 @@ body {
   font-weight: 900;
 }
 .user-form {
-  margin: 0px auto;
-  width: 20em;
-  /* 四角变圆 */
+  min-width: 320px;
   border-radius: 25px;
   padding: 1.5em 2em 0.5em 2em;
   background: #e4e7ed;
@@ -137,6 +141,11 @@ body {
 .el-loading-mask {
   /* 设置加载中的背景透明 */
   background-color: rgba(255, 255, 255, 0.1);
+}
+@media screen and (max-width: 600px) {
+  .user-content {
+    justify-content: flex-start;
+  }
 }
 </style>
 <script>

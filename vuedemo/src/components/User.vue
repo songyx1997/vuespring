@@ -252,6 +252,14 @@ export default {
                 })
               }
             })
+            .catch(failResponse => {
+              this.fullscreenLoading = false
+              this.$message({
+                showClose: true,
+                message: failResponse,
+                type: 'error'
+              })
+            })
         }
       })
     },
@@ -280,6 +288,14 @@ export default {
                   type: 'error'
                 })
               }
+            })
+            .catch(failResponse => {
+              this.fullscreenLoading = false
+              this.$message({
+                showClose: true,
+                message: failResponse,
+                type: 'error'
+              })
             })
         }
       })
@@ -331,6 +347,14 @@ export default {
                   type: 'error'
                 })
               }
+            })
+            .catch(failResponse => {
+              this.fullscreenLoading = false
+              this.$message({
+                showClose: true,
+                message: failResponse,
+                type: 'error'
+              })
             })
         }
       })

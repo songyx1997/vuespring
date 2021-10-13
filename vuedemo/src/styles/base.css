@@ -1,0 +1,14 @@
+:root {
+  --red: #f56c6c;
+  --green: #67c23a;
+  --blue: #409eff;
+  --grey: #e4e7ed;
+}
+
+.background {
+  background: url('../assets/background.svg') no-repeat;
+  background-position: center;
+  background-size: cover;
+  height: 100vh;
+  width: 100vw;
+}

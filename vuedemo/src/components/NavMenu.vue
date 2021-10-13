@@ -1,35 +1,35 @@
 <template>
-  <el-menu
-    class="nav-overall"
-    :default-active="'/index'"
-    router
-    mode="horizontal"
-  >
-    <el-menu-item index="1">
-      <el-image :src="logoUrl" style="width:180px;margin-left:-20px"></el-image>
+  <el-menu class="nav-menu">
+    <el-menu-item>
+      <el-image class="nav-img" :src="logoUrl"></el-image>
+      <span class="nav-title">&nbsp;SCRUM</span>
     </el-menu-item>
   </el-menu>
 </template>
 <style>
-.nav-overall {
-  background-color: #e4e7ed;
+.el-menu-item {
+  padding: 0px;
+}
+.nav-menu {
+  display: flex;
+}
+.nav-img {
+  height: 100%;
 }
 .nav-title {
-  /* position: absolute;
-  padding-top: 20px;
-  right: 43%;
-  font-size: 20px;
-  font-weight: bold; */
+  font-size: 30px;
+  font-weight: 900;
+  color: var(--darkblue);
 }
 </style>
 <script>
-// import logo from '@/assets/index/logo1.png'
+import '@/styles/base.css'
+import logo from '@/assets/logo2.png'
 export default {
   name: 'NavMenu',
   data () {
     return {
-      // logoUrl: logo,
-      navList: [{ name: '/index', navItem: '首页' }]
+      logoUrl: logo
     }
   }
 }

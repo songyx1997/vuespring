@@ -1,14 +1,24 @@
 <template>
-  <el-container>
-    <el-header>header</el-header>
+  <body>
     <el-container>
-      <el-aside>Aside</el-aside>
-      <el-main>Main</el-main>
+      <el-header><nav-menu></nav-menu></el-header>
+      <el-container>
+        <el-aside></el-aside>
+        <el-main></el-main>
+      </el-container>
     </el-container>
-  </el-container>
+  </body>
 </template>
-<style></style>
+<style>
+body {
+  /* 覆盖掉浏览器样式 */
+  margin: 0px;
+  padding: 0px;
+  background-color: var(--lightgrey);
+}
+</style>
 <script>
+import '@/styles/base.css'
 import NavMenu from '../components/NavMenu.vue'
 export default {
   name: 'Home',

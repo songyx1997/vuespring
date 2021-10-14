@@ -39,7 +39,7 @@
 }
 .nav-avatar-container {
   padding-top: 2px;
-  padding-right: 30px;
+  padding-right: 15px;
 }
 .nav-avatar-img {
   height: 45px;

@@ -1,10 +1,10 @@
 :root {
-  --red: #f56c6c;
-  --green: #67c23a;
-  --blue: #409eff;
-  --darkblue: #0e70b6;
-  --grey: #e4e7ed;
-  --lightgrey: #f5f5f5;
+  --red: rgb(245, 108, 108);
+  --green: rgb(103, 194, 58);
+  --blue: rgb(64, 158, 255);
+  --darkblue: rgb(14, 112, 182);
+  --grey: rgb(228, 231, 237);
+  --lightgrey: rgb(245, 245, 245);
 }
 
 .background {

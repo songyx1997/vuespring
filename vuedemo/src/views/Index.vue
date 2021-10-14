@@ -1,9 +1,11 @@
 <template>
   <body>
     <el-container>
-      <el-header><nav-menu></nav-menu></el-header>
+      <el-aside width="210px">Aside</el-aside>
       <el-container>
-        <el-aside></el-aside>
+        <el-header style="height:50px;padding:0px"
+          ><nav-menu></nav-menu
+        ></el-header>
         <el-main></el-main>
       </el-container>
     </el-container>

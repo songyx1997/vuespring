@@ -10,12 +10,10 @@
       </el-breadcrumb>
     </div>
     <div class="nav-avatar-container">
-      <el-dropdown trigger="click">
+      <el-dropdown size="medium">
         <img class="nav-avatar-img" :src="avatarUrl" />
-        <el-dropdown-menu slot="dropdown" class="nav-dropdown">
-          <el-dropdown-item>
-            <span>退出登录</span>
-          </el-dropdown-item>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item disabled>退出登录</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>

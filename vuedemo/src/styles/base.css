@@ -1,16 +1,14 @@
 :root {
-  --red: rgb(245, 108, 108);
-  --green: rgb(103, 194, 58);
-  --blue: rgb(64, 158, 255);
-  --darkblue: rgb(14, 112, 182);
-  --grey: rgb(228, 231, 237);
-  --lightgrey: rgb(245, 245, 245);
+  --red: #f56c6c;
+  --green: #67c23a;
+  --blue: #409eff;
+  --grey: #e4e7ed;
+  --lightgrey: #f5f5f5;
 }
 
 .background {
   background: url('../assets/background.svg') no-repeat;
   background-position: center;
   background-size: cover;
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
 }

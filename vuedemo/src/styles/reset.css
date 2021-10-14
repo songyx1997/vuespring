@@ -1,0 +1,33 @@
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  height: 100%;
+  box-sizing: border-box;
+}
+
+#app {
+  height: 100%;
+}
+
+.el-container {
+  height: 100%;
+}
+
+.el-tabs__item {
+  font-weight: 900;
+}
+
+.el-loading-mask {
+  /* 设置加载中的背景透明 */
+  background-color: white;
+  opacity: 0.1;
+}
+
+.el-scrollbar-wrapper {
+  /* 取消横向滚动头条 */
+  overflow-x: hidden;
+}

@@ -1,5 +1,5 @@
 <template>
-  <body class="background">
+  <div class="background">
     <div class="user-content">
       <div class="user-form">
         <el-tabs v-model="activeName" @tab-click="resetForm">
@@ -97,26 +97,15 @@
         </el-tabs>
       </div>
     </div>
-  </body>
+  </div>
 </template>
-<style>
-body {
-  /* 覆盖掉浏览器样式 */
-  margin: 0px;
-  padding: 0px;
-}
+<style scoped>
 .user-content {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100%;
-}
-#tab-login {
-  font-weight: 900;
-}
-#tab-register {
-  font-weight: 900;
 }
 .user-form {
   min-width: 320px;
@@ -129,11 +118,6 @@ body {
   font-weight: 900;
   width: 100%;
 }
-.el-loading-mask {
-  /* 设置加载中的背景透明 */
-  background-color: white;
-  opacity: 0.1;
-}
 @media screen and (max-width: 600px) {
   .user-content {
     justify-content: flex-start;
@@ -141,7 +125,6 @@ body {
 }
 </style>
 <script>
-import '@/styles/base.css'
 export default {
   name: 'User',
   data () {

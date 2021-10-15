@@ -14,7 +14,7 @@
           <span slot="title">&nbsp;SCRUM</span>
         </el-menu-item>
         <el-menu-item index="meeting">
-          <i class="el-icon-date"></i>
+          <i class="el-icon-position"></i>
           <span slot="title">每日站会</span>
         </el-menu-item>
         <el-menu-item index="evaluate">

@@ -7,6 +7,8 @@ import store from './store'
 import LuckDraw from 'vue-luck-draw'
 import './styles/base.css'
 import './styles/reset.css'
+import 'github-markdown-css'
+
 // 设置反向代理
 var axios = require('axios')
 axios.defaults.baseURL = 'http://localhost:8001/api'

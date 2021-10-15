@@ -12,15 +12,18 @@
           </el-col>
           <el-col :xs="24" :sm="18">
             <el-tabs v-model="activeName" type="border-card">
-              <el-tab-pane name="notes">
-                <span slot="label"
-                  ><i class="el-icon-edit-outline"></i>&nbsp;笔记</span
-                >
-              </el-tab-pane>
               <el-tab-pane name="account">
                 <span slot="label"
                   ><i class="el-icon-user"></i>&nbsp;个人中心</span
                 >
+              </el-tab-pane>
+              <el-tab-pane name="notes">
+                <span slot="label"
+                  ><i class="el-icon-edit-outline"></i>&nbsp;杂记</span
+                >
+                <div class="index-notes">
+                  <article class="markdown-body"><notes></notes></article>
+                </div>
               </el-tab-pane>
             </el-tabs>
           </el-col>
@@ -29,21 +32,27 @@
     </el-container>
   </el-container>
 </template>
-<style></style>
+<style>
+.index-notes {
+  text-align: left;
+}
+</style>
 <script>
 import NavMenu from '../components/NavMenu.vue'
 import ScrollMenu from '../components/ScrollMenu.vue'
 import UserInfoCard from '../components/UserInfoCard.vue'
+import notes from '../assets/Notes.md'
 export default {
   name: 'Home',
   components: {
     NavMenu,
     ScrollMenu,
-    UserInfoCard
+    UserInfoCard,
+    notes
   },
   data () {
     return {
-      activeName: 'notes'
+      activeName: 'account'
     }
   },
   methods: {

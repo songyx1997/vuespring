@@ -1,10 +1,3 @@
-<table>
-    <tr>
-        <td>title：Notes</td>
-        <td>description：项目实施过程中获得的新知识</td>
-    </tr>
-</table>
-
 #### 1.CSS
 
 ##### 1.1基础

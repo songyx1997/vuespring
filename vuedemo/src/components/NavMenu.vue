@@ -35,7 +35,7 @@
   flex: 1;
 }
 .nav-avatar-container {
-  padding-right: 15px;
+  padding-right: 20px;
 }
 .nav-avatar-img {
   height: 40px;

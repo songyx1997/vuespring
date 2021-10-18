@@ -12,14 +12,19 @@
           </el-col>
           <el-col :xs="24" :sm="18">
             <el-tabs v-model="activeName" type="border-card">
-              <el-tab-pane name="account">
+              <el-tab-pane name="date">
+                <span slot="label"><i class="el-icon-date"></i>&nbsp;日程</span>
+                <calendar></calendar>
+              </el-tab-pane>
+              <el-tab-pane name="editPassword">
                 <span slot="label"
-                  ><i class="el-icon-user"></i>&nbsp;个人中心</span
+                  ><i class="el-icon-lock"></i>&nbsp;修改密码</span
                 >
+                <edit-password></edit-password>
               </el-tab-pane>
               <el-tab-pane name="notes">
                 <span slot="label"
-                  ><i class="el-icon-edit-outline"></i>&nbsp;杂记</span
+                  ><i class="el-icon-edit-outline"></i>&nbsp;学习笔记</span
                 >
                 <div class="index-notes">
                   <article class="markdown-body"><notes></notes></article>
@@ -41,6 +46,8 @@
 import NavMenu from '../components/NavMenu.vue'
 import ScrollMenu from '../components/ScrollMenu.vue'
 import UserInfoCard from '../components/UserInfoCard.vue'
+import Calendar from '../components/Calendar.vue'
+import EditPassword from '../components/EditPassword.vue'
 import notes from '../assets/Notes.md'
 export default {
   name: 'Home',
@@ -48,11 +55,13 @@ export default {
     NavMenu,
     ScrollMenu,
     UserInfoCard,
+    Calendar,
+    EditPassword,
     notes
   },
   data () {
     return {
-      activeName: 'account'
+      activeName: 'date'
     }
   },
   methods: {

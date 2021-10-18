@@ -1,16 +1,64 @@
 <template>
   <el-card>
+    <div slot="header" class="clearfix">
+      <div class="card-title-font">
+        <i class="el-icon-user"></i>&nbsp;个人中心
+      </div>
+    </div>
     <div class="card-avatar">
       <el-avatar :size="100" :src="user.avatarUrl"></el-avatar>
       <div class="card-name">{{ user.name }}</div>
-      <div class="card-identity">{{ user.identity }}</div>
+      <div class="card-content-font">{{ user.identity }}</div>
+    </div>
+    <div class="card-info">
+      <div class="card-li">
+        <div class="card-title card-title-font">
+          <i class="el-icon-mobile-phone"></i>&nbsp;手机
+        </div>
+        <span class="card-content-font">{{ user.phone }}</span>
+      </div>
+      <div class="card-li">
+        <div class="card-title card-title-font">
+          <i class="el-icon-bank-card"></i>&nbsp;爱好
+        </div>
+        <div class="card-content-font">
+          <span>动漫</span>
+          <el-progress :percentage="70"></el-progress>
+          <span>书籍</span>
+          <el-progress :percentage="50"></el-progress>
+          <span>篮球</span>
+          <el-progress :percentage="10"></el-progress>
+          <span>游戏</span>
+          <el-progress :percentage="100" status="success"></el-progress>
+        </div>
+      </div>
     </div>
   </el-card>
 </template>
 <style scoped>
-.card-avatar {
-  padding-top: 4px;
-  border-radius: 10px;
+.card-name {
+  padding: 10px 0px;
+}
+.card-title-font {
+  font-weight: bold;
+  font-size: 14px;
+  color: black;
+}
+.card-content-font {
+  font-weight: 400;
+  font-size: 14px;
+  color: grey;
+}
+.card-info {
+  text-align: left;
+}
+.card-li {
+  padding-top: 15px;
+}
+.card-title {
+  border-bottom: 1px solid var(--grey);
+  padding-bottom: 10px;
+  margin-bottom: 10px;
 }
 </style>
 <script>
@@ -20,8 +68,9 @@ export default {
   data () {
     return {
       user: {
-        name: 'songyx',
+        name: 'Songyx',
         identity: 'admin',
+        phone: '13076058182',
         avatarUrl: avatar
       }
     }

@@ -1,6 +1,6 @@
 <template>
   <el-container>
-    <el-aside style="width:210px"><scroll-menu></scroll-menu></el-aside>
+    <el-aside><scroll-menu></scroll-menu></el-aside>
     <el-container
       ><el-header style="height:50px;padding:0px"
         ><nav-menu @navClick="navClick"></nav-menu
@@ -49,6 +49,7 @@ import UserInfoCard from '../components/UserInfoCard.vue'
 import Calendar from '../components/Calendar.vue'
 import EditPassword from '../components/EditPassword.vue'
 import notes from '../assets/Notes.md'
+import ResizeHandler from '../utils/resizeHandle'
 export default {
   name: 'Home',
   components: {
@@ -57,8 +58,11 @@ export default {
     UserInfoCard,
     Calendar,
     EditPassword,
-    notes
+    notes,
+    ResizeHandler
   },
+  // 混入
+  mixins: [ResizeHandler],
   data () {
     return {
       activeName: 'date'
@@ -66,7 +70,7 @@ export default {
   },
   methods: {
     navClick () {
-      console.log('父类方法调用测试')
+      this.$store.dispatch('reverseSideBar')
     }
   }
 }

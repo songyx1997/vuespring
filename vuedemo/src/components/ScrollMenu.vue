@@ -52,8 +52,12 @@ export default {
   name: 'ScrollMenu',
   data () {
     return {
-      logoUrl: logo,
-      isCollapse: false
+      logoUrl: logo
+    }
+  },
+  computed: {
+    isCollapse () {
+      return !this.$store.state.sidebar.openFlag
     }
   }
 }

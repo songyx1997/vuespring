@@ -19,18 +19,9 @@
       </div>
       <div class="card-li">
         <div class="card-title card-title-font">
-          <i class="el-icon-bank-card"></i>&nbsp;爱好
+          <i class="el-icon-message"></i>&nbsp;邮箱
         </div>
-        <div class="card-content-font">
-          <span>动漫</span>
-          <el-progress :percentage="70"></el-progress>
-          <span>书籍</span>
-          <el-progress :percentage="50"></el-progress>
-          <span>篮球</span>
-          <el-progress :percentage="10"></el-progress>
-          <span>游戏</span>
-          <el-progress :percentage="100" status="success"></el-progress>
-        </div>
+        <span class="card-content-font">{{ user.email }}</span>
       </div>
     </div>
   </el-card>
@@ -71,6 +62,7 @@ export default {
         name: 'Songyx',
         identity: 'admin',
         phone: '13076058182',
+        email: '1048461309@qq.com',
         avatarUrl: avatar
       }
     }

@@ -1,5 +1,9 @@
 <template>
   <div class="scroll-overall">
+    <div class="scroll-home">
+      <el-image class="scroll-img" :src="logoUrl"></el-image>
+      <span class="scroll-text">SCRUM</span>
+    </div>
     <el-scrollbar class="scroll-bar" wrap-class="el-scrollbar-wrapper">
       <el-menu
         class="scroll-menu"
@@ -8,11 +12,8 @@
         text-color="#000000"
         active-text-color="#409eff"
         :collapse="isCollapse"
+        :collapse-transition="false"
       >
-        <el-menu-item index="index">
-          <el-image class="scroll-img" :src="logoUrl"></el-image>
-          <span slot="title">&nbsp;SCRUM</span>
-        </el-menu-item>
         <el-menu-item index="meeting">
           <i class="el-icon-position"></i>
           <span slot="title">每日站会</span>
@@ -42,8 +43,23 @@
 .scroll-bar {
   height: 100%;
 }
+.scroll-home {
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  height: 60px;
+  padding: 0px 15px;
+  font-weight: 900;
+  cursor: pointer;
+}
+.scroll-text {
+  padding-left: 10px;
+  font-size: 25px;
+  color: var(--blue);
+}
 .scroll-img {
-  height: 45px;
+  padding: 10px 0px;
+  height: 40px;
 }
 </style>
 <script>
@@ -62,8 +78,10 @@ export default {
       $(function () {
         if (openFlag) {
           $('div.index-left').css('width', '210px')
+          $('span.scroll-text').css('display', 'inline')
         } else {
           $('div.index-left').css('width', '65px')
+          $('span.scroll-text').css('display', 'none')
         }
       })
       return !this.$store.state.sidebar.openFlag

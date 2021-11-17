@@ -13,10 +13,6 @@ html {
   height: 100%;
 }
 
-.el-container {
-  height: 100%;
-}
-
 .el-tabs__item {
   font-weight: 900;
 }

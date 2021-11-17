@@ -48,6 +48,7 @@
 </style>
 <script>
 import logo from '@/assets/logo.png'
+import $ from 'jquery'
 export default {
   name: 'ScrollMenu',
   data () {
@@ -57,6 +58,14 @@ export default {
   },
   computed: {
     isCollapse () {
+      var openFlag = this.$store.state.sidebar.openFlag
+      $(function () {
+        if (openFlag) {
+          $('div.index-left').css('width', '210px')
+        } else {
+          $('div.index-left').css('width', '65px')
+        }
+      })
       return !this.$store.state.sidebar.openFlag
     }
   }

@@ -1,11 +1,9 @@
 <template>
-  <el-container>
-    <el-aside><scroll-menu></scroll-menu></el-aside>
-    <el-container
-      ><el-header style="height:50px;padding:0px"
-        ><nav-menu @navClick="navClick"></nav-menu
-      ></el-header>
-      <el-main>
+  <div class="index-panel">
+    <div class="index-left"><scroll-menu></scroll-menu></div>
+    <div class="index-right">
+      <div class="index-header"><nav-menu @navClick="navClick"></nav-menu></div>
+      <div class="index-main">
         <el-row :gutter="20">
           <el-col :xs="24" :sm="6">
             <user-info-card></user-info-card>
@@ -33,13 +31,40 @@
             </el-tabs>
           </el-col>
         </el-row>
-      </el-main>
-    </el-container>
-  </el-container>
+      </div>
+    </div>
+  </div>
 </template>
 <style>
+.index-panel {
+  display: flex;
+}
+.index-left {
+  flex-shrink: 0;
+  width: 210px;
+  height: inherit;
+}
+.index-right {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  flex-direction: column;
+}
+.index-header {
+  height: 50px;
+}
+.index-main {
+  padding: 20px;
+}
 .index-notes {
   text-align: left;
+}
+@media screen and (max-width: 992px) {
+  .index-left {
+    flex-shrink: 0;
+    width: 65px;
+    height: inherit;
+  }
 }
 </style>
 <script>

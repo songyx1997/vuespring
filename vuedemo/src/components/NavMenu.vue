@@ -1,7 +1,7 @@
 <template>
   <div class="nav-menu">
     <div class="nav-zoom" @click="zoomClick">
-      <i class="el-icon-s-fold"></i>
+      <i class="el-icon-s-fold" style="cursor: pointer;"></i>
     </div>
     <div class="nav-breadcrumb">
       <el-breadcrumb separator="/">

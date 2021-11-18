@@ -14,13 +14,13 @@
         :collapse="isCollapse"
         :collapse-transition="false"
       >
-        <el-menu-item index="meeting">
-          <i class="el-icon-position"></i>
-          <span slot="title">每日站会</span>
-        </el-menu-item>
-        <el-menu-item index="evaluate">
-          <i class="el-icon-data-analysis"></i>
-          <span slot="title">故事评估</span>
+        <el-menu-item
+          v-for="route in routes"
+          :key="route.path"
+          :index="route.path"
+        >
+          <i :class="route.icon"></i>
+          <span slot="title"> {{ route.name }}</span>
         </el-menu-item>
       </el-menu>
     </el-scrollbar>
@@ -73,6 +73,15 @@ export default {
     }
   },
   computed: {
+    routes () {
+      var array = new Array(0)
+      for (let index = 0; index < this.$router.options.routes.length; index++) {
+        if (!this.$router.options.routes[index].hidden) {
+          array.push(this.$router.options.routes[index])
+        }
+      }
+      return array
+    },
     isCollapse () {
       var openFlag = this.$store.state.sidebar.openFlag
       $(function () {

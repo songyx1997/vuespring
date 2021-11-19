@@ -20,29 +20,28 @@ export default new Router({
         // true：需要拦截的页面
         requireAuth: true
       },
-      hidden: true
+      children: [
+        {
+          path: '/home',
+          component: Home
+        },
+        {
+          path: '/standup',
+          name: '每日站会',
+          icon: 'el-icon-position',
+          component: StandUp
+        },
+        {
+          path: '/story',
+          name: '故事评估',
+          icon: 'el-icon-data-analysis',
+          component: Story
+        }
+      ]
     },
     {
       path: '/user',
-      component: User,
-      hidden: true
-    },
-    {
-      path: '/home',
-      component: Home,
-      hidden: true
-    },
-    {
-      path: '/standup',
-      name: '每日站会',
-      icon: 'el-icon-position',
-      component: StandUp
-    },
-    {
-      path: '/story',
-      name: '故事评估',
-      icon: 'el-icon-data-analysis',
-      component: Story
+      component: User
     }
   ]
 })

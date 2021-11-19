@@ -3,6 +3,11 @@
     <div class="index-left"><scroll-menu></scroll-menu></div>
     <div class="index-right">
       <div class="index-header"><nav-menu @navClick="navClick"></nav-menu></div>
+      <div class="index-main">
+        <transition mode="out-in">
+          <router-view :key="key" />
+        </transition>
+      </div>
     </div>
   </div>
 </template>
@@ -24,6 +29,9 @@
 .index-header {
   height: 50px;
 }
+.index-main{
+  padding: 20px;
+}
 @media screen and (max-width: 992px) {
   .index-left {
     flex-shrink: 0;
@@ -37,7 +45,7 @@ import NavMenu from '../components/NavMenu.vue'
 import ScrollMenu from '../components/ScrollMenu.vue'
 import ResizeHandler from '../utils/resizeHandle'
 export default {
-  name: 'Home',
+  name: 'Index',
   components: {
     NavMenu,
     ScrollMenu,
@@ -45,6 +53,11 @@ export default {
   },
   // 混入
   mixins: [ResizeHandler],
+  computed: {
+    key () {
+      return this.$route.path
+    }
+  },
   methods: {
     navClick () {
       this.$store.dispatch('reverseSideBar')

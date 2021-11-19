@@ -1,11 +1,12 @@
 <template>
   <div class="scroll-overall">
-    <div class="scroll-home">
+    <div class="scroll-home" @click="imgClick">
       <el-image class="scroll-img" :src="logoUrl"></el-image>
       <span class="scroll-text">SCRUM</span>
     </div>
     <el-scrollbar class="scroll-bar" wrap-class="el-scrollbar-wrapper">
       <el-menu
+        router
         class="scroll-menu"
         mode="vertical"
         background-color="#e4e7ed"
@@ -74,13 +75,11 @@ export default {
   },
   computed: {
     routes () {
-      var array = new Array(0)
-      for (let index = 0; index < this.$router.options.routes.length; index++) {
-        if (!this.$router.options.routes[index].hidden) {
-          array.push(this.$router.options.routes[index])
-        }
-      }
-      return array
+      // 去除第一个元素
+      return this.$router.options.routes[0].children.slice(
+        1,
+        this.$router.options.routes[0].children.length
+      )
     },
     isCollapse () {
       var openFlag = this.$store.state.sidebar.openFlag
@@ -94,6 +93,14 @@ export default {
         }
       })
       return !this.$store.state.sidebar.openFlag
+    }
+  },
+  methods: {
+    imgClick () {
+      this.$router.push({
+        path: this.$router.options.routes[0].children[0].path,
+        replace: true
+      })
     }
   }
 }

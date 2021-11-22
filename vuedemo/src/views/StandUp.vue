@@ -1,12 +1,13 @@
 <template>
-  <div>
-      每日站会
-  </div>
+  <turntable></turntable>
 </template>
-<style scoped>
-</style>
+<style scoped></style>
 <script>
+import Turntable from '../components/turntable/Main.vue'
 export default {
-  name: 'StandUp'
+  name: 'StandUp',
+  components: {
+    Turntable
+  }
 }
 </script>

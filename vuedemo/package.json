@@ -16,7 +16,7 @@
     "github-markdown-css": "^4.0.0",
     "jquery": "^3.6.0",
     "vue": "^2.5.2",
-    "vue-luck-draw": "^3.4.11",
+    "@lucky-canvas/vue": "0.0.8",
     "vue-router": "^3.0.1",
     "vuex": "^3.6.2"
   },

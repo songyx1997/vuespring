@@ -23,19 +23,29 @@ export default new Router({
       children: [
         {
           path: '/home',
-          component: Home
+          component: Home,
+          meta: {
+            name: '个人中心',
+            requireAuth: true
+          }
         },
         {
           path: '/standup',
-          name: '每日站会',
-          icon: 'el-icon-position',
-          component: StandUp
+          component: StandUp,
+          meta: {
+            name: '每日站会',
+            icon: 'el-icon-position',
+            requireAuth: true
+          }
         },
         {
           path: '/story',
-          name: '故事评估',
-          icon: 'el-icon-data-analysis',
-          component: Story
+          component: Story,
+          meta: {
+            name: '故事评估',
+            icon: 'el-icon-data-analysis',
+            requireAuth: true
+          }
         }
       ]
     },

@@ -5,8 +5,12 @@
     </div>
     <div class="nav-breadcrumb">
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item><a href="/">每日站会</a></el-breadcrumb-item>
+        <el-breadcrumb-item>
+          <a href="/home">首页</a>
+        </el-breadcrumb-item>
+        <el-breadcrumb-item>
+          <a>{{ initBreadCrumbName() }}</a>
+        </el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="nav-avatar-container">
@@ -52,10 +56,14 @@ export default {
       avatarUrl: avatar
     }
   },
+  computed: {},
   methods: {
     zoomClick () {
       // 调用父类方法
       this.$emit('navClick')
+    },
+    initBreadCrumbName () {
+      return this.$route.meta.name
     }
   }
 }

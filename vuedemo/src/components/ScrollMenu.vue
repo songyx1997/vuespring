@@ -20,8 +20,8 @@
           :key="route.path"
           :index="route.path"
         >
-          <i :class="route.icon"></i>
-          <span slot="title"> {{ route.name }}</span>
+          <i :class="route.meta.icon"></i>
+          <span slot="title"> {{ route.meta.name }}</span>
         </el-menu-item>
       </el-menu>
     </el-scrollbar>

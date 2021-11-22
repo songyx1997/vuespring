@@ -218,7 +218,7 @@ export default {
                 _this.$store.commit('user', _this.loginForm)
                 var path = this.$route.query.redirect
                 this.$router.replace({
-                  path: path === '/' || path === undefined ? '/index' : path
+                  path: path === '/' || path === undefined ? '/home' : path
                 })
               } else {
                 this.$message({
@@ -314,7 +314,7 @@ export default {
                 })
                 var path = this.$route.query.redirect
                 this.$router.replace({
-                  path: path === '/' || path === undefined ? '/index' : path
+                  path: path === '/' || path === undefined ? '/home' : path
                 })
               } else {
                 this.$message({

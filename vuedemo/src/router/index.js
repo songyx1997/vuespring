@@ -7,6 +7,13 @@ import Home from '@/views/Home'
 import StandUp from '@/views/StandUp'
 import Story from '@/views/Story'
 
+// 避免重复触发路由时报错
+const originalPush = Router.prototype.push
+
+Router.prototype.push = function push (location) {
+  return originalPush.call(this, location).catch(err => err)
+}
+
 Vue.use(Router)
 
 export default new Router({

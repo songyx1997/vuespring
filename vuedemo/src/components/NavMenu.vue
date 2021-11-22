@@ -6,7 +6,7 @@
     <div class="nav-breadcrumb">
       <el-breadcrumb separator="/">
         <el-breadcrumb-item>
-          <a href="/home">首页</a>
+          <a @click="homeClick">首页</a>
         </el-breadcrumb-item>
         <el-breadcrumb-item>
           <a>{{ initBreadCrumbName() }}</a>
@@ -64,6 +64,12 @@ export default {
     },
     initBreadCrumbName () {
       return this.$route.meta.name
+    },
+    homeClick () {
+      this.$router.push({
+        path: this.$router.options.routes[0].children[0].path,
+        replace: true
+      })
     }
   }
 }

@@ -7,10 +7,18 @@
       <el-tabs v-model="activeName" type="border-card">
         <el-tab-pane name="notes">
           <span slot="label"
-            ><i class="el-icon-edit-outline"></i>&nbsp;学习笔记</span
+            ><i class="el-icon-edit-outline"></i>&nbsp;CSS笔记</span
           >
           <div class="home-notes">
             <article class="markdown-body"><notes></notes></article>
+          </div>
+        </el-tab-pane>
+        <el-tab-pane name="vuenotes">
+          <span slot="label"
+            ><i class="el-icon-edit-outline"></i>&nbsp;VUE笔记</span
+          >
+          <div class="home-notes">
+            <article class="markdown-body"><vue-notes></vue-notes></article>
           </div>
         </el-tab-pane>
         <el-tab-pane name="editPassword">
@@ -29,13 +37,15 @@
 <script>
 import UserInfoCard from '../components/UserInfoCard.vue'
 import EditPassword from '../components/EditPassword.vue'
-import notes from '../assets/Notes.md'
+import Notes from '../assets/Notes.md'
+import VueNotes from '../assets/VueNotes.md'
 export default {
   name: 'Home',
   components: {
     UserInfoCard,
     EditPassword,
-    notes
+    Notes,
+    VueNotes
   },
   data () {
     return {

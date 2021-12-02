@@ -1,10 +1,7 @@
 <template>
   <el-row :gutter="20">
-    <el-col :xs="24" :sm="8">
+    <el-col :xs="24" :sm="12">
       <turn-table></turn-table>
-    </el-col>
-    <el-col :xs="24" :sm="3">
-      <select-cofig></select-cofig>
     </el-col>
     <el-col :xs="24" :sm="6">
       <time-line></time-line>
@@ -40,13 +37,11 @@
 </style>
 <script>
 import TurnTable from '../components/standUpPages/TurnTable.vue'
-import SelectCofig from '../components/standUpPages/SelectConfig.vue'
 import TimeLine from '../components/standUpPages/TimeLine.vue'
 import BarGraph from '../components/standUpPages/BarGraph.vue'
 export default {
   components: {
     TurnTable,
-    SelectCofig,
     TimeLine,
     BarGraph
   },

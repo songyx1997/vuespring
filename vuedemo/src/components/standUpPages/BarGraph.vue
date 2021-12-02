@@ -54,7 +54,8 @@ export default {
             label: {
               show: true,
               position: 'right',
-              textStyle: { color: '#409eff', fontWeight: 900 }
+              color: '#409eff',
+              fontWeight: 900
             },
             data: [7, 5, 2, 3, 4, 2]
           }

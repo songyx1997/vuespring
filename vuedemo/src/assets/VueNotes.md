@@ -431,7 +431,7 @@ export default {
 
 vue中有6种过渡类名。
 
-<img src="https://cn.vuejs.org/images/transition.png" style="zoom: 70%;" />
+<img src="https://cn.vuejs.org/images/transition.png" style="zoom: 50%;" />
 
 具体使用方式如下：
 

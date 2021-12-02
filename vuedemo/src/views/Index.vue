@@ -4,7 +4,7 @@
     <div class="index-right">
       <div class="index-header"><nav-menu @navClick="navClick"></nav-menu></div>
       <div class="index-main">
-        <transition mode="out-in">
+        <transition name="fade" mode="out-in">
           <router-view :key="key" />
         </transition>
       </div>
@@ -29,7 +29,7 @@
 .index-header {
   height: 50px;
 }
-.index-main{
+.index-main {
   padding: 20px;
 }
 @media screen and (max-width: 992px) {
@@ -38,6 +38,16 @@
     width: 65px;
     height: inherit;
   }
+}
+/* 切换动画 */
+.fade-leave-active,
+.fade-enter-active {
+  transition: all 0.5s;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
 <script>

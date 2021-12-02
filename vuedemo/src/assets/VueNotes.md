@@ -427,4 +427,27 @@ export default {
 
 为了使组件实例第一次创建的时候缓存下来，可使用 `<keep-alive>` 元素将其动态组件包裹起来。
 
-##### 2.7 组件边界情况
+##### 2.7 过渡
+
+vue中有6种过渡类名。
+
+<img src="https://cn.vuejs.org/images/transition.png" style="zoom: 70%;" />
+
+具体使用方式如下：
+
+```vue
+<transition name="fade" mode="out-in">
+    <router-view :key="key" />
+</transition>
+<style>
+.fade-leave-active,
+.fade-enter-active {
+  transition: all 0.5s;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>
+```

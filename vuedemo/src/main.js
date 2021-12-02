@@ -8,6 +8,8 @@ import LuckyWheel from '@lucky-canvas/vue'
 import './styles/base.css'
 import './styles/reset.css'
 import 'github-markdown-css'
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
 
 // 设置反向代理
 var axios = require('axios')
@@ -17,9 +19,12 @@ Vue.prototype.$axios = axios
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 Vue.use(LuckyWheel)
+// 配置进度条
+NProgress.configure({ showSpinner: false })
 
 // 访问每一个路由前调用
 router.beforeEach((to, from, next) => {
+  NProgress.start()
   // 路由是否需要拦截
   if (to.meta.requireAuth) {
     if (store.state.user.userName) {
@@ -34,6 +39,10 @@ router.beforeEach((to, from, next) => {
   } else {
     next()
   }
+})
+
+router.afterEach(() => {
+  NProgress.done()
 })
 
 /* eslint-disable no-new */

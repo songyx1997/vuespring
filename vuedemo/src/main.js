@@ -19,6 +19,8 @@ Vue.prototype.$axios = axios
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 Vue.use(LuckyWheel)
+var echarts = require('echarts')
+Vue.prototype.$echarts = echarts
 // 配置进度条
 NProgress.configure({ showSpinner: false })
 

@@ -1,12 +1,9 @@
 <template>
   <el-row :gutter="20">
-    <el-col :xs="24" :sm="12">
+    <el-col :xs="24" :sm="8">
       <turn-table></turn-table>
     </el-col>
-    <el-col :xs="24" :sm="6">
-      <time-line></time-line>
-    </el-col>
-    <el-col :xs="24" :sm="6">
+    <el-col :xs="24" :sm="16">
       <bar-graph></bar-graph>
     </el-col>
     <el-col :xs="24" :sm="24">
@@ -37,12 +34,10 @@
 </style>
 <script>
 import TurnTable from '../components/standUpPages/TurnTable.vue'
-import TimeLine from '../components/standUpPages/TimeLine.vue'
 import BarGraph from '../components/standUpPages/BarGraph.vue'
 export default {
   components: {
     TurnTable,
-    TimeLine,
     BarGraph
   },
   data () {

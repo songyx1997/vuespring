@@ -1,5 +1,5 @@
 <template>
-  <el-card>
+  <div>
     <el-table :data="tableData" highlight-current-row>
       <el-table-column type="index" width="30"> </el-table-column>
       <el-table-column property="lottery" label="抽奖人" width="80">
@@ -8,17 +8,9 @@
       </el-table-column>
       <el-table-column property="time" label="时间"> </el-table-column>
     </el-table>
-    <div class="table-button">
-      <el-button type="primary">排序</el-button>
-      <el-button type="danger">删除</el-button>
-    </div>
-  </el-card>
+  </div>
 </template>
-<style scoped>
-.table-button {
-  padding-top: 20px;
-}
-</style>
+<style scoped></style>
 <script>
 export default {
   data () {

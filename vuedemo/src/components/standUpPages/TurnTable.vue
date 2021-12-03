@@ -1,5 +1,5 @@
 <template>
-  <el-card>
+  <div>
     <LuckyWheel
       width="400px"
       height="400px"
@@ -9,7 +9,7 @@
       :buttons="buttons"
       :defaultStyle="defaultStyle"
     />
-  </el-card>
+  </div>
 </template>
 <style scoped></style>
 <script>

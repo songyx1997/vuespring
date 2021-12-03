@@ -1,12 +1,11 @@
 <template>
-  <el-card>
-    <div ref="barGraph" class="bar-panel"></div>
-  </el-card>
+  <div ref="barGraph" class="bar-panel"></div>
 </template>
 <style scoped>
 .bar-panel {
   width: 100%;
-  height: 300px;
+  height: 400px;
+  background-color: white;
 }
 </style>
 <script>
@@ -20,13 +19,8 @@ export default {
       let option = {
         color: ['#409eff'],
         tooltip: {},
-        grid: {
-          left: '0%',
-          right: '11%',
-          bottom: '10%',
-          containLabel: true
-        },
-        yAxis: {
+        grid: {},
+        xAxis: {
           type: 'category',
           name: '中奖人',
           axisTick: { show: false },
@@ -42,7 +36,7 @@ export default {
             'songyx6'
           ]
         },
-        xAxis: {
+        yAxis: {
           type: 'value',
           name: '次数',
           axisTick: { show: false },
@@ -53,7 +47,7 @@ export default {
             type: 'bar',
             label: {
               show: true,
-              position: 'right',
+              position: 'top',
               color: '#409eff',
               fontWeight: 900
             },

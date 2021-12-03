@@ -1,16 +1,7 @@
 body {
-  height: 100%;
   margin: 0;
   padding: 0;
-}
-
-html {
-  height: 100%;
-  box-sizing: border-box;
-}
-
-#app {
-  height: 100%;
+  background-color: var(--lightgrey);
 }
 
 .el-tabs__item {

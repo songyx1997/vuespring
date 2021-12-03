@@ -1,5 +1,5 @@
 <template>
-  <div class="background">
+  <div class="login-background">
     <div class="user-content">
       <div class="user-form">
         <el-tabs v-model="activeName" @tab-click="resetForm">

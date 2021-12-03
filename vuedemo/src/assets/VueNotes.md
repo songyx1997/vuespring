@@ -451,3 +451,87 @@ vue中有6种过渡类名。
 }
 </style>
 ```
+
+vue中有两种过渡模式。
+
+`in-out`：新元素先进行过渡，完成之后当前元素过渡离开。`out-in`：当前元素先进行过渡，完成之后新元素过渡进入。
+
+[列表过渡](https://cn.vuejs.org/v2/guide/transitions.html#%E5%88%97%E8%A1%A8%E8%BF%87%E6%B8%A1)、[状态过渡](https://cn.vuejs.org/v2/guide/transitioning-state.html)
+
+##### 2.8 混入
+
+当组件使用混入对象时，所有混入对象的选项将进入该组件本身的选项。
+
+混入时的合并操作：
+
+（1）数据对象在内部会进行递归合并，并在发生冲突时以组件数据优先。
+
+（2）同名钩子函数将都将被调用，但混入对象的钩子将在组件自身钩子之前调用。
+
+（3）methods、components 和 directives合并时，若两个对象键名发生冲突，以组件对象优先。
+
+##### 2.9 自定义指令
+
+```vue
+<template>
+  <div>
+    <div v-pin:[color]="{ size: '25px', weight: 900 }">测试文本</div>
+  </div>
+</template>
+<script>
+export default {
+  directives: {
+    pin: {
+      bind (el, binding) {
+        el.style.color = binding.arg
+        el.style.fontWeight = binding.value.weight
+        el.style.fontSize = binding.value.size
+      }
+    }
+  },
+  computed: {
+    color () {
+      return 'red'
+    }
+  }
+}
+</script>
+```
+
+显示结果如下：
+
+<div style="color: red; font-weight: 900; font-size: 25px;">测试文本</div>
+
+##### 2.10 过滤器
+
+过滤器可以用在两个地方：双花括号插值和 v-bind 表达式。
+
+```vue
+<template>
+  <div>
+    <h3 :id="id | test">{{ message | test }}</h3>
+  </div>
+</template>
+<script>
+export default {
+  data () {
+    return {
+      id: 'testId',
+      message: '测试'
+    }
+  },
+  filters: {
+    test: function (value) {
+      let parrern = new RegExp('^[a-zA-Z]+$')
+      return parrern.test(value) ? value : value + '文本'
+    }
+  }
+}
+</script>
+```
+
+显示结果如下：
+
+<h3 id="testId">测试文本</h3>
+
+##### 2.11 渲染函数

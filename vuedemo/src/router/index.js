@@ -6,6 +6,7 @@ import User from '@/views/User'
 import Home from '@/views/Home'
 import StandUp from '@/views/StandUp'
 import Story from '@/views/Story'
+import ErrorPage404 from '@/404'
 
 // 避免重复触发路由时报错
 const originalPush = Router.prototype.push
@@ -20,6 +21,11 @@ export default new Router({
   // 默认的hash模式切换为histroy模式
   mode: 'history',
   routes: [
+    {
+      // 会匹配所有路径
+      path: '*',
+      component: ErrorPage404
+    },
     {
       path: '/index',
       component: Index,

@@ -76,9 +76,9 @@ export default {
   computed: {
     routes () {
       // 去除第一个元素
-      return this.$router.options.routes[0].children.slice(
+      return this.$router.options.routes[1].children.slice(
         1,
-        this.$router.options.routes[0].children.length
+        this.$router.options.routes[1].children.length
       )
     },
     isCollapse () {
@@ -98,7 +98,7 @@ export default {
   methods: {
     imgClick () {
       this.$router.push({
-        path: this.$router.options.routes[0].children[0].path,
+        path: this.$router.options.routes[1].children[0].path,
         replace: true
       })
     }

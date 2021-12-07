@@ -66,7 +66,7 @@ export default {
     },
     homeClick () {
       this.$router.push({
-        path: this.$router.options.routes[0].children[0].path,
+        path: this.$router.options.routes[1].children[0].path,
         replace: true
       })
     }

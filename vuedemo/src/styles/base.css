@@ -7,7 +7,7 @@
 }
 
 .login-background {
-  background: url('../assets/background.svg') no-repeat;
+  background: url('../assets/login.svg') no-repeat;
   background-position: center;
   background-size: cover;
   height: 100vh;

@@ -55,7 +55,6 @@ import NavMenu from '../components/NavMenu.vue'
 import ScrollMenu from '../components/ScrollMenu.vue'
 import ResizeHandler from '../utils/resizeHandle'
 export default {
-  name: 'Index',
   components: {
     NavMenu,
     ScrollMenu,

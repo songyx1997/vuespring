@@ -50,7 +50,6 @@
 <script>
 import avatar from '@/assets/avatar.gif'
 export default {
-  name: 'NavMenu',
   data () {
     return {
       avatarUrl: avatar

@@ -281,39 +281,53 @@ export default {
 
 ##### 2.6 Prop & Slot
 
-通过 Prop 向子组件传递数据，传输方式为单向。
+通过 Prop 向子组件传递数据，传输方式为单向。若传递数据为数组或对象，注意`v-bind`的写法。
 
 ```vue
+// 子组件
 <template>
-  <div>
-    <text-table v-bind="post"></text-table>
-  </div>
+  <ul>
+    <li v-for="item in items" :key="item.id" :id="item.id">{{ item.name }}</li>
+  </ul>
 </template>
 <script>
-import Vue from 'vue'
-Vue.component('TextTable', {
-  props: ['title', 'myText'],
-  template: '<h3>{{ title }}<span>{{ myText }}一</span></h3>'
-})
 export default {
-  computed: {
-    post: function () {
-      return {
-        title: '默认',
-        value: 24,
-        myText: '文本'
-      }
+  props: ['items']
+}
+</script>
+// 父组件
+<template>
+  <!-- 写法不能是v-bind="items" -->
+  <test-vue :items="items"></test-vue>
+</template>
+<script>
+import TestVue from './Test.vue'
+export default {
+  data () {
+    return {
+      items: [
+        { id: 3, name: '张三' },
+        { id: 4, name: '赵四' }
+      ]
     }
+  },
+  components: {
+    TestVue
   }
 }
 </script>
 ```
 
-若 props 绑定值为 [ ' post ' ] ，二者对比如下：
+显示结果如下：
 
 ```html
-<h3 value="24">默认<span>文本一</span></h3>
-<h3 title="默认" value="24" mytext="文本"><span>一</span></h3>
+<ul><li id="3">张三</li><li id="4">赵四</li></ul>
+```
+
+若采用`v-bind="propName"`写法，显示结果如下：
+
+```html
+<ul id="4" name="赵四"></ul>
 ```
 
 插槽用于替换组件起始标签和结束标签之间的内容，若没有`slot`元素，则内容被抛弃。
@@ -385,24 +399,6 @@ export default {}
 为了让插槽能够访问子组件中才有的数据，可以使用插槽`prop`。`v-slot:`可简写为`#`。
 
 ```vue
-// 父组件
-<template>
-  <div>
-    <text-table>
-      <template #default="slotProps">
-        {{ slotProps.user.lastName }}
-      </template></text-table
-    >
-  </div>
-</template>
-<script>
-import TextTable from '../TextTable.vue'
-export default {
-  components: {
-    TextTable
-  }
-}
-</script>
 // 子组件
 <template>
   <span
@@ -418,6 +414,24 @@ export default {
         lastName: '三'
       }
     }
+  }
+}
+</script>
+// 父组件
+<template>
+  <div>
+    <text-table>
+      <template #default="slotProps">
+        {{ slotProps.user.lastName }}
+      </template></text-table
+    >
+  </div>
+</template>
+<script>
+import TextTable from '../TextTable.vue'
+export default {
+  components: {
+    TextTable
   }
 }
 </script>
@@ -535,3 +549,76 @@ export default {
 <h3 id="testId">测试文本</h3>
 
 ##### 2.11 渲染函数
+
+```vue
+<template>
+  <div>
+    <test-vue v-for="level in levels" :key="level.id" :level="level">{{
+      level.text
+    }}</test-vue>
+  </div>
+</template>
+<script>
+import TestVue from './Test.vue'
+export default {
+  data () {
+    return {
+      levels: [
+        { id: 4, text: '四', color: 'red' },
+        { id: 5, text: '五', color: 'green' }
+      ]
+    }
+  },
+  components: {
+    TestVue
+  }
+}
+</script>
+// 组件
+<script>
+export default {
+  render: function (createElement) {
+    return createElement(
+      'h' + this.level.id,
+      {
+        attrs: {
+          id: this.level.id
+        },
+        style: {
+          color: this.level.color
+        }
+      },
+      this.$slots.default
+    )
+  },
+  props: ['level']
+}
+</script>
+```
+
+显示结果如下：
+
+```html
+<h4 id="4" style="color: red;">四</h4>
+<h5 id="5" style="color: green;">五</h5>
+```
+
+`v-if` 、`v-for`都可以使用渲染函数进行替换。父组件与显示结果见2.6。
+
+```vue
+// 子组件
+<script>
+export default {
+  props: ['items'],
+  render: function (createElement) {
+    if (this.items.length) {
+      return createElement(
+        'ul',
+        this.items.map(item => createElement('li', item.name))
+      )
+    }
+  }
+}
+</script>
+```
+

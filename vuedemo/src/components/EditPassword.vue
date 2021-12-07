@@ -41,7 +41,6 @@
 </style>
 <script>
 export default {
-  name: 'EditPassword',
   data () {
     return {
       editPasswordForm: {

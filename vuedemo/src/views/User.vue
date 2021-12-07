@@ -126,7 +126,6 @@
 </style>
 <script>
 export default {
-  name: 'User',
   data () {
     // 登录用户名校验
     var validateUserName = (rules, value, callback) => {

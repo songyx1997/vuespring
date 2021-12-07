@@ -55,7 +55,6 @@
 <script>
 import avatar from '@/assets/avatar.gif'
 export default {
-  name: 'UserInfoCard',
   data () {
     return {
       user: {

@@ -40,7 +40,6 @@ import EditPassword from '../components/EditPassword.vue'
 import Notes from '../assets/Notes.md'
 import VueNotes from '../assets/VueNotes.md'
 export default {
-  name: 'Home',
   components: {
     UserInfoCard,
     EditPassword,

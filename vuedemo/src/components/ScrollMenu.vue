@@ -37,6 +37,7 @@
   bottom: 0;
   left: 0;
   text-align: left;
+  border: 2.5px solid gainsboro;
 }
 .scroll-menu {
   font-weight: 900;
@@ -67,7 +68,6 @@
 import logo from '@/assets/logo.png'
 import $ from 'jquery'
 export default {
-  name: 'ScrollMenu',
   data () {
     return {
       logoUrl: logo

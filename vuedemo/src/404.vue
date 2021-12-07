@@ -13,6 +13,18 @@
   </div>
 </template>
 <style scoped>
+h1 {
+  color: var(--red);
+  animation: hue 3s infinite linear;
+}
+@keyframes hue {
+  from {
+    color: var(--red);
+  }
+  to {
+    color: var(--orange);
+  }
+}
 .error-box {
   padding-top: 50px;
   font-weight: bold;

@@ -1,5 +1,5 @@
 <template>
-  <el-row :gutter="32">
+  <el-row :gutter="20">
     <el-col :xs="24" :sm="24" :lg="8">
       <div class="standup-chart">
         <time-line></time-line>

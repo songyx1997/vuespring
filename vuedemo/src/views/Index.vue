@@ -8,6 +8,7 @@
           <router-view :key="key" />
         </transition>
       </div>
+      <el-backtop>UP</el-backtop>
     </div>
   </div>
 </template>

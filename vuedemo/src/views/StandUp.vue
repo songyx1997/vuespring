@@ -2,7 +2,7 @@
   <el-row :gutter="20">
     <el-col :xs="24" :sm="24" :lg="8">
       <div class="standup-chart">
-        <time-line></time-line>
+        <scatter-plot></scatter-plot>
       </div>
     </el-col>
     <el-col :xs="24" :sm="24" :lg="16">
@@ -14,6 +14,7 @@
       <el-tabs v-model="activeName" type="border-card">
         <el-tab-pane name="improvement">
           <span slot="label"><i class="el-icon-edit"></i>&nbsp;改进项</span>
+          <improvement-table></improvement-table>
         </el-tab-pane>
         <el-tab-pane name="followUpItem">
           <span slot="label"><i class="el-icon-view"></i>&nbsp;跟进项</span>
@@ -32,12 +33,14 @@
 }
 </style>
 <script>
-import TimeLine from '../components/standUpPages/TimeLine.vue'
+import ScatterPlot from '../components/standUpPages/ScatterPlot.vue'
 import LineChart from '../components/standUpPages/LineChart .vue'
+import ImprovementTable from '../components/standUpPages/ImprovementTable.vue'
 export default {
   components: {
-    TimeLine,
-    LineChart
+    ScatterPlot,
+    LineChart,
+    ImprovementTable
   },
   data () {
     return {

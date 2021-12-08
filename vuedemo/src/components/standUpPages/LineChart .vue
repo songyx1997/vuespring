@@ -1,11 +1,11 @@
 <template>
-  <div ref="lineChart" class="bar-panel"></div>
+  <div ref="lineChart" class="line-chart-panel"></div>
 </template>
 <style scoped>
-.bar-panel {
+.line-chart-panel {
   width: 95%;
   margin: 0 auto;
-  height: 380px;
+  height: 400px;
 }
 </style>
 <script>

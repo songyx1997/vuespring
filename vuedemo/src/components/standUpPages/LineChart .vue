@@ -5,7 +5,7 @@
 .bar-panel {
   width: 95%;
   margin: 0 auto;
-  height: 381px;
+  height: 380px;
 }
 </style>
 <script>

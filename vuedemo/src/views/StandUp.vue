@@ -1,13 +1,13 @@
 <template>
   <el-row :gutter="32">
-    <el-col :xs="24" :sm="12">
+    <el-col :xs="24" :sm="24" :lg="8">
       <div class="standup-chart">
-        <turn-table></turn-table>
+        <time-line></time-line>
       </div>
     </el-col>
-    <el-col :xs="24" :sm="12">
+    <el-col :xs="24" :sm="24" :lg="16">
       <div class="standup-chart">
-        <bar-graph></bar-graph>
+        <line-chart></line-chart>
       </div>
     </el-col>
     <el-col :xs="24" :sm="24">
@@ -32,12 +32,12 @@
 }
 </style>
 <script>
-import TurnTable from '../components/standUpPages/TurnTable.vue'
-import BarGraph from '../components/standUpPages/BarGraph.vue'
+import TimeLine from '../components/standUpPages/TimeLine.vue'
+import LineChart from '../components/standUpPages/LineChart .vue'
 export default {
   components: {
-    TurnTable,
-    BarGraph
+    TimeLine,
+    LineChart
   },
   data () {
     return {

@@ -5,7 +5,6 @@
 .bar-panel {
   width: 100%;
   height: 400px;
-  background-color: white;
 }
 </style>
 <script>

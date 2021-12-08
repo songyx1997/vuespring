@@ -1,8 +1,8 @@
 <template>
   <div>
     <LuckyWheel
-      width="400px"
-      height="400px"
+      width="380px"
+      height="360px"
       class="table-config"
       :blocks="blocks"
       :prizes="prizes"
@@ -11,7 +11,12 @@
     />
   </div>
 </template>
-<style scoped></style>
+<style scoped>
+.table-config {
+  margin: 0px auto;
+  padding: 20px 0;
+}
+</style>
 <script>
 export default {
   data () {

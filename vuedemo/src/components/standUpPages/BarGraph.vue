@@ -9,8 +9,12 @@
 </style>
 <script>
 export default {
+  beforeDestroy () {
+    window.removeEventListener('resize', this.init)
+  },
   mounted () {
     this.init()
+    window.addEventListener('resize', this.init)
   },
   methods: {
     init () {
@@ -21,7 +25,6 @@ export default {
         grid: {},
         xAxis: {
           type: 'category',
-          name: '中奖人',
           axisTick: { show: false },
           splitLine: {
             show: true
@@ -55,6 +58,7 @@ export default {
         ]
       }
       barGraph.setOption(option)
+      barGraph.resize()
     }
   }
 }

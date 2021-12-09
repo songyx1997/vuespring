@@ -2,7 +2,7 @@
   <el-row :gutter="20">
     <el-col :xs="24" :sm="24" :lg="8">
       <div class="standup-chart">
-        <scatter-plot></scatter-plot>
+        <turn-table></turn-table>
       </div>
     </el-col>
     <el-col :xs="24" :sm="24" :lg="16">
@@ -12,9 +12,14 @@
     </el-col>
     <el-col :xs="24" :sm="24">
       <el-tabs v-model="activeName" type="border-card">
+        <el-tab-pane name="log">
+          <span slot="label"><i class="el-icon-tickets"></i>&nbsp;日志</span>
+          <log-table></log-table>
+        </el-tab-pane>
         <el-tab-pane name="improvement">
-          <span slot="label"><i class="el-icon-edit"></i>&nbsp;改进项</span>
-          <improvement-table></improvement-table>
+          <span slot="label"
+            ><i class="el-icon-edit-outline"></i>&nbsp;改进项</span
+          >
         </el-tab-pane>
         <el-tab-pane name="followUpItem">
           <span slot="label"><i class="el-icon-view"></i>&nbsp;跟进项</span>
@@ -33,18 +38,18 @@
 }
 </style>
 <script>
-import ScatterPlot from '../components/standUpPages/ScatterPlot.vue'
 import LineChart from '../components/standUpPages/LineChart .vue'
-import ImprovementTable from '../components/standUpPages/ImprovementTable.vue'
+import LogTable from '../components/standUpPages/LogTable.vue'
+import TurnTable from '../components/standUpPages/TurnTable.vue'
 export default {
   components: {
-    ScatterPlot,
+    TurnTable,
     LineChart,
-    ImprovementTable
+    LogTable
   },
   data () {
     return {
-      activeName: 'improvement'
+      activeName: 'log'
     }
   }
 }

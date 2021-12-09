@@ -1,62 +1,76 @@
 <template>
-  <div>
+  <div class="table-panel">
     <LuckyWheel
-      width="380px"
+      ref="tableId"
+      width="360px"
       height="360px"
-      class="table-config"
       :blocks="blocks"
       :prizes="prizes"
       :buttons="buttons"
+      :defaultConfig="defaultConfig"
       :defaultStyle="defaultStyle"
+      @start="startCallback"
+      @end="endCallback"
     />
   </div>
 </template>
 <style scoped>
-.table-config {
-  margin: 0px auto;
+.table-panel {
+  overflow: auto;
   padding: 20px 0;
+  text-align: -webkit-center;
 }
 </style>
 <script>
 export default {
+  mounted () {},
   data () {
     return {
-      blocks: [{ padding: '10px', background: 'rgba(64, 158, 255, 1)' }],
+      blocks: [{ padding: '5px', background: '#f56c6c' }],
       prizes: [
         {
           name: 'songyx1',
-          background: 'rgba(102, 177, 255, 1)',
-          fonts: [{ text: 'songyx1', top: '70px' }]
+          fonts: [{ text: '一二三四', top: '50px' }]
         },
         {
           name: 'songyx2',
-          background: 'rgba(217, 236, 255, 1)',
-          fonts: [{ text: 'songyx2', top: '70px' }]
-        },
-        {
-          name: 'songyx3',
-          background: 'rgba(102, 177,255, 1)',
-          fonts: [{ text: 'songyx3', top: '70px' }]
-        },
-        {
-          name: 'songyx4',
-          background: 'rgba(217, 236, 255, 1)',
-          fonts: [{ text: 'songyx4', top: '70px' }]
+          fonts: [{ text: '五六七', top: '50px' }]
         }
       ],
       buttons: [
-        { radius: '60px', background: 'rgba(64, 158, 255, 1)' },
+        { radius: '60px', background: '#f56c6c' },
         {
           radius: '55px',
-          background: 'rgba(255, 255, 255, 1)'
+          background: '#f5f5f5'
         },
-        { radius: '50px', background: 'rgba(64, 158, 255, 1)', pointer: true },
-        { radius: '40px', background: 'rgba(217, 236, 255, 1)', pointer: false }
+        { radius: '50px', background: '#f56c6c', pointer: true },
+        { radius: '40px', background: '#f5f5f5', pointer: false }
       ],
+      defaultConfig: {
+        gutter: '2px'
+      },
       defaultStyle: {
-        fontColor: '#d64737',
-        fontSize: '14px'
+        background: '#f5f5f5',
+        fontSize: '24px',
+        fontColor: '#c1242a',
+        fontWeight: 900
       }
+    }
+  },
+  methods: {
+    startCallback () {
+      // 调用组件的play方法启动转盘
+      this.$refs.tableId.play()
+      // 异步抽奖
+      setTimeout(() => {
+        // 假设后端返回的中奖索引是0
+        const index = 0
+        // 调用stop停止旋转
+        this.$refs.tableId.stop(index)
+      }, 3000)
+    },
+    endCallback (prize) {
+      console.log(prize)
     }
   }
 }

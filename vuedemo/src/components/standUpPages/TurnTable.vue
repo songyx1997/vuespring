@@ -23,38 +23,46 @@
 </style>
 <script>
 export default {
-  mounted () {},
   data () {
     return {
-      blocks: [{ padding: '5px', background: '#f56c6c' }],
-      prizes: [
-        {
-          name: 'songyx1',
-          fonts: [{ text: '一二三四', top: '50px' }]
-        },
-        {
-          name: 'songyx2',
-          fonts: [{ text: '五六七', top: '50px' }]
-        }
-      ],
+      blocks: [{ padding: '3px', background: '#409eff' }],
       buttons: [
-        { radius: '60px', background: '#f56c6c' },
+        { radius: '35px', background: '#409eff' },
+        { radius: '25px', background: '#409eff', pointer: true },
         {
-          radius: '55px',
-          background: '#f5f5f5'
-        },
-        { radius: '50px', background: '#f56c6c', pointer: true },
-        { radius: '40px', background: '#f5f5f5', pointer: false }
+          radius: '30px',
+          background: '#f5f5f5',
+          pointer: false,
+          fonts: [{ text: 'GO!', top: '-10px' }]
+        }
       ],
       defaultConfig: {
         gutter: '2px'
       },
       defaultStyle: {
         background: '#f5f5f5',
-        fontSize: '24px',
-        fontColor: '#c1242a',
-        fontWeight: 900
+        fontSize: '15px',
+        fontColor: '#f56c6c',
+        fontWeight: 700
       }
+    }
+  },
+  computed: {
+    prizes () {
+      return [
+        {
+          name: '1',
+          fonts: [{ text: '刘大', top: '10px' }]
+        },
+        {
+          name: '2',
+          fonts: [{ text: '张三', top: '10px' }]
+        },
+        {
+          name: '3',
+          fonts: [{ text: '赵四', top: '10px' }]
+        }
+      ]
     }
   },
   methods: {
@@ -70,7 +78,7 @@ export default {
       }, 3000)
     },
     endCallback (prize) {
-      console.log(prize)
+      alert(prize.fonts[0].text)
     }
   }
 }

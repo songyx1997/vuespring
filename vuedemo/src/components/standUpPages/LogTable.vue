@@ -1,6 +1,6 @@
 <template>
   <div class="line-panel">
-    <el-table :data="tableData" :max-height="381" highlight-current-row>
+    <el-table border :data="tableData" :max-height="400" highlight-current-row>
       <el-table-column property="time" :sortable="true" label="日志创建时间">
       </el-table-column>
       <el-table-column property="lottery" label="抽奖者" width="100">
@@ -31,11 +31,6 @@ export default {
   data () {
     return {
       tableData: [
-        {
-          lottery: 'songyx1',
-          winner: 'songyx2',
-          time: '2016-05-02 16:45:20'
-        },
         {
           lottery: 'songyx3',
           winner: 'songyx4',

@@ -1,11 +1,11 @@
 <template>
   <el-row :gutter="20">
-    <el-col :xs="24" :sm="24" :lg="8">
+    <el-col :xs="24" :sm="24" :lg="10">
       <div class="standup-chart">
         <turn-table></turn-table>
       </div>
     </el-col>
-    <el-col :xs="24" :sm="24" :lg="16">
+    <el-col :xs="24" :sm="24" :lg="14">
       <div class="standup-chart">
         <line-chart></line-chart>
       </div>

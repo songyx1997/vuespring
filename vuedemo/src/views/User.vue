@@ -297,7 +297,7 @@ export default {
             .post('/user/register', {
               userEmail: this.registerForm.userEmail,
               userPassword: this.registerForm.userPassword,
-              newestMailCode: this.registerForm.mailCode
+              lastCode: this.registerForm.mailCode
             })
             .then(result => {
               this.fullscreenLoading = false

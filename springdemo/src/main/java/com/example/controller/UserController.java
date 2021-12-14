@@ -68,9 +68,9 @@ public class UserController {
                 throw new WebException(WebExceptionEnum.WEB_DEMO_000000, "账号不存在或密码错误！");
             } else {
                 LOG.info("记录登陆时间，更新入库");
-                String id = users.isEmpty() ? anoUsers.get(0).getId() : users.get(0).getId();
+                String userId = users.isEmpty() ? anoUsers.get(0).getUserId() : users.get(0).getUserId();
                 loginUser.setUserName(null);
-                loginUser.setId(id);
+                loginUser.setUserId(userId);
                 loginUser.setLastLoginTime(new Date());
                 userService.updateAllByKey(loginUser);
             }
@@ -101,7 +101,7 @@ public class UserController {
         try {
             if (users.isEmpty()) {
                 LOG.info("首次注册发送邮件，初始化入库");
-                registerUser.setNewestMailCode(mailService.sendMailCode(userEmail));
+                registerUser.setLastCode(mailService.sendMailCode(userEmail));
                 userService.init(registerUser);
             } else if (!StringUtils.isBlank(users.get(0).getUserPassword())) {
                 throw new WebException(WebExceptionEnum.WEB_DEMO_000000, "该邮箱已被注册！");
@@ -109,7 +109,7 @@ public class UserController {
                 throw new WebException(WebExceptionEnum.WEB_DEMO_000000, "邮件验证码仍未过期！");
             } else {
                 LOG.info("非首次注册发送邮件，更新入库");
-                registerUser.setNewestMailCode(mailService.sendMailCode(userEmail));
+                registerUser.setLastCode(mailService.sendMailCode(userEmail));
                 registerUser.setCreationTime(new Date());
                 userService.updateAllByKey(registerUser);
             }
@@ -135,7 +135,7 @@ public class UserController {
     @ResponseBody
     public InfoMessage register(@RequestBody User registerUser) {
         String userEmail = registerUser.getUserEmail();
-        String mailCode = registerUser.getNewestMailCode();
+        String mailCode = registerUser.getLastCode();
         LOG.info("注册邮箱为：{}，输入邮箱验证码为：{}", userEmail, mailCode);
         User anoUser = new User();
         anoUser.setUserEmail(userEmail);
@@ -147,10 +147,11 @@ public class UserController {
                 throw new WebException(WebExceptionEnum.WEB_DEMO_000000, "该邮箱已被注册！");
             } else if (DateUtil.getDiffMinutes(users.get(0).getCreationTime(), new Date()) >= RESEND_THRESHOLD) {
                 throw new WebException(WebExceptionEnum.WEB_DEMO_000000, "邮件验证码已过期！");
-            } else if (!StringUtils.equals(users.get(0).getNewestMailCode(), mailCode)) {
+            } else if (!StringUtils.equals(users.get(0).getLastCode(), mailCode)) {
                 throw new WebException(WebExceptionEnum.WEB_DEMO_000000, "邮件验证码不正确！");
             } else {
                 LOG.info("更新密码、创建时间、登陆时间");
+                registerUser.setUserId(users.get(0).getUserId());
                 Date currentTime = new Date();
                 registerUser.setCreationTime(currentTime);
                 registerUser.setLastLoginTime(currentTime);

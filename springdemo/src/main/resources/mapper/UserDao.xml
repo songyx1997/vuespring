@@ -5,34 +5,44 @@
 
     <resultMap id="BaseResultMap" type="com.example.entity.User">
         <!--@Table user-->
-        <result property="id" column="ID" jdbcType="VARCHAR"/>
+        <result property="userId" column="USER_ID" jdbcType="VARCHAR"/>
         <result property="userName" column="USER_NAME" jdbcType="VARCHAR"/>
+        <result property="groupId" column="GROUP_ID" jdbcType="VARCHAR"/>
         <result property="userPassword" column="USER_PASSWORD" jdbcType="VARCHAR"/>
         <result property="userPhone" column="USER_PHONE" jdbcType="VARCHAR"/>
         <result property="userEmail" column="USER_EMAIL" jdbcType="VARCHAR"/>
-        <result property="creationTime" column="CREATION_TIME" jdbcType="TIMESTAMP"/>
+        <result property="userRole" column="USER_ROLE" jdbcType="VARCHAR"/>
         <result property="lastLoginTime" column="LAST_LOGIN_TIME" jdbcType="TIMESTAMP"/>
-        <result property="newestMailCode" column="NEWEST_MAIL_CODE" jdbcType="VARCHAR"/>
+        <result property="lastCode" column="LAST_CODE" jdbcType="VARCHAR"/>
+        <result property="ext1" column="EXT1" jdbcType="VARCHAR"/>
+        <result property="ext2" column="EXT2" jdbcType="VARCHAR"/>
+        <result property="ext3" column="EXT3" jdbcType="VARCHAR"/>
+        <result property="creationTime" column="CREATION_TIME" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="UPDATE_TIME" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <!--查询单个-->
     <select id="queryById" resultMap="BaseResultMap">
-        select ID, USER_NAME, USER_PASSWORD, USER_PHONE, USER_EMAIL, CREATION_TIME, LAST_LOGIN_TIME, NEWEST_MAIL_CODE
-        from library.user
-        where ID = #{id}
+        select
+          USER_ID, USER_NAME, GROUP_ID, USER_PASSWORD, USER_PHONE, USER_EMAIL, USER_ROLE, LAST_LOGIN_TIME, LAST_CODE, EXT1, EXT2, EXT3, CREATION_TIME, UPDATE_TIME
+        from scrum.user
+        where USER_ID = #{userId}
     </select>
 
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="BaseResultMap">
         select
-          ID, USER_NAME, USER_PASSWORD, USER_PHONE, USER_EMAIL, CREATION_TIME, LAST_LOGIN_TIME, NEWEST_MAIL_CODE
-        from library.user
+          USER_ID, USER_NAME, GROUP_ID, USER_PASSWORD, USER_PHONE, USER_EMAIL, USER_ROLE, LAST_LOGIN_TIME, LAST_CODE, EXT1, EXT2, EXT3, CREATION_TIME, UPDATE_TIME
+        from scrum.user
         <where>
-            <if test="id != null and id != ''">
-                and ID = #{id}
+            <if test="userId != null and userId != ''">
+                and USER_ID = #{userId}
             </if>
             <if test="userName != null and userName != ''">
                 and USER_NAME = #{userName}
+            </if>
+            <if test="groupId != null and groupId != ''">
+                and GROUP_ID = #{groupId}
             </if>
             <if test="userPassword != null and userPassword != ''">
                 and USER_PASSWORD = #{userPassword}
@@ -43,30 +53,48 @@
             <if test="userEmail != null and userEmail != ''">
                 and USER_EMAIL = #{userEmail}
             </if>
-            <if test="creationTime != null">
-                and CREATION_TIME = #{creationTime}
+            <if test="userRole != null and userRole != ''">
+                and USER_ROLE = #{userRole}
             </if>
             <if test="lastLoginTime != null">
                 and LAST_LOGIN_TIME = #{lastLoginTime}
             </if>
-            <if test="newestMailCode != null and newestMailCode != ''">
-                and NEWEST_MAIL_CODE = #{newestMailCode}
+            <if test="lastCode != null and lastCode != ''">
+                and LAST_CODE = #{lastCode}
+            </if>
+            <if test="ext1 != null and ext1 != ''">
+                and EXT1 = #{ext1}
+            </if>
+            <if test="ext2 != null and ext2 != ''">
+                and EXT2 = #{ext2}
+            </if>
+            <if test="ext3 != null and ext3 != ''">
+                and EXT3 = #{ext3}
+            </if>
+            <if test="creationTime != null">
+                and CREATION_TIME = #{creationTime}
+            </if>
+            <if test="updateTime != null">
+                and UPDATE_TIME = #{updateTime}
             </if>
         </where>
     </select>
 
     <!--新增所有列-->
-    <insert id="insert" keyProperty="" useGeneratedKeys="true">
-        insert into library.user(ID, USER_NAME, USER_PASSWORD, USER_PHONE, USER_EMAIL, CREATION_TIME, LAST_LOGIN_TIME, NEWEST_MAIL_CODE)
-        values (#{id}, #{userName}, #{userPassword}, #{userPhone}, #{userEmail}, #{creationTime}, #{lastLoginTime}, #{newestMailCode})
+    <insert id="insert" keyProperty="userId" useGeneratedKeys="true">
+        insert into scrum.user(USER_ID, USER_NAME, GROUP_ID, USER_PASSWORD, USER_PHONE, USER_EMAIL, USER_ROLE, LAST_LOGIN_TIME, LAST_CODE, EXT1, EXT2, EXT3, CREATION_TIME, UPDATE_TIME)
+        values (#{userId}, #{userName}, #{groupId}, #{userPassword}, #{userPhone}, #{userEmail}, #{userRole}, #{lastLoginTime}, #{lastCode}, #{ext1}, #{ext2}, #{ext3}, #{creationTime}, #{updateTime})
     </insert>
 
     <!--通过主键修改数据-->
     <update id="updateAllByKey">
-        update library.user
+        update scrum.user
         <set>
             <if test="userName != null and userName != ''">
                 USER_NAME = #{userName},
+            </if>
+            <if test="groupId != null and groupId != ''">
+                GROUP_ID = #{groupId},
             </if>
             <if test="userPassword != null and userPassword != ''">
                 USER_PASSWORD = #{userPassword},
@@ -77,27 +105,32 @@
             <if test="userEmail != null and userEmail != ''">
                 USER_EMAIL = #{userEmail},
             </if>
-            <if test="creationTime != null">
-                CREATION_TIME = #{creationTime},
+            <if test="userRole != null and userRole != ''">
+                USER_ROLE = #{userRole},
             </if>
             <if test="lastLoginTime != null">
                 LAST_LOGIN_TIME = #{lastLoginTime},
             </if>
-            <if test="newestMailCode != null and newestMailCode != ''">
-                NEWEST_MAIL_CODE = #{newestMailCode},
+            <if test="lastCode != null and lastCode != ''">
+                LAST_CODE = #{lastCode},
+            </if>
+            <if test="ext1 != null and ext1 != ''">
+                EXT1 = #{ext1},
+            </if>
+            <if test="ext2 != null and ext2 != ''">
+                EXT2 = #{ext2},
+            </if>
+            <if test="ext3 != null and ext3 != ''">
+                EXT3 = #{ext3},
+            </if>
+            <if test="creationTime != null">
+                CREATION_TIME = #{creationTime},
+            </if>
+            <if test="updateTime != null">
+                UPDATE_TIME = #{updateTime},
             </if>
         </set>
-        <where>
-            <if test="id != null and id != ''">
-                and ID = #{id}
-            </if>
-            <if test="userName != null and userName != ''">
-                and USER_NAME = #{userName}
-            </if>
-            <if test="userEmail != null and userEmail != ''">
-                and USER_EMAIL = #{userEmail}
-            </if>
-        </where>
+        where USER_ID = #{userId}
     </update>
 
 </mapper>

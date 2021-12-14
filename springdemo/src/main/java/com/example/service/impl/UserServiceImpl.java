@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void init(User user) {
-        user.setId(DateUtil.getCurrentTimeStr(DateUtil.FULL_PRIMARY_KEY_TIME));
+        user.setUserId(DateUtil.getCurrentTimeStr(DateUtil.FULL_PRIMARY_KEY_TIME));
         user.setUserName(user.getUserEmail());
         user.setCreationTime(new Date());
         int updateNum = userDao.insert(user);

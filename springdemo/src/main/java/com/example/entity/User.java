@@ -11,44 +11,68 @@ import java.io.Serializable;
  */
 public class User implements Serializable {
     /**
-     * 无意义主键
-     */
-    private String id;
+    * 用户编号
+    */
+    private String userId;
     /**
-     * 用户名
-     */
+    * 用户名
+    */
     private String userName;
     /**
-     * 密码
-     */
+    * 小组编号
+    */
+    private String groupId;
+    /**
+    * 密码
+    */
     private String userPassword;
     /**
-     * 手机号码
-     */
+    * 手机号码
+    */
     private String userPhone;
     /**
-     * 用户邮箱
-     */
+    * 用户邮箱
+    */
     private String userEmail;
     /**
-     * 创建时间
-     */
-    private Date creationTime;
+    * 用户角色（0-admin、1-general）
+    */
+    private String userRole;
     /**
-     * 最后登录时间
-     */
+    * 最后登录时间
+    */
     private Date lastLoginTime;
     /**
-     * 最新邮箱验证码
-     */
-    private String newestMailCode;
-
-    public String getId() {
-        return id;
+    * 最新验证码
+    */
+    private String lastCode;
+    /**
+    * 备用字段
+    */
+    private String ext1;
+    /**
+    * 备用字段
+    */
+    private String ext2;
+    /**
+    * 备用字段
+    */
+    private String ext3;
+    /**
+    * 创建时间
+    */
+    private Date creationTime;
+    /**
+    * 更新时间
+    */
+    private Date updateTime;
+    
+    public String getUserId() {
+        return userId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getUserName() {
@@ -57,6 +81,14 @@ public class User implements Serializable {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
     }
 
     public String getUserPassword() {
@@ -83,12 +115,12 @@ public class User implements Serializable {
         this.userEmail = userEmail;
     }
 
-    public Date getCreationTime() {
-        return creationTime;
+    public String getUserRole() {
+        return userRole;
     }
 
-    public void setCreationTime(Date creationTime) {
-        this.creationTime = creationTime;
+    public void setUserRole(String userRole) {
+        this.userRole = userRole;
     }
 
     public Date getLastLoginTime() {
@@ -99,11 +131,51 @@ public class User implements Serializable {
         this.lastLoginTime = lastLoginTime;
     }
 
-    public String getNewestMailCode() {
-        return newestMailCode;
+    public String getLastCode() {
+        return lastCode;
     }
 
-    public void setNewestMailCode(String newestMailCode) {
-        this.newestMailCode = newestMailCode;
+    public void setLastCode(String lastCode) {
+        this.lastCode = lastCode;
+    }
+
+    public String getExt1() {
+        return ext1;
+    }
+
+    public void setExt1(String ext1) {
+        this.ext1 = ext1;
+    }
+
+    public String getExt2() {
+        return ext2;
+    }
+
+    public void setExt2(String ext2) {
+        this.ext2 = ext2;
+    }
+
+    public String getExt3() {
+        return ext3;
+    }
+
+    public void setExt3(String ext3) {
+        this.ext3 = ext3;
+    }
+
+    public Date getCreationTime() {
+        return creationTime;
+    }
+
+    public void setCreationTime(Date creationTime) {
+        this.creationTime = creationTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 }

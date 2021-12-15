@@ -1,9 +1,9 @@
 <template>
   <el-row :gutter="20">
-    <el-col style="padding-bottom:20px" :xs="24" :sm="5">
+    <el-col style="padding-bottom:20px" :xs="24" :sm="24" :lg="5">
       <user-info-card></user-info-card>
     </el-col>
-    <el-col :xs="24" :sm="19">
+    <el-col :xs="24" :sm="24" :lg="19">
       <el-tabs v-model="activeName" type="border-card">
         <el-tab-pane name="notes">
           <span slot="label"

@@ -1,11 +1,11 @@
 <template>
-  <div class="line-panel">
+  <div>
     <el-table border :data="tableData" :max-height="400" highlight-current-row>
       <el-table-column property="time" :sortable="true" label="日志创建时间">
       </el-table-column>
-      <el-table-column property="lottery" label="抽奖者" width="100">
+      <el-table-column property="lottery" label="抽奖人" width="100">
       </el-table-column>
-      <el-table-column property="winner" label="中奖者" width="100">
+      <el-table-column property="winner" label="中奖人" width="100">
       </el-table-column>
       <el-table-column width="75">
         <el-popconfirm

@@ -3,7 +3,7 @@ CREATE TABLE `USER` (
   `USER_ID` varchar(20) NOT NULL COMMENT '用户编号',
   `USER_NAME` varchar(20) DEFAULT NULL COMMENT '用户名',
   `GROUP_ID` varchar(20) DEFAULT NULL COMMENT '小组编号',
-  `USER_PASSWORD` varchar(20) NOT NULL COMMENT '密码',
+  `USER_PASSWORD` varchar(20) DEFAULT NULL COMMENT '密码',
   `USER_PHONE` varchar(20) CHARACTER SET
 utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '手机号码',
   `USER_EMAIL` varchar(30) CHARACTER SET
@@ -51,10 +51,10 @@ CREATE TABLE `STAND_UP_ITEM_RECORD` (
   `PRINCIPAL_USER_ID` varchar(20) DEFAULT NULL COMMENT '负责人编号',
   `ITEM_STYLE` char(1) DEFAULT NULL COMMENT '项目类型(0-风险项、1-待改进项、2-跟进项)',
   `ITEM_DESCRIPTION` varchar(255) DEFAULT NULL COMMENT '项目说明',
-   `MEASURE` varchar(255) DEFAULT NULL COMMENT '措施',
-    `STATE` char(1) DEFAULT NULL COMMENT '状态(0-待处理、1-活动中、2-已关闭)',
-     `PRIORITY` char(1) DEFAULT NULL COMMENT '优先级(0-低、1-中、2-高)',
-          `REMARK` varchar(255) DEFAULT NULL COMMENT '备注',
+  `MEASURE` varchar(255) DEFAULT NULL COMMENT '措施',
+  `STATE` char(1) DEFAULT NULL COMMENT '状态(0-待处理、1-活动中、2-已关闭)',
+  `PRIORITY` char(1) DEFAULT NULL COMMENT '优先级(0-低、1-中、2-高)',
+  `REMARK` varchar(255) DEFAULT NULL COMMENT '备注',
   `EXT1` varchar(60) DEFAULT NULL COMMENT '备用字段',
   `EXT2` varchar(60) DEFAULT NULL COMMENT '备用字段',
   `EXT3` varchar(255) DEFAULT NULL COMMENT '备用字段',

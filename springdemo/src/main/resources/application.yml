@@ -10,8 +10,3 @@ spring:
     username: root
     password: 123456
     driver-class-name: com.mysql.jdbc.Driver
-  mail:
-    host: smtp.163.com
-    username: songyunxiang1997@163.com
-    password: NYWEFYLZKFVIBMTH
-    default-encoding: utf-8

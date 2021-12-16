@@ -43,10 +43,6 @@ public class User implements Serializable {
     */
     private Date lastLoginTime;
     /**
-    * 最新验证码
-    */
-    private String lastCode;
-    /**
     * 备用字段
     */
     private String ext1;
@@ -129,14 +125,6 @@ public class User implements Serializable {
 
     public void setLastLoginTime(Date lastLoginTime) {
         this.lastLoginTime = lastLoginTime;
-    }
-
-    public String getLastCode() {
-        return lastCode;
-    }
-
-    public void setLastCode(String lastCode) {
-        this.lastCode = lastCode;
     }
 
     public String getExt1() {

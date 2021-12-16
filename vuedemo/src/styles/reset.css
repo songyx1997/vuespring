@@ -8,12 +8,6 @@ body {
   font-weight: 900;
 }
 
-.el-loading-mask {
-  /* 设置加载中的背景透明 */
-  background-color: white;
-  opacity: 0.1;
-}
-
 .el-scrollbar-wrapper {
   /* 取消横向滚动头条 */
   overflow-x: hidden;

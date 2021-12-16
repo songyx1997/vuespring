@@ -11,11 +11,11 @@ import org.apache.commons.lang3.RandomStringUtils;
 public class RandomStringUtil {
 
     /**
-     * <p>Title: randomMailCode</p>
-     * <p>Description: 生成6位数字验证码</p>
+     * <p>Title: randomNumberOfSix</p>
+     * <p>Description: 生成6位随机数</p>
      * @return java.lang.String
      */
-    public static String randomMailCode() {
+    public static String randomNumberOfSix() {
         return RandomStringUtils.random(6, "0123456789".toCharArray());
     }
 }

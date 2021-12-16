@@ -13,7 +13,6 @@
         <result property="userEmail" column="USER_EMAIL" jdbcType="VARCHAR"/>
         <result property="userRole" column="USER_ROLE" jdbcType="VARCHAR"/>
         <result property="lastLoginTime" column="LAST_LOGIN_TIME" jdbcType="TIMESTAMP"/>
-        <result property="lastCode" column="LAST_CODE" jdbcType="VARCHAR"/>
         <result property="ext1" column="EXT1" jdbcType="VARCHAR"/>
         <result property="ext2" column="EXT2" jdbcType="VARCHAR"/>
         <result property="ext3" column="EXT3" jdbcType="VARCHAR"/>
@@ -24,7 +23,7 @@
     <!--查询单个-->
     <select id="queryById" resultMap="BaseResultMap">
         select
-          USER_ID, USER_NAME, GROUP_ID, USER_PASSWORD, USER_PHONE, USER_EMAIL, USER_ROLE, LAST_LOGIN_TIME, LAST_CODE, EXT1, EXT2, EXT3, CREATION_TIME, UPDATE_TIME
+          USER_ID, USER_NAME, GROUP_ID, USER_PASSWORD, USER_PHONE, USER_EMAIL, USER_ROLE, LAST_LOGIN_TIME, EXT1, EXT2, EXT3, CREATION_TIME, UPDATE_TIME
         from scrum.user
         where USER_ID = #{userId}
     </select>
@@ -32,7 +31,7 @@
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="BaseResultMap">
         select
-          USER_ID, USER_NAME, GROUP_ID, USER_PASSWORD, USER_PHONE, USER_EMAIL, USER_ROLE, LAST_LOGIN_TIME, LAST_CODE, EXT1, EXT2, EXT3, CREATION_TIME, UPDATE_TIME
+          USER_ID, USER_NAME, GROUP_ID, USER_PASSWORD, USER_PHONE, USER_EMAIL, USER_ROLE, LAST_LOGIN_TIME, EXT1, EXT2, EXT3, CREATION_TIME, UPDATE_TIME
         from scrum.user
         <where>
             <if test="userId != null and userId != ''">
@@ -59,9 +58,6 @@
             <if test="lastLoginTime != null">
                 and LAST_LOGIN_TIME = #{lastLoginTime}
             </if>
-            <if test="lastCode != null and lastCode != ''">
-                and LAST_CODE = #{lastCode}
-            </if>
             <if test="ext1 != null and ext1 != ''">
                 and EXT1 = #{ext1}
             </if>
@@ -82,8 +78,8 @@
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="userId" useGeneratedKeys="true">
-        insert into scrum.user(USER_ID, USER_NAME, GROUP_ID, USER_PASSWORD, USER_PHONE, USER_EMAIL, USER_ROLE, LAST_LOGIN_TIME, LAST_CODE, EXT1, EXT2, EXT3, CREATION_TIME, UPDATE_TIME)
-        values (#{userId}, #{userName}, #{groupId}, #{userPassword}, #{userPhone}, #{userEmail}, #{userRole}, #{lastLoginTime}, #{lastCode}, #{ext1}, #{ext2}, #{ext3}, #{creationTime}, #{updateTime})
+        insert into scrum.user(USER_ID, USER_NAME, GROUP_ID, USER_PASSWORD, USER_PHONE, USER_EMAIL, USER_ROLE, LAST_LOGIN_TIME, EXT1, EXT2, EXT3, CREATION_TIME, UPDATE_TIME)
+        values (#{userId}, #{userName}, #{groupId}, #{userPassword}, #{userPhone}, #{userEmail}, #{userRole}, #{lastLoginTime}, #{ext1}, #{ext2}, #{ext3}, #{creationTime}, #{updateTime})
     </insert>
 
     <!--通过主键修改数据-->
@@ -110,9 +106,6 @@
             </if>
             <if test="lastLoginTime != null">
                 LAST_LOGIN_TIME = #{lastLoginTime},
-            </if>
-            <if test="lastCode != null and lastCode != ''">
-                LAST_CODE = #{lastCode},
             </if>
             <if test="ext1 != null and ext1 != ''">
                 EXT1 = #{ext1},

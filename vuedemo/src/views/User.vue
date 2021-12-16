@@ -66,22 +66,6 @@
                 placeholder="确认密码"
               ></el-input>
             </el-form-item>
-            <el-form-item prop="mailCode">
-              <el-input
-                prefix-icon="el-icon-edit-outline"
-                v-model="registerForm.mailCode"
-                placeholder="6位数字验证码"
-              >
-                <el-button
-                  type="text"
-                  :disabled="btnTime >= 60 ? false : true"
-                  slot="suffix"
-                  @click="sendMailCode"
-                  v-loading.fullscreen.lock="fullscreenLoading"
-                  >{{ btnContent }}&nbsp;</el-button
-                >
-              </el-input>
-            </el-form-item>
             <el-form-item>
               <el-button
                 class="user-button"
@@ -146,17 +130,6 @@ export default {
         callback()
       }
     }
-    // 注册邮箱格式校验
-    var validateMailCode = (rules, value, callback) => {
-      var checkCodePatt = new RegExp('^\\d{6}$')
-      if (value === '') {
-        callback(new Error('请输入验证码'))
-      } else if (!checkCodePatt.test(value)) {
-        callback(new Error('验证码格式不正确'))
-      } else {
-        callback()
-      }
-    }
     // 确认密码格式校验
     var validateCheckPassword = (rules, value, callback) => {
       if (value === '') {
@@ -174,13 +147,11 @@ export default {
       btnTime: 60,
       // 初始化全屏加载
       fullscreenLoading: false,
-      btnContent: '获取验证码',
       loginForm: { userName: '', userPassword: '' },
       registerForm: {
         userEmail: '',
         userPassword: '',
-        checkPassword: '',
-        mailCode: ''
+        checkPassword: ''
       },
       rules: {
         userName: [{ validator: validateUserName, trigger: 'blur' }],
@@ -192,8 +163,7 @@ export default {
         userEmail: [
           { required: true, message: '请输入邮箱', trigger: 'blur' },
           { type: 'email', message: '邮箱格式不正确', trigger: 'blur' }
-        ],
-        mailCode: [{ validator: validateMailCode, trigger: 'blur' }]
+        ]
       }
     }
   },
@@ -241,55 +211,6 @@ export default {
         }
       })
     },
-    // 发送验证码
-    sendMailCode () {
-      this.$refs['registerForm'].validateField('userEmail', valid => {
-        if (!valid) {
-          this.fullscreenLoading = true
-          this.$axios
-            .post('/user/sendMailCode', {
-              userEmail: this.registerForm.userEmail
-            })
-            .then(result => {
-              this.fullscreenLoading = false
-              if (result.data.returnCode === 'SUCCESS') {
-                this.setButtonTime()
-                this.$message({
-                  showClose: true,
-                  message: result.data.returnMessage,
-                  type: 'success'
-                })
-              } else {
-                this.$message({
-                  showClose: true,
-                  message: result.data.returnMessage,
-                  type: 'error'
-                })
-              }
-            })
-            .catch(failResponse => {
-              this.fullscreenLoading = false
-              this.$message({
-                showClose: true,
-                message: failResponse,
-                type: 'error'
-              })
-            })
-        }
-      })
-    },
-    // 按钮显示时间
-    setButtonTime () {
-      let clock = window.setInterval(() => {
-        this.btnTime--
-        this.btnContent = this.btnTime + 's'
-        if (this.btnTime < 0) {
-          window.clearInterval(clock)
-          this.btnTime = 60
-          this.btnContent = '获取验证码'
-        }
-      }, 1000)
-    },
     // 注册入口
     register () {
       var _this = this
@@ -299,8 +220,7 @@ export default {
           this.$axios
             .post('/user/register', {
               userEmail: this.registerForm.userEmail,
-              userPassword: this.registerForm.userPassword,
-              lastCode: this.registerForm.mailCode
+              userPassword: this.registerForm.userPassword
             })
             .then(result => {
               this.fullscreenLoading = false

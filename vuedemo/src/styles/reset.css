@@ -18,3 +18,13 @@ body {
   /* 取消横向滚动头条 */
   overflow-x: hidden;
 }
+
+.el-table .el-table__cell {
+  /* 设置表格每行内边距 */
+  padding: 5px 0;
+}
+
+.el-table thead {
+  /* 设置表格表头 */
+  font-weight: bold;
+}

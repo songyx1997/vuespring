@@ -13,11 +13,8 @@
     <el-col :xs="24" :sm="24">
       <el-tabs v-model="activeName" type="border-card">
         <el-tab-pane name="improvement">
-          <span slot="label"><i class="el-icon-loading"></i>&nbsp;改进项</span>
+          <span slot="label"><i class="el-icon-view"></i>&nbsp;改进项</span>
           <improvement-table></improvement-table>
-        </el-tab-pane>
-        <el-tab-pane name="riskItem">
-          <span slot="label"><i class="el-icon-view"></i>&nbsp;风险项</span>
         </el-tab-pane>
         <el-tab-pane name="log">
           <span slot="label"><i class="el-icon-tickets"></i>&nbsp;日志</span>

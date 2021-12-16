@@ -9,10 +9,3 @@
   --purple: #879bd7;
   --lightgrey: #f5f5f5;
 }
-
-.login-background {
-  background: url('../assets/login.svg') no-repeat;
-  background-position: center;
-  background-size: cover;
-  height: 100vh;
-}

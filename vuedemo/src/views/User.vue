@@ -112,34 +112,10 @@
 }
 </style>
 <script>
+import { successInfo, errorInfo } from '@/utils/message'
+import { checkUserName, checkPasswordRepeat } from '@/utils/validate'
 export default {
   data () {
-    // 登录用户名校验
-    var validateUserName = (rules, value, callback) => {
-      var emailPatt = new RegExp(
-        '^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$'
-      )
-      if (value === '') {
-        callback(new Error('请输入邮箱或用户名'))
-      } else if (
-        !emailPatt.test(value) &&
-        (value.length < 3 || value.length > 10)
-      ) {
-        callback(new Error('用户名长度为3~10个字符'))
-      } else {
-        callback()
-      }
-    }
-    // 确认密码格式校验
-    var validateCheckPassword = (rules, value, callback) => {
-      if (value === '') {
-        callback(new Error('请再次输入密码'))
-      } else if (value !== this.registerForm.userPassword) {
-        callback(new Error('两次输入密码不一致!'))
-      } else {
-        callback()
-      }
-    }
     return {
       // 初始化表单为登录
       activeName: 'login',
@@ -154,12 +130,12 @@ export default {
         checkPassword: ''
       },
       rules: {
-        userName: [{ validator: validateUserName, trigger: 'blur' }],
+        userName: [{ validator: checkUserName, trigger: 'blur' }],
         userPassword: [
           { required: true, message: '请输入密码', trigger: 'blur' },
           { min: 6, max: 24, message: '密码长度为6~24个字符', trigger: 'blur' }
         ],
-        checkPassword: [{ validator: validateCheckPassword, trigger: 'blur' }],
+        checkPassword: [{ validator: checkPasswordRepeat, trigger: 'blur' }],
         userEmail: [
           { required: true, message: '请输入邮箱', trigger: 'blur' },
           { type: 'email', message: '邮箱格式不正确', trigger: 'blur' }
@@ -182,31 +158,19 @@ export default {
             .then(result => {
               this.fullscreenLoading = false
               if (result.data.returnCode === 'SUCCESS') {
-                this.$message({
-                  showClose: true,
-                  message: result.data.returnMessage,
-                  type: 'success'
-                })
+                successInfo(result.data.returnMessage)
                 _this.$store.commit('user', _this.loginForm)
                 var path = this.$route.query.redirect
                 this.$router.replace({
                   path: path === '/' || path === undefined ? '/home' : path
                 })
               } else {
-                this.$message({
-                  showClose: true,
-                  message: result.data.returnMessage,
-                  type: 'error'
-                })
+                errorInfo(result.data.returnMessage)
               }
             })
             .catch(failResponse => {
               this.fullscreenLoading = false
-              this.$message({
-                showClose: true,
-                message: failResponse,
-                type: 'error'
-              })
+              errorInfo(failResponse)
             })
         }
       })
@@ -225,11 +189,7 @@ export default {
             .then(result => {
               this.fullscreenLoading = false
               if (result.data.returnCode === 'SUCCESS') {
-                this.$message({
-                  showClose: true,
-                  message: result.data.returnMessage,
-                  type: 'success'
-                })
+                successInfo(result.data.returnMessage)
                 _this.$store.commit('user', {
                   userName: result.data.paraMap.user.userEmail,
                   userPassword: result.data.paraMap.user.userPassword
@@ -239,20 +199,12 @@ export default {
                   path: path === '/' || path === undefined ? '/home' : path
                 })
               } else {
-                this.$message({
-                  showClose: true,
-                  message: result.data.returnMessage,
-                  type: 'error'
-                })
+                errorInfo(result.data.returnMessage)
               }
             })
             .catch(failResponse => {
               this.fullscreenLoading = false
-              this.$message({
-                showClose: true,
-                message: failResponse,
-                type: 'error'
-              })
+              errorInfo(failResponse)
             })
         }
       })

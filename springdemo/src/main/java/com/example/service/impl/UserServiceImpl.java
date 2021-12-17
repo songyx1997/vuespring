@@ -38,7 +38,9 @@ public class UserServiceImpl implements UserService {
     public void init(User user) {
         user.setUserId(DateUtil.getCurrentTimeStr(DateUtil.FULL_PRIMARY_KEY_TIME));
         user.setUserName(user.getUserEmail());
-        user.setCreationTime(new Date());
+        Date currentTime = new Date();
+        user.setCreationTime(currentTime);
+        user.setLastLoginTime(currentTime);
         int updateNum = userDao.insert(user);
         if (updateNum != 1) {
             throw new WebException(WebExceptionEnum.WEB_DEMO_000001, "用户表");

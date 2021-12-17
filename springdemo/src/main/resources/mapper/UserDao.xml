@@ -4,7 +4,7 @@
 <mapper namespace="com.example.dao.UserDao">
 
     <resultMap id="BaseResultMap" type="com.example.entity.User">
-        <!--@Table user-->
+        <!--@Table USER-->
         <result property="userId" column="USER_ID" jdbcType="VARCHAR"/>
         <result property="userName" column="USER_NAME" jdbcType="VARCHAR"/>
         <result property="groupId" column="GROUP_ID" jdbcType="VARCHAR"/>
@@ -24,7 +24,7 @@
     <select id="queryById" resultMap="BaseResultMap">
         select
           USER_ID, USER_NAME, GROUP_ID, USER_PASSWORD, USER_PHONE, USER_EMAIL, USER_ROLE, LAST_LOGIN_TIME, EXT1, EXT2, EXT3, CREATION_TIME, UPDATE_TIME
-        from scrum.user
+        from SCRUM.USER
         where USER_ID = #{userId}
     </select>
 
@@ -32,7 +32,7 @@
     <select id="queryAll" resultMap="BaseResultMap">
         select
           USER_ID, USER_NAME, GROUP_ID, USER_PASSWORD, USER_PHONE, USER_EMAIL, USER_ROLE, LAST_LOGIN_TIME, EXT1, EXT2, EXT3, CREATION_TIME, UPDATE_TIME
-        from scrum.user
+        from SCRUM.USER
         <where>
             <if test="userId != null and userId != ''">
                 and USER_ID = #{userId}
@@ -78,13 +78,13 @@
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="userId" useGeneratedKeys="true">
-        insert into scrum.user(USER_ID, USER_NAME, GROUP_ID, USER_PASSWORD, USER_PHONE, USER_EMAIL, USER_ROLE, LAST_LOGIN_TIME, EXT1, EXT2, EXT3, CREATION_TIME, UPDATE_TIME)
+        insert into SCRUM.USER(USER_ID, USER_NAME, GROUP_ID, USER_PASSWORD, USER_PHONE, USER_EMAIL, USER_ROLE, LAST_LOGIN_TIME, EXT1, EXT2, EXT3, CREATION_TIME, UPDATE_TIME)
         values (#{userId}, #{userName}, #{groupId}, #{userPassword}, #{userPhone}, #{userEmail}, #{userRole}, #{lastLoginTime}, #{ext1}, #{ext2}, #{ext3}, #{creationTime}, #{updateTime})
     </insert>
 
     <!--通过主键修改数据-->
     <update id="updateAllByKey">
-        update scrum.user
+        update SCRUM.USER
         <set>
             <if test="userName != null and userName != ''">
                 USER_NAME = #{userName},

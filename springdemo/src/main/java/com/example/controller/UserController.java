@@ -5,7 +5,6 @@ import com.example.entity.User;
 import com.example.enums.WebExceptionEnum;
 import com.example.exception.WebException;
 import com.example.service.UserService;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -95,15 +94,11 @@ public class UserController {
         anoUser.setUserEmail(userEmail);
         List<User> users = userService.queryAll(anoUser);
         try {
-            if (!StringUtils.isBlank(users.get(0).getUserPassword())) {
+            if (!users.isEmpty()) {
                 throw new WebException(WebExceptionEnum.WEB_DEMO_000000, "该邮箱已被注册！");
             } else {
-                LOG.info("更新密码、创建时间、登陆时间");
-                registerUser.setUserId(users.get(0).getUserId());
-                Date currentTime = new Date();
-                registerUser.setCreationTime(currentTime);
-                registerUser.setLastLoginTime(currentTime);
-                userService.updateAllByKey(registerUser);
+                LOG.info("初始化注册");
+                userService.init(registerUser);
             }
         } catch (WebException e) {
             LOG.error("注册时出现异常！", e);

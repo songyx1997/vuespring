@@ -29,7 +29,7 @@ public interface UserService {
 
     /**
      * <p>Title: init</p>
-     * <p>Description: 初始化（未完成注册）</p>
+     * <p>Description: 初始化注册</p>
      * @param user 实例对象
      */
     void init(User user);

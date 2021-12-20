@@ -170,7 +170,7 @@ export default {
               this.fullscreenLoading = false
               if (result.data.returnCode === 'SUCCESS') {
                 successInfo(result.data.returnMessage)
-                // 记录登陆信息
+                // 记录用户信息
                 _this.$store.commit('user', result.data.paraMap.user)
                 var path = this.$route.query.redirect
                 this.$router.replace({
@@ -202,10 +202,8 @@ export default {
               this.fullscreenLoading = false
               if (result.data.returnCode === 'SUCCESS') {
                 successInfo(result.data.returnMessage)
-                _this.$store.commit('user', {
-                  userName: result.data.paraMap.user.userEmail,
-                  userPassword: result.data.paraMap.user.userPassword
-                })
+                // 记录用户信息
+                _this.$store.commit('user', result.data.paraMap.user)
                 var path = this.$route.query.redirect
                 this.$router.replace({
                   path: path === '/' || path === undefined ? '/home' : path

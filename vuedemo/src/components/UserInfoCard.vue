@@ -60,7 +60,7 @@ export default {
       let user = JSON.parse(window.localStorage.getItem('user'))
       return {
         userName: user.userName,
-        userRole: user.userRole,
+        userRole: user.userRole === '0' ? 'admin' : 'general',
         userPhone: user.userPhone == null ? '无' : user.userPhone,
         userEmail: user.userEmail == null ? '无' : user.userEmail,
         avatarUrl: avatar

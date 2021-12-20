@@ -113,6 +113,8 @@ public class UserController {
         infoMessage.setReturnCode(InfoMessage.SUCCESS);
         infoMessage.setReturnMessage("注册成功！");
         Map<String, Object> paraMap = new HashMap<>();
+        LOG.info("返回注册用户信息");
+        registerUser.setUserPassword(null);
         paraMap.put("user", registerUser);
         infoMessage.setParaMap(paraMap);
         return infoMessage;

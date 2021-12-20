@@ -13,9 +13,9 @@ body {
   font-weight: 900;
 }
 
-.el-scrollbar-wrapper {
-  /* 取消横向滚动头条 */
-  overflow-x: hidden;
+.el-scrollbar__bar.is-vertical > div {
+  /* 隐藏侧边栏滚动条 */
+  width: 0%;
 }
 
 .el-table .el-table__cell {

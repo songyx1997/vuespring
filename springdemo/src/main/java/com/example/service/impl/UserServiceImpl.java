@@ -2,6 +2,7 @@ package com.example.service.impl;
 
 import com.example.dao.UserDao;
 import com.example.entity.User;
+import com.example.enums.NumberEnum;
 import com.example.enums.WebExceptionEnum;
 import com.example.exception.WebException;
 import com.example.service.UserService;
@@ -41,6 +42,7 @@ public class UserServiceImpl implements UserService {
         Date currentTime = new Date();
         user.setCreationTime(currentTime);
         user.setLastLoginTime(currentTime);
+        user.setUserRole(NumberEnum.USER_USER_ROLE_1.getNumber());
         int updateNum = userDao.insert(user);
         if (updateNum != 1) {
             throw new WebException(WebExceptionEnum.WEB_DEMO_000001, "用户表");

@@ -7,21 +7,21 @@
     </div>
     <div class="card-avatar">
       <el-avatar :size="100" :src="user.avatarUrl"></el-avatar>
-      <div class="card-name">{{ user.name }}</div>
-      <div class="card-content-font">{{ user.identity }}</div>
+      <div class="card-name">{{ user.userName }}</div>
+      <div class="card-content-font">{{ user.userRole }}</div>
     </div>
     <div class="card-info">
       <div class="card-li">
         <div class="card-title card-title-font">
           <i class="el-icon-mobile-phone"></i>&nbsp;手机
         </div>
-        <span class="card-content-font">{{ user.phone }}</span>
+        <span class="card-content-font">{{ user.userPhone }}</span>
       </div>
       <div class="card-li">
         <div class="card-title card-title-font">
           <i class="el-icon-message"></i>&nbsp;邮箱
         </div>
-        <span class="card-content-font">{{ user.email }}</span>
+        <span class="card-content-font">{{ user.userEmail }}</span>
       </div>
     </div>
   </el-card>
@@ -55,13 +55,14 @@
 <script>
 import avatar from '@/assets/avatar.gif'
 export default {
-  data () {
-    return {
-      user: {
-        name: 'Songyx',
-        identity: 'admin',
-        phone: '13076058182',
-        email: '1048461309@qq.com',
+  computed: {
+    user () {
+      let user = JSON.parse(window.localStorage.getItem('user'))
+      return {
+        userName: user.userName,
+        userRole: user.userRole,
+        userPhone: user.userPhone == null ? '无' : user.userPhone,
+        userEmail: user.userEmail == null ? '无' : user.userEmail,
         avatarUrl: avatar
       }
     }

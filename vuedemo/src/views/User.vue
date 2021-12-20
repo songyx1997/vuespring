@@ -133,9 +133,20 @@ export default {
         userName: [{ validator: checkUserName, trigger: 'blur' }],
         userPassword: [
           { required: true, message: '请输入密码', trigger: 'blur' },
-          { min: 6, max: 24, message: '密码长度为6~24个字符', trigger: 'blur' }
+          { min: 5, max: 24, message: '密码长度为5~24个字符', trigger: 'blur' }
         ],
-        checkPassword: [{ validator: checkPasswordRepeat, trigger: 'blur' }],
+        checkPassword: [
+          {
+            validator: (rule, value, callback) =>
+              checkPasswordRepeat(
+                rule,
+                value,
+                callback,
+                this.registerForm.userPassword
+              ),
+            trigger: 'blur'
+          }
+        ],
         userEmail: [
           { required: true, message: '请输入邮箱', trigger: 'blur' },
           { type: 'email', message: '邮箱格式不正确', trigger: 'blur' }
@@ -159,7 +170,8 @@ export default {
               this.fullscreenLoading = false
               if (result.data.returnCode === 'SUCCESS') {
                 successInfo(result.data.returnMessage)
-                _this.$store.commit('user', _this.loginForm)
+                // 记录登陆信息
+                _this.$store.commit('user', result.data.paraMap.user)
                 var path = this.$route.query.redirect
                 this.$router.replace({
                   path: path === '/' || path === undefined ? '/home' : path

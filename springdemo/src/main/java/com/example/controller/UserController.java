@@ -5,6 +5,7 @@ import com.example.entity.User;
 import com.example.enums.WebExceptionEnum;
 import com.example.exception.WebException;
 import com.example.service.UserService;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -60,11 +61,14 @@ public class UserController {
                 throw new WebException(WebExceptionEnum.WEB_DEMO_000000, "账号不存在或密码错误！");
             } else {
                 LOG.info("记录登陆时间，更新入库");
-                String userId = users.isEmpty() ? anoUsers.get(0).getUserId() : users.get(0).getUserId();
-                loginUser.setUserName(null);
-                loginUser.setUserId(userId);
-                loginUser.setLastLoginTime(new Date());
-                userService.updateAllByKey(loginUser);
+                User user = users.isEmpty() ? anoUsers.get(0) : users.get(0);
+                user.setLastLoginTime(new Date());
+                userService.updateAllByKey(user);
+                LOG.info("返回登陆用户信息");
+                user.setUserPassword(null);
+                Map<String, Object> paraMap = new HashMap<>();
+                paraMap.put("user", user);
+                infoMessage.setParaMap(paraMap);
             }
         } catch (WebException e) {
             LOG.error("登陆时出现异常！", e);

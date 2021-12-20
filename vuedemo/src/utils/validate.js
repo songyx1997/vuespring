@@ -15,12 +15,11 @@ export function checkUserName (rules, value, callback) {
   }
 }
 
-// TODO校验密码重复性
-export function checkPasswordRepeat (rules, value, callback) {
-  debugger
+// 校验密码重复性
+export function checkPasswordRepeat (rules, value, callback, userPassword) {
   if (value === '') {
     callback(new Error('请再次输入密码'))
-  } else if (value !== this) {
+  } else if (value !== userPassword) {
     callback(new Error('两次输入密码不一致!'))
   } else {
     callback()

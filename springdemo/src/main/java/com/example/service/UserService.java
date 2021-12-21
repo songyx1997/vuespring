@@ -15,9 +15,10 @@ public interface UserService {
     /**
      * <p>Title: queryById</p>
      * <p>Description: 查询单个</p>
+     * @param userId 用户编号
      * @return com.example.entity.User
      */
-    User queryById();
+    User queryById(String userId);
 
     /**
      * <p>Title: queryAll</p>

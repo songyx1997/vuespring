@@ -119,4 +119,35 @@ public class UserController {
         infoMessage.setParaMap(paraMap);
         return infoMessage;
     }
+
+    /**
+     * <p>Title: editPassword</p>
+     * <p>Description: 修改密码</p>
+     * @param user 待修改用户
+     * @return com.example.entity.InfoMessage
+     */
+    @CrossOrigin
+    @PostMapping(value = "/editPassword")
+    @ResponseBody
+    public InfoMessage editPassword(@RequestBody User user) {
+        User oldUser = userService.queryById(user.getUserId());
+        try {
+            if (!StringUtils.equals(oldUser.getUserPassword(), user.getUserPassword())) {
+                throw new WebException(WebExceptionEnum.WEB_DEMO_000000, "旧密码不正确！");
+            } else {
+                LOG.info("更新密码和修改时间");
+                oldUser.setUserPassword(user.getExt1());
+                oldUser.setUpdateTime(new Date());
+                userService.updateAllByKey(oldUser);
+            }
+        } catch (WebException e) {
+            LOG.error("修改密码时出现异常！", e);
+            infoMessage.setReturnCode(InfoMessage.FAIL);
+            infoMessage.setReturnMessage(e.getMessage());
+            return infoMessage;
+        }
+        infoMessage.setReturnCode(InfoMessage.SUCCESS);
+        infoMessage.setReturnMessage("修改密码成功！");
+        return infoMessage;
+    }
 }

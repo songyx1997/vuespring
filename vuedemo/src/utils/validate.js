@@ -25,3 +25,14 @@ export function checkPasswordRepeat (rules, value, callback, userPassword) {
     callback()
   }
 }
+
+// 校验密码重复性（new）
+export function newCheckPasswordRepeat (rules, value, callback, oldPassword) {
+  if (value === '') {
+    callback(new Error('请输入新密码'))
+  } else if (value === oldPassword) {
+    callback(new Error('新密码不应与旧密码相同！'))
+  } else {
+    callback()
+  }
+}

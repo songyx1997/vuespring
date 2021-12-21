@@ -119,8 +119,6 @@ export default {
     return {
       // 初始化表单为登录
       activeName: 'login',
-      // 按钮点击倒计时
-      btnTime: 60,
       // 初始化全屏加载
       fullscreenLoading: false,
       loginForm: { userName: '', userPassword: '' },
@@ -157,7 +155,7 @@ export default {
   methods: {
     // 登录入口
     login () {
-      var _this = this
+      let _this = this
       this.$refs['loginForm'].validate(valid => {
         if (valid) {
           this.fullscreenLoading = true
@@ -172,7 +170,7 @@ export default {
                 successInfo(result.data.returnMessage)
                 // 记录用户信息
                 _this.$store.commit('user', result.data.paraMap.user)
-                var path = this.$route.query.redirect
+                let path = this.$route.query.redirect
                 this.$router.replace({
                   path: path === '/' || path === undefined ? '/home' : path
                 })
@@ -189,7 +187,7 @@ export default {
     },
     // 注册入口
     register () {
-      var _this = this
+      let _this = this
       this.$refs['registerForm'].validate(valid => {
         if (valid) {
           this.fullscreenLoading = true
@@ -204,7 +202,7 @@ export default {
                 successInfo(result.data.returnMessage)
                 // 记录用户信息
                 _this.$store.commit('user', result.data.paraMap.user)
-                var path = this.$route.query.redirect
+                let path = this.$route.query.redirect
                 this.$router.replace({
                   path: path === '/' || path === undefined ? '/home' : path
                 })

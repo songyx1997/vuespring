@@ -1,47 +1,22 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import getters from './getters'
 
 Vue.use(Vuex)
 
-export default new Vuex.Store({
-  state: {
-    // 监听用户
-    user: {
-      userName:
-        window.localStorage.getItem('user' || '[]') == null
-          ? ''
-          : JSON.parse(window.localStorage.getItem('user' || '[]')).userName
-    },
-    // 监听设备
-    sidebar: {
-      openFlag: true
-    }
-  },
-  mutations: {
-    user (state, user) {
-      // 将用户信息放入全局存储
-      state.user = user
-      window.localStorage.setItem('user', JSON.stringify(user))
-    },
-    REVERSE_SIDEBAR (state) {
-      state.sidebar.openFlag = !state.sidebar.openFlag
-    },
-    OPEN_SIDEBAR (state) {
-      state.sidebar.openFlag = true
-    },
-    CLOSE_SIDEBAR (state) {
-      state.sidebar.openFlag = false
-    }
-  },
-  actions: {
-    reverseSideBar ({ commit }) {
-      commit('REVERSE_SIDEBAR')
-    },
-    openSideBar ({ commit }) {
-      commit('OPEN_SIDEBAR')
-    },
-    closeSideBar ({ commit }) {
-      commit('CLOSE_SIDEBAR')
-    }
-  }
+const modulesFiles = require.context('./modules', true, /\.js$/)
+
+const modules = modulesFiles.keys().reduce((modules, modulePath) => {
+  // 将'./app.js'替换为'app'
+  const moduleName = modulePath.replace(/^\.\/(.*)\.\w+$/, '$1')
+  const value = modulesFiles(modulePath)
+  modules[moduleName] = value.default
+  return modules
+}, {})
+
+const store = new Vuex.Store({
+  modules,
+  getters
 })
+
+export default store

@@ -29,10 +29,10 @@ router.beforeEach((to, from, next) => {
   NProgress.start()
   // 路由是否需要拦截
   if (to.meta.requireAuth) {
-    if (store.state.user.userName) {
+    if (store.state.user.userInfo) {
       next()
     } else {
-      // 用户名为空，重定向至登录和注册页面
+      // 重定向至登录和注册页面
       next({
         path: 'user',
         query: { redirect: to.fullPath }

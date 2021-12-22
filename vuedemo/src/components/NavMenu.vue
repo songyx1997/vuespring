@@ -14,10 +14,10 @@
       </el-breadcrumb>
     </div>
     <div class="nav-avatar-container">
-      <el-dropdown size="medium">
+      <el-dropdown size="medium" @command="handleCommand">
         <img class="nav-avatar-img" :src="avatarUrl" />
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item disabled>退出登录</el-dropdown-item>
+          <el-dropdown-item command="signOut">退出登录</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
@@ -40,6 +40,7 @@
 }
 .nav-avatar-container {
   padding-right: 20px;
+  cursor: pointer;
 }
 .nav-avatar-img {
   height: 40px;
@@ -49,17 +50,16 @@
 </style>
 <script>
 import avatar from '@/assets/avatar.gif'
+import { successInfo } from '@/utils/message'
 export default {
   data () {
     return {
       avatarUrl: avatar
     }
   },
-  computed: {},
   methods: {
     zoomClick () {
-      // 调用父类方法
-      this.$emit('navClick')
+      this.$store.dispatch('sidebar/reverseSideBar')
     },
     initBreadCrumbName () {
       return this.$route.meta.name
@@ -69,6 +69,15 @@ export default {
         path: this.$router.options.routes[1].children[0].path,
         replace: true
       })
+    },
+    handleCommand (command) {
+      if (command === 'signOut') {
+        // 清除用户信息
+        this.$store.dispatch('user/removeUserInfo')
+        // 跳转至登陆界面
+        this.$router.replace({ path: '/user' })
+        successInfo('退出成功！')
+      }
     }
   }
 }

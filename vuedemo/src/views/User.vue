@@ -169,7 +169,10 @@ export default {
               if (result.data.returnCode === 'SUCCESS') {
                 successInfo(result.data.returnMessage)
                 // 记录用户信息
-                _this.$store.commit('user', result.data.paraMap.user)
+                _this.$store.dispatch(
+                  'user/getUserInfo',
+                  result.data.paraMap.user
+                )
                 let path = this.$route.query.redirect
                 this.$router.replace({
                   path: path === '/' || path === undefined ? '/home' : path
@@ -201,7 +204,10 @@ export default {
               if (result.data.returnCode === 'SUCCESS') {
                 successInfo(result.data.returnMessage)
                 // 记录用户信息
-                _this.$store.commit('user', result.data.paraMap.user)
+                _this.$store.dispatch(
+                  'user/getUserInfo',
+                  result.data.paraMap.user
+                )
                 let path = this.$route.query.redirect
                 this.$router.replace({
                   path: path === '/' || path === undefined ? '/home' : path

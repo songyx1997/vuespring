@@ -57,7 +57,7 @@ import avatar from '@/assets/avatar.gif'
 export default {
   computed: {
     user () {
-      let user = JSON.parse(window.localStorage.getItem('user'))
+      let user = this.$store.getters.userInfo
       return {
         userName: user.userName,
         userRole: user.userRole === '0' ? 'admin' : 'general',

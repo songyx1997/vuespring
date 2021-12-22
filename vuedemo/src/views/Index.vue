@@ -2,7 +2,7 @@
   <div class="index-panel">
     <div class="index-left"><scroll-menu></scroll-menu></div>
     <div class="index-right">
-      <div class="index-header"><nav-menu @navClick="navClick"></nav-menu></div>
+      <div class="index-header"><nav-menu></nav-menu></div>
       <div class="index-main">
         <transition name="fade" mode="out-in">
           <router-view :key="key" />
@@ -66,11 +66,6 @@ export default {
   computed: {
     key () {
       return this.$route.path
-    }
-  },
-  methods: {
-    navClick () {
-      this.$store.dispatch('reverseSideBar')
     }
   }
 }

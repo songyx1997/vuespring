@@ -14,7 +14,7 @@ export default {
     const isMobile = this.$_isMobile()
     if (isMobile) {
       // 如果是手机端，关闭侧边栏
-      store.dispatch('closeSideBar')
+      store.dispatch('sidebar/closeSideBar')
     }
   },
   methods: {
@@ -26,9 +26,9 @@ export default {
       if (!document.hidden) {
         const isMobile = this.$_isMobile()
         if (isMobile) {
-          store.dispatch('closeSideBar')
+          store.dispatch('sidebar/closeSideBar')
         } else {
-          store.dispatch('openSideBar')
+          store.dispatch('sidebar/openSideBar')
         }
       }
     }

@@ -47,7 +47,6 @@ public class UserController {
      */
     @CrossOrigin
     @PostMapping(value = "/login")
-    @ResponseBody
     public InfoMessage login(@RequestBody User loginUser, HttpSession session) {
         String userName = loginUser.getUserName();
         LOG.info("登录账户名为：{}", userName);
@@ -90,7 +89,6 @@ public class UserController {
      */
     @CrossOrigin
     @PostMapping(value = "/register")
-    @ResponseBody
     public InfoMessage register(@RequestBody User registerUser) {
         String userEmail = registerUser.getUserEmail();
         LOG.info("注册邮箱为：{}", userEmail);
@@ -128,7 +126,6 @@ public class UserController {
      */
     @CrossOrigin
     @PostMapping(value = "/editPassword")
-    @ResponseBody
     public InfoMessage editPassword(@RequestBody User user) {
         User oldUser = userService.queryById(user.getUserId());
         try {

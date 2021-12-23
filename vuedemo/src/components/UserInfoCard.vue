@@ -3,6 +3,7 @@
     <div slot="header" class="clearfix">
       <div class="card-title-font">
         <i class="el-icon-user"></i>&nbsp;个人中心
+        <edit-user-info></edit-user-info>
       </div>
     </div>
     <el-avatar :size="100"
@@ -11,6 +12,12 @@
     <div class="card-name">{{ user.userName }}</div>
     <div class="card-content-font">{{ user.userRole }}</div>
     <div class="card-info">
+      <div class="card-li">
+        <div class="card-title card-title-font">
+          <i class="el-icon-house"></i>&nbsp;项目组
+        </div>
+        <span class="card-content-font">{{ user.groupId }}</span>
+      </div>
       <div class="card-li">
         <div class="card-title card-title-font">
           <i class="el-icon-mobile-phone"></i>&nbsp;手机
@@ -51,18 +58,23 @@
   padding-top: 15px;
 }
 .card-title {
-  border-bottom: 1px solid var(--grey);
+  border-bottom: 1px dashed var(--grey);
   padding-bottom: 10px;
   margin-bottom: 10px;
 }
 </style>
 <script>
+import EditUserInfo from './EditUserInfo.vue'
 export default {
+  components: {
+    EditUserInfo
+  },
   computed: {
     user () {
       let user = this.$store.getters.userInfo
       return {
         userName: user.userName,
+        groupId: user.groupId == null ? '无' : user.groupId,
         userRole: user.userRole === '0' ? 'admin' : 'general',
         userPhone: user.userPhone == null ? '无' : user.userPhone,
         userEmail: user.userEmail == null ? '无' : user.userEmail,

@@ -37,3 +37,31 @@ body {
   /* 设置文字头像背景颜色 */
   background: var(--grey);
 }
+
+.el-dialog {
+  /* 修改弹框 */
+  border-radius: 15px;
+  text-align: left;
+  width: 550px;
+}
+
+@media screen and (max-width: 992px) {
+  .el-dialog {
+    width: 95%;
+  }
+}
+
+.el-card__header {
+  /* 修改卡片标题 */
+  border-bottom: 2px dashed var(--grey);
+}
+
+.el-dialog__header {
+  /* 修改弹框标题 */
+  border-bottom: 2px dashed var(--grey);
+}
+
+.el-dialog__body {
+  /* 修改弹框表格 */
+  padding: 30px 20px 0 20px;
+}

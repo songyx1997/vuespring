@@ -1,36 +1,6 @@
 <template>
   <div>
     <el-table :data="tableData" :max-height="400" highlight-current-row>
-      <el-table-column property="proposerUserName" label="提出人" width="100">
-      </el-table-column>
-      <el-table-column property="principalUserName" label="负责人" width="100">
-      </el-table-column>
-      <el-table-column prop="itemStyle" label="类型" width="70">
-        <template slot-scope="scope">
-          <el-tag type="warning">{{ scope.row.itemStyle }}</el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column prop="state" label="状态" width="70">
-        <template slot-scope="scope">
-          <el-tag>{{ scope.row.state }}</el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column prop="priority" label="优先级" width="70">
-        <template slot-scope="scope">
-          <el-tag>{{ scope.row.priority }}</el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column property="itemDescription" label="说明" width="450">
-      </el-table-column>
-      <el-table-column property="measure" label="改进措施"> </el-table-column>
-      <el-table-column property="remark" label="备注"> </el-table-column>
-      <el-table-column
-        property="creationTime"
-        :sortable="true"
-        label="创建时间"
-        width="160"
-      >
-      </el-table-column>
       <el-table-column label="操作" width="115">
         <el-button
           type="primary"
@@ -53,6 +23,36 @@
             plain
           ></el-button>
         </el-popconfirm>
+      </el-table-column>
+      <el-table-column property="proposerUserName" label="提出人" width="100">
+      </el-table-column>
+      <el-table-column property="principalUserName" label="负责人" width="100">
+      </el-table-column>
+      <el-table-column prop="itemStyle" label="类型" width="70">
+        <template slot-scope="scope">
+          <el-tag type="warning">{{ scope.row.itemStyle }}</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column prop="state" label="状态" width="70">
+        <template slot-scope="scope">
+          <el-tag>{{ scope.row.state }}</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column prop="priority" label="优先级" width="70">
+        <template slot-scope="scope">
+          <el-tag>{{ scope.row.priority }}</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column property="itemDescription" label="说明" width="400">
+      </el-table-column>
+      <el-table-column property="measure" label="改进措施"> </el-table-column>
+      <el-table-column property="remark" label="备注"> </el-table-column>
+      <el-table-column
+        property="creationTime"
+        :sortable="true"
+        label="创建时间"
+        width="160"
+      >
       </el-table-column>
     </el-table>
   </div>

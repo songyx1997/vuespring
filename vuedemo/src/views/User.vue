@@ -2,7 +2,7 @@
   <div class="user-background">
     <div class="user-form">
       <el-tabs v-model="activeName" @tab-click="resetForm">
-        <el-tab-pane label="登录" name="login">
+        <el-tab-pane label="登 录" name="login">
           <el-form
             ref="loginForm"
             :model="loginForm"
@@ -30,12 +30,12 @@
                 type="primary"
                 @click="login"
                 v-loading.fullscreen.lock="fullscreenLoading"
-                >登录</el-button
+                >登 录</el-button
               >
             </el-form-item>
           </el-form>
         </el-tab-pane>
-        <el-tab-pane label="注册" name="register">
+        <el-tab-pane label="注 册" name="register">
           <el-form
             ref="registerForm"
             :model="registerForm"
@@ -72,7 +72,7 @@
                 type="primary"
                 @click="register"
                 v-loading.fullscreen.lock="fullscreenLoading"
-                >注册</el-button
+                >注 册</el-button
               >
             </el-form-item>
           </el-form>

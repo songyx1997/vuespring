@@ -35,9 +35,9 @@
           type="primary"
           @click="edit"
           v-loading.fullscreen.lock="fullscreenLoading"
-          >提交</el-button
+          >提 交</el-button
         >
-        <el-button @click="resetForm">重置</el-button>
+        <el-button @click="resetForm">重 置</el-button>
       </el-form-item>
     </el-form>
   </div>

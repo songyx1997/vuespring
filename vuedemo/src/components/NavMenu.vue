@@ -15,7 +15,9 @@
     </div>
     <div class="nav-avatar-container">
       <el-dropdown size="medium" @command="handleCommand">
-        <img class="nav-avatar-img" :src="avatarUrl" />
+        <el-avatar :size="40" shape="square"
+          ><span class="nav-avatar-img">{{ avatar }}</span></el-avatar
+        >
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item command="signOut">退出登录</el-dropdown-item>
         </el-dropdown-menu>
@@ -39,22 +41,20 @@
   flex: 1;
 }
 .nav-avatar-container {
-  padding-right: 20px;
+  padding: 3px 20px 0 0;
   cursor: pointer;
 }
 .nav-avatar-img {
-  height: 40px;
-  padding-top: 4px;
-  border-radius: 10px;
+  color: var(--blue);
+  font-size: 30px;
 }
 </style>
 <script>
-import avatar from '@/assets/avatar.gif'
 import { successInfo } from '@/utils/message'
 export default {
   data () {
     return {
-      avatarUrl: avatar
+      avatar: this.$store.getters.userInfo.userName.charAt(0).toUpperCase()
     }
   },
   methods: {

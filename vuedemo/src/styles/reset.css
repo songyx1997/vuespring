@@ -32,3 +32,8 @@ body {
   /* 加载页面背景透明 */
   opacity: 0.2;
 }
+
+.el-avatar {
+  /* 设置文字头像背景颜色 */
+  background: var(--grey);
+}

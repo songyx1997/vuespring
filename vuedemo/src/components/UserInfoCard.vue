@@ -5,11 +5,11 @@
         <i class="el-icon-user"></i>&nbsp;个人中心
       </div>
     </div>
-    <div class="card-avatar">
-      <el-avatar :size="100" :src="user.avatarUrl"></el-avatar>
-      <div class="card-name">{{ user.userName }}</div>
-      <div class="card-content-font">{{ user.userRole }}</div>
-    </div>
+    <el-avatar :size="100"
+      ><span class="card-avatar">{{ user.avatar }}</span></el-avatar
+    >
+    <div class="card-name">{{ user.userName }}</div>
+    <div class="card-content-font">{{ user.userRole }}</div>
     <div class="card-info">
       <div class="card-li">
         <div class="card-title card-title-font">
@@ -27,6 +27,10 @@
   </el-card>
 </template>
 <style scoped>
+.card-avatar {
+  color: var(--blue);
+  font-size: 40px;
+}
 .card-name {
   padding: 10px 0px;
 }
@@ -53,7 +57,6 @@
 }
 </style>
 <script>
-import avatar from '@/assets/avatar.gif'
 export default {
   computed: {
     user () {
@@ -63,7 +66,7 @@ export default {
         userRole: user.userRole === '0' ? 'admin' : 'general',
         userPhone: user.userPhone == null ? '无' : user.userPhone,
         userEmail: user.userEmail == null ? '无' : user.userEmail,
-        avatarUrl: avatar
+        avatar: user.userName.charAt(0).toUpperCase()
       }
     }
   }

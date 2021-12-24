@@ -30,7 +30,7 @@ body {
 
 .el-loading-mask {
   /* 加载页面背景透明 */
-  opacity: 0.2;
+  opacity: 0.5;
 }
 
 .el-avatar {
@@ -64,4 +64,9 @@ body {
 .el-dialog__body {
   /* 修改弹框表格 */
   padding: 30px 20px 0 20px;
+}
+
+.el-select {
+  /* 修改选择框 */
+  width: 100%;
 }

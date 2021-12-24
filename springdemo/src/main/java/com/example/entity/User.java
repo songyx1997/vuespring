@@ -23,6 +23,10 @@ public class User implements Serializable {
     */
     private String groupId;
     /**
+     * 小组名称
+     */
+    private String groupName;
+    /**
     * 密码
     */
     private String userPassword;
@@ -85,6 +89,14 @@ public class User implements Serializable {
 
     public void setGroupId(String groupId) {
         this.groupId = groupId;
+    }
+
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
     }
 
     public String getUserPassword() {

@@ -7,6 +7,7 @@ import com.example.enums.WebExceptionEnum;
 import com.example.exception.WebException;
 import com.example.service.UserService;
 import com.example.utils.DateUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -43,6 +44,7 @@ public class UserServiceImpl implements UserService {
         user.setCreationTime(currentTime);
         user.setLastLoginTime(currentTime);
         user.setUserRole(NumberEnum.USER_USER_ROLE_1.getNumber());
+        user.setGroupId(StringUtils.EMPTY);
         int updateNum = userDao.insert(user);
         if (updateNum != 1) {
             throw new WebException(WebExceptionEnum.WEB_DEMO_000001, "用户表");
@@ -51,6 +53,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateAllByKey(User user) {
+        user.setLastLoginTime(new Date());
         int updateNum = userDao.updateAllByKey(user);
         if (updateNum != 1) {
             throw new WebException(WebExceptionEnum.WEB_DEMO_000002, "用户表");

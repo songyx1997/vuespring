@@ -95,7 +95,7 @@
             <if test="userPassword != null and userPassword != ''">
                 USER_PASSWORD = #{userPassword},
             </if>
-            <if test="userPhone != null and userPhone != ''">
+            <if test="userPhone != null">
                 USER_PHONE = #{userPhone},
             </if>
             <if test="userEmail != null and userEmail != ''">

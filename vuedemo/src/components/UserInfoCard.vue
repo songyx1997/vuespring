@@ -16,7 +16,7 @@
         <div class="card-title card-title-font">
           <i class="el-icon-house"></i>&nbsp;项目组
         </div>
-        <span class="card-content-font">{{ user.groupId }}</span>
+        <span class="card-content-font">{{ user.groupName }}</span>
       </div>
       <div class="card-li">
         <div class="card-title card-title-font">
@@ -74,9 +74,12 @@ export default {
       let user = this.$store.getters.userInfo
       return {
         userName: user.userName,
-        groupId: user.groupId == null ? '无' : user.groupId,
+        groupName: user.groupName == null ? '无' : user.groupName,
         userRole: user.userRole === '0' ? 'admin' : 'general',
-        userPhone: user.userPhone == null ? '无' : user.userPhone,
+        userPhone:
+          user.userPhone == null || user.userPhone === ''
+            ? '无'
+            : user.userPhone,
         userEmail: user.userEmail == null ? '无' : user.userEmail,
         avatar: user.userName.charAt(0).toUpperCase()
       }

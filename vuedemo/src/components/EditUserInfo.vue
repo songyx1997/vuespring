@@ -6,58 +6,156 @@
       size="mini"
       circle
       plain
-      @click="formVisible = true"
+      @click="open"
+      v-loading.fullscreen.lock="fullscreenLoading"
     ></el-button>
-    <el-dialog title="个人信息修改" :visible.sync="formVisible">
-      <el-form ref="editForm" :model="editForm" label-width="0px">
-        <el-form-item>
+    <el-dialog
+      title="个人信息修改"
+      :visible.sync="formVisible"
+      :close-on-click-modal="false"
+    >
+      <el-form
+        ref="editForm"
+        :model="editForm"
+        :rules="rules"
+        label-width="0px"
+      >
+        <el-form-item prop="userName">
           <el-input
             prefix-icon="el-icon-user"
             v-model="editForm.userName"
-            placeholder="请输入用户名"
+            placeholder="用户名"
           ></el-input>
         </el-form-item>
         <el-form-item>
-          <el-input
-            prefix-icon="el-icon-house"
-            v-model="editForm.groupId"
-            placeholder="请输入项目组"
-          ></el-input>
+          <el-select v-model="editForm.groupId" filterable placeholder="项目组">
+            <el-option
+              v-for="group in groups"
+              :key="group.groupId"
+              :label="group.groupName"
+              :value="group.groupId"
+            >
+            </el-option>
+          </el-select>
         </el-form-item>
-        <el-form-item>
+        <el-form-item prop="userPhone">
           <el-input
             prefix-icon="el-icon-phone"
             v-model="editForm.userPhone"
-            placeholder="请输入手机号"
+            placeholder="手机号"
           ></el-input>
         </el-form-item>
-        <el-form-item>
+        <el-form-item prop="userEmail">
           <el-input
             prefix-icon="el-icon-message"
             v-model="editForm.userEmail"
-            placeholder="请输入邮箱号"
+            placeholder="邮箱"
           ></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="formVisible = false">取 消</el-button>
-        <el-button type="primary" @click="formVisible = false">确 定</el-button>
+        <el-button @click="resetForm">取 消</el-button>
+        <el-button type="primary" @click="confirm">确 定</el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 <script>
+import { successInfo, errorInfo } from '@/utils/message'
+import { onlyCheckUserName, checkPhone } from '@/utils/validate'
 export default {
   data () {
     return {
+      // 初始化全屏加载
+      fullscreenLoading: false,
       // 初始化弹框不可见
       formVisible: false,
       editForm: {
         userName: this.$store.getters.userInfo.userName,
-        groupId: this.$store.getters.userInfo.groupId,
         userPhone: this.$store.getters.userInfo.userPhone,
+        groupId: this.$store.getters.userInfo.groupId,
         userEmail: this.$store.getters.userInfo.userEmail
+      },
+      groups: [],
+      rules: {
+        userName: [{ validator: onlyCheckUserName, trigger: 'blur' }],
+        userPhone: [{ validator: checkPhone, trigger: 'blur' }],
+        userEmail: [
+          { required: true, message: '请输入邮箱', trigger: 'blur' },
+          { type: 'email', message: '邮箱格式不正确', trigger: 'blur' }
+        ]
       }
+    }
+  },
+  methods: {
+    open () {
+      this.fullscreenLoading = true
+      this.$axios
+        .get('/group/getAllGroups')
+        .then(result => {
+          this.fullscreenLoading = false
+          let defaultGroup = {}
+          defaultGroup.groupId = null
+          defaultGroup.groupName = '无'
+          result.data.splice(0, 0, defaultGroup)
+          this.groups = result.data
+          // 打开弹框
+          this.formVisible = true
+        })
+        .catch(failResponse => {
+          this.fullscreenLoading = false
+          errorInfo(failResponse)
+        })
+    },
+    confirm () {
+      let _this = this
+      this.$refs['editForm'].validate(valid => {
+        if (valid) {
+          this.fullscreenLoading = true
+          this.$axios
+            .post('/user/editUserInfo', {
+              userId: this.$store.getters.userInfo.userId,
+              userName:
+                this.editForm.userName == null
+                  ? this.editForm.userName
+                  : this.editForm.userName.trim(),
+              userPhone:
+                this.editForm.userPhone == null
+                  ? this.editForm.userPhone
+                  : this.editForm.userPhone.trim(),
+              groupId: this.editForm.groupId,
+              userEmail: this.editForm.userEmail
+            })
+            .then(result => {
+              this.fullscreenLoading = false
+              if (result.data.returnCode === 'SUCCESS') {
+                // 记录新的用户信息
+                _this.$store.dispatch(
+                  'user/getUserInfo',
+                  result.data.paraMap.user
+                )
+                _this.resetForm()
+                successInfo(result.data.returnMessage)
+              } else {
+                errorInfo(result.data.returnMessage)
+              }
+            })
+            .catch(failResponse => {
+              this.fullscreenLoading = false
+              errorInfo(failResponse)
+            })
+        }
+      })
+    },
+    // 重置表单
+    resetForm () {
+      // 关闭弹框
+      this.formVisible = false
+      this.$refs['editForm'].resetFields()
+      this.userName = this.$store.getters.userInfo.userName
+      this.userPhone = this.$store.getters.userInfo.userPhone
+      this.groupId = this.$store.getters.userInfo.groupId
+      this.userEmail = this.$store.getters.userInfo.userEmail
     }
   }
 }

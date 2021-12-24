@@ -1,9 +1,11 @@
 package com.example.controller;
 
+import com.example.entity.Group;
 import com.example.entity.InfoMessage;
 import com.example.entity.User;
 import com.example.enums.WebExceptionEnum;
 import com.example.exception.WebException;
+import com.example.service.GroupService;
 import com.example.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -37,17 +39,18 @@ public class UserController {
 
     @Resource
     private UserService userService;
+    @Resource
+    private GroupService groupService;
 
     /**
      * <p>Title: login</p>
      * <p>Description: 登录</p>
      * @param loginUser 登录用户
-     * @param session 记录登录信息
      * @return com.example.entity.InfoMessage
      */
     @CrossOrigin
     @PostMapping(value = "/login")
-    public InfoMessage login(@RequestBody User loginUser, HttpSession session) {
+    public InfoMessage login(@RequestBody User loginUser) {
         String userName = loginUser.getUserName();
         LOG.info("登录账户名为：{}", userName);
         List<User> users = userService.queryAll(loginUser);
@@ -63,6 +66,11 @@ public class UserController {
                 User user = users.isEmpty() ? anoUsers.get(0) : users.get(0);
                 user.setLastLoginTime(new Date());
                 userService.updateAllByKey(user);
+                if (StringUtils.isNotBlank(user.getGroupId())) {
+                    LOG.info("查询用户项目组信息");
+                    Group group = groupService.queryById(user.getGroupId());
+                    user.setGroupName(group.getGroupName());
+                }
                 LOG.info("返回登陆用户信息");
                 user.setUserPassword(null);
                 Map<String, Object> paraMap = new HashMap<>();
@@ -75,7 +83,6 @@ public class UserController {
             infoMessage.setReturnMessage(e.getMessage());
             return infoMessage;
         }
-        session.setAttribute("user", loginUser);
         infoMessage.setReturnCode(InfoMessage.SUCCESS);
         infoMessage.setReturnMessage("登录成功！");
         return infoMessage;
@@ -145,6 +152,36 @@ public class UserController {
         }
         infoMessage.setReturnCode(InfoMessage.SUCCESS);
         infoMessage.setReturnMessage("修改密码成功！");
+        return infoMessage;
+    }
+
+    @CrossOrigin
+    @PostMapping(value = "/editUserInfo")
+    public InfoMessage editUserInfo(@RequestBody User user) {
+        String phone = StringUtils.isEmpty(user.getUserPhone()) ? user.getUserPhone() : user.getUserPhone().trim();
+        LOG.info("更新个人信息，用户编号为{}，用户名为{}，小组编号为{}，手机号为{}，邮箱为{}", user.getUserId(), user.getUserName(),
+                user.getGroupId(), user.getUserPhone(), user.getUserEmail());
+        try {
+            userService.updateAllByKey(user);
+            LOG.info("返回更新后的用户信息");
+            User newUser = userService.queryById(user.getUserId());
+            newUser.setUserPassword(null);
+            if (StringUtils.isNotBlank(newUser.getGroupId())) {
+                LOG.info("查询用户项目组信息");
+                Group group = groupService.queryById(newUser.getGroupId());
+                newUser.setGroupName(group.getGroupName());
+            }
+            Map<String, Object> paraMap = new HashMap<>();
+            paraMap.put("user", newUser);
+            infoMessage.setParaMap(paraMap);
+        } catch (WebException e) {
+            LOG.error("更新个人信息时出现异常！", e);
+            infoMessage.setReturnCode(InfoMessage.FAIL);
+            infoMessage.setReturnMessage(e.getMessage());
+            return infoMessage;
+        }
+        infoMessage.setReturnCode(InfoMessage.SUCCESS);
+        infoMessage.setReturnMessage("修改个人信息成功！");
         return infoMessage;
     }
 }

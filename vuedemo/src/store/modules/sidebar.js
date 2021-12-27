@@ -1,6 +1,7 @@
 const state = {
-  // 监听设备
-  openFlag: true
+  // 默认为电脑端且打开侧边栏
+  openFlag: true,
+  device: 'desktop'
 }
 
 const mutations = {
@@ -12,6 +13,9 @@ const mutations = {
   },
   CLOSE_SIDEBAR (state) {
     state.openFlag = false
+  },
+  SET_DEVICE (state, device) {
+    state.device = device
   }
 }
 
@@ -24,6 +28,9 @@ const actions = {
   },
   closeSideBar ({ commit }) {
     commit('CLOSE_SIDEBAR')
+  },
+  setDevice ({ commit }, device) {
+    commit('SET_DEVICE', device)
   }
 }
 

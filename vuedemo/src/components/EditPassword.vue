@@ -100,10 +100,9 @@ export default {
       this.$refs['editPasswordForm'].validate(valid => {
         if (valid) {
           this.fullscreenLoading = true
-          let user = JSON.parse(window.localStorage.getItem('user'))
           this.$axios
             .post('/user/editPassword', {
-              userId: user.userId,
+              userId: this.$store.getters.userInfo.userId,
               userPassword: this.editPasswordForm.oldPassword,
               ext1: this.editPasswordForm.userPassword
             })

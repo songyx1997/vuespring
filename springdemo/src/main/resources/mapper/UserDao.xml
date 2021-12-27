@@ -8,6 +8,7 @@
         <result property="userId" column="USER_ID" jdbcType="VARCHAR"/>
         <result property="userName" column="USER_NAME" jdbcType="VARCHAR"/>
         <result property="groupId" column="GROUP_ID" jdbcType="VARCHAR"/>
+        <result property="groupName" column="GROUP_NAME" jdbcType="VARCHAR"/>
         <result property="userPassword" column="USER_PASSWORD" jdbcType="VARCHAR"/>
         <result property="userPhone" column="USER_PHONE" jdbcType="VARCHAR"/>
         <result property="userEmail" column="USER_EMAIL" jdbcType="VARCHAR"/>
@@ -76,6 +77,13 @@
         </where>
     </select>
 
+    <!--通过用户编号查询用户信息-->
+    <select id="selectUserInfoByUserId" resultMap="BaseResultMap">
+        SELECT USER_ID,USER_NAME,u.GROUP_ID,g.GROUP_NAME,USER_PHONE,USER_EMAIL,USER_ROLE
+        FROM `USER` u LEFT JOIN `GROUP` g
+        ON u.GROUP_ID = g.GROUP_ID WHERE u.USER_ID = #{userId}
+    </select>
+
     <!--新增所有列-->
     <insert id="insert" keyProperty="userId" useGeneratedKeys="true">
         insert into SCRUM.USER(USER_ID, USER_NAME, GROUP_ID, USER_PASSWORD, USER_PHONE, USER_EMAIL, USER_ROLE, LAST_LOGIN_TIME, EXT1, EXT2, EXT3, CREATION_TIME, UPDATE_TIME)
@@ -89,7 +97,7 @@
             <if test="userName != null and userName != ''">
                 USER_NAME = #{userName},
             </if>
-            <if test="groupId != null and groupId != ''">
+            <if test="groupId != null">
                 GROUP_ID = #{groupId},
             </if>
             <if test="userPassword != null and userPassword != ''">

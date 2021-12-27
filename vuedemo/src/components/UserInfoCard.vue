@@ -74,15 +74,17 @@ export default {
       let user = this.$store.getters.userInfo
       return {
         userName: user.userName,
-        groupName: user.groupName == null ? '无' : user.groupName,
+        groupName: this.initParam(user.groupName),
         userRole: user.userRole === '0' ? 'admin' : 'general',
-        userPhone:
-          user.userPhone == null || user.userPhone === ''
-            ? '无'
-            : user.userPhone,
-        userEmail: user.userEmail == null ? '无' : user.userEmail,
+        userPhone: this.initParam(user.userPhone),
+        userEmail: this.initParam(user.userEmail),
         avatar: user.userName.charAt(0).toUpperCase()
       }
+    }
+  },
+  methods: {
+    initParam (param) {
+      return param == null || param === '' ? '无' : param
     }
   }
 }

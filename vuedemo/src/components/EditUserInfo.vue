@@ -90,12 +90,13 @@ export default {
   methods: {
     open () {
       this.fullscreenLoading = true
+      // 获取所有项目组
       this.$axios
         .get('/group/getAllGroups')
         .then(result => {
           this.fullscreenLoading = false
           let defaultGroup = {}
-          defaultGroup.groupId = null
+          defaultGroup.groupId = ''
           defaultGroup.groupName = '无'
           result.data.splice(0, 0, defaultGroup)
           this.groups = result.data
@@ -115,14 +116,8 @@ export default {
           this.$axios
             .post('/user/editUserInfo', {
               userId: this.$store.getters.userInfo.userId,
-              userName:
-                this.editForm.userName == null
-                  ? this.editForm.userName
-                  : this.editForm.userName.trim(),
-              userPhone:
-                this.editForm.userPhone == null
-                  ? this.editForm.userPhone
-                  : this.editForm.userPhone.trim(),
+              userName: this.editForm.userName,
+              userPhone: this.editForm.userPhone,
               groupId: this.editForm.groupId,
               userEmail: this.editForm.userEmail
             })
@@ -134,7 +129,7 @@ export default {
                   'user/getUserInfo',
                   result.data.paraMap.user
                 )
-                _this.resetForm()
+                this.resetForm()
                 successInfo(result.data.returnMessage)
               } else {
                 errorInfo(result.data.returnMessage)
@@ -152,10 +147,10 @@ export default {
       // 关闭弹框
       this.formVisible = false
       this.$refs['editForm'].resetFields()
-      this.userName = this.$store.getters.userInfo.userName
-      this.userPhone = this.$store.getters.userInfo.userPhone
-      this.groupId = this.$store.getters.userInfo.groupId
-      this.userEmail = this.$store.getters.userInfo.userEmail
+      this.editForm.userName = this.$store.getters.userInfo.userName
+      this.editForm.userPhone = this.$store.getters.userInfo.userPhone
+      this.editForm.groupId = this.$store.getters.userInfo.groupId
+      this.editForm.userEmail = this.$store.getters.userInfo.userEmail
     }
   }
 }

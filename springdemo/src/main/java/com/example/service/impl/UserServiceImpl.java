@@ -8,6 +8,8 @@ import com.example.exception.WebException;
 import com.example.service.UserService;
 import com.example.utils.DateUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -22,6 +24,8 @@ import java.util.List;
  */
 @Service
 public class UserServiceImpl implements UserService {
+
+    private static final Logger LOG = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Resource
     private UserDao userDao;
@@ -40,11 +44,13 @@ public class UserServiceImpl implements UserService {
     public void init(User user) {
         user.setUserId(DateUtil.getCurrentTimeStr(DateUtil.FULL_PRIMARY_KEY_TIME));
         user.setUserName(user.getUserEmail());
+        user.setUserRole(NumberEnum.USER_USER_ROLE_1.getNumber());
+        user.setGroupId(StringUtils.EMPTY);
+        user.setUserPhone(StringUtils.EMPTY);
         Date currentTime = new Date();
         user.setCreationTime(currentTime);
         user.setLastLoginTime(currentTime);
-        user.setUserRole(NumberEnum.USER_USER_ROLE_1.getNumber());
-        user.setGroupId(StringUtils.EMPTY);
+        user.setUpdateTime(currentTime);
         int updateNum = userDao.insert(user);
         if (updateNum != 1) {
             throw new WebException(WebExceptionEnum.WEB_DEMO_000001, "用户表");
@@ -53,10 +59,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateAllByKey(User user) {
-        user.setLastLoginTime(new Date());
+        LOG.info("更新修改时间");
+        user.setUpdateTime(new Date());
         int updateNum = userDao.updateAllByKey(user);
         if (updateNum != 1) {
             throw new WebException(WebExceptionEnum.WEB_DEMO_000002, "用户表");
         }
+    }
+
+    @Override
+    public User selectUserInfoByUserId(String userId) {
+        return userDao.selectUserInfoByUserId(userId);
     }
 }

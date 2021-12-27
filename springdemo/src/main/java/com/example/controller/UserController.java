@@ -14,11 +14,9 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -66,11 +64,6 @@ public class UserController {
                 User user = users.isEmpty() ? anoUsers.get(0) : users.get(0);
                 user.setLastLoginTime(new Date());
                 userService.updateAllByKey(user);
-                if (StringUtils.isNotBlank(user.getGroupId())) {
-                    LOG.info("查询用户项目组信息");
-                    Group group = groupService.queryById(user.getGroupId());
-                    user.setGroupName(group.getGroupName());
-                }
                 LOG.info("返回登陆用户信息");
                 user.setUserPassword(null);
                 Map<String, Object> paraMap = new HashMap<>();
@@ -139,9 +132,8 @@ public class UserController {
             if (!StringUtils.equals(oldUser.getUserPassword(), user.getUserPassword())) {
                 throw new WebException(WebExceptionEnum.WEB_DEMO_000000, "旧密码不正确！");
             } else {
-                LOG.info("更新密码和修改时间");
+                LOG.info("更新密码");
                 oldUser.setUserPassword(user.getExt1());
-                oldUser.setUpdateTime(new Date());
                 userService.updateAllByKey(oldUser);
             }
         } catch (WebException e) {
@@ -155,6 +147,19 @@ public class UserController {
         return infoMessage;
     }
 
+    /**
+     * <p>Title: selectUserInfo</p>
+     * <p>Description: 查询用户信息</p>
+     * @param user 用户(用户编号)
+     * @return com.example.entity.User
+     */
+    @CrossOrigin
+    @PostMapping(value = "/selectUserInfo")
+    public User selectUserInfo(@RequestBody User user) {
+        LOG.info("查询用户信息，用户编号为{}", user.getUserId());
+        return userService.selectUserInfoByUserId(user.getUserId());
+    }
+
     @CrossOrigin
     @PostMapping(value = "/editUserInfo")
     public InfoMessage editUserInfo(@RequestBody User user) {
@@ -164,13 +169,7 @@ public class UserController {
         try {
             userService.updateAllByKey(user);
             LOG.info("返回更新后的用户信息");
-            User newUser = userService.queryById(user.getUserId());
-            newUser.setUserPassword(null);
-            if (StringUtils.isNotBlank(newUser.getGroupId())) {
-                LOG.info("查询用户项目组信息");
-                Group group = groupService.queryById(newUser.getGroupId());
-                newUser.setGroupName(group.getGroupName());
-            }
+            User newUser = userService.selectUserInfoByUserId(user.getUserId());
             Map<String, Object> paraMap = new HashMap<>();
             paraMap.put("user", newUser);
             infoMessage.setParaMap(paraMap);

@@ -155,7 +155,6 @@ export default {
   methods: {
     // 登录入口
     login () {
-      let _this = this
       this.$refs['loginForm'].validate(valid => {
         if (valid) {
           this.fullscreenLoading = true
@@ -167,16 +166,7 @@ export default {
             .then(result => {
               this.fullscreenLoading = false
               if (result.data.returnCode === 'SUCCESS') {
-                successInfo(result.data.returnMessage)
-                // 记录用户信息
-                _this.$store.dispatch(
-                  'user/getUserInfo',
-                  result.data.paraMap.user
-                )
-                let path = this.$route.query.redirect
-                this.$router.replace({
-                  path: path === '/' || path === undefined ? '/home' : path
-                })
+                this.selectUserInfo(result.data.paraMap.user.userId)
               } else {
                 errorInfo(result.data.returnMessage)
               }
@@ -208,10 +198,7 @@ export default {
                   'user/getUserInfo',
                   result.data.paraMap.user
                 )
-                let path = this.$route.query.redirect
-                this.$router.replace({
-                  path: path === '/' || path === undefined ? '/home' : path
-                })
+                this.$router.push({ path: '/home' })
               } else {
                 errorInfo(result.data.returnMessage)
               }
@@ -227,6 +214,19 @@ export default {
     resetForm () {
       this.$refs['loginForm'].resetFields()
       this.$refs['registerForm'].resetFields()
+    },
+    // 查询用户信息（通过用户编号）
+    selectUserInfo (userId) {
+      this.$axios
+        .post('/user/selectUserInfo', { userId: userId })
+        .then(result => {
+          // 记录新的用户信息
+          this.$store.dispatch('user/getUserInfo', result.data)
+          this.$router.replace({ path: '/home' })
+        })
+        .catch(failResponse => {
+          errorInfo(failResponse)
+        })
     }
   }
 }

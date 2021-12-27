@@ -41,4 +41,12 @@ public interface UserService {
      * @param user 实例对象
      */
     void updateAllByKey(User user);
+    
+    /**
+     * <p>Title: selectUserInfoByUserId</p>
+     * <p>Description: 通过用户编号查询用户信息</p>
+     * @param userId 用户编号
+     * @return com.example.entity.User
+     */
+    User selectUserInfoByUserId(String userId);
 }

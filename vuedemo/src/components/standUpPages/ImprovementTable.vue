@@ -43,10 +43,12 @@
           <el-tag>{{ scope.row.priority }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column property="itemDescription" label="说明" width="400">
+      <el-table-column property="itemDescription" label="说明" min-width="400">
       </el-table-column>
-      <el-table-column property="measure" label="改进措施"> </el-table-column>
-      <el-table-column property="remark" label="备注"> </el-table-column>
+      <el-table-column property="measure" label="改进措施" min-width="200">
+      </el-table-column>
+      <el-table-column property="remark" label="备注" min-width="100">
+      </el-table-column>
       <el-table-column
         property="creationTime"
         :sortable="true"

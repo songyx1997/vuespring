@@ -1,5 +1,5 @@
 const getters = {
-  sidebar: state => state.sidebar.sidebar,
+  openFlag: state => state.sidebar.openFlag,
   userInfo: state => state.user.userInfo
 }
 export default getters

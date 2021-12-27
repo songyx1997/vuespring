@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-table :data="tableData" :max-height="400" highlight-current-row>
-      <el-table-column property="time" :sortable="true" label="日志创建时间">
+      <el-table-column property="time" :sortable="true" label="日志创建时间" min-width="160">
       </el-table-column>
       <el-table-column property="lottery" label="抽奖人" width="100">
       </el-table-column>

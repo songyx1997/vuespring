@@ -82,7 +82,7 @@ export default {
       )
     },
     isCollapse () {
-      var openFlag = this.$store.state.sidebar.openFlag
+      let openFlag = this.$store.getters.openFlag
       $(function () {
         if (openFlag) {
           $('div.index-left').css('width', '210px')
@@ -92,7 +92,7 @@ export default {
           $('span.scroll-text').css('display', 'none')
         }
       })
-      return !this.$store.state.sidebar.openFlag
+      return !this.$store.getters.openFlag
     }
   },
   methods: {

@@ -52,9 +52,9 @@
 <script>
 import { successInfo } from '@/utils/message'
 export default {
-  data () {
-    return {
-      avatar: this.$store.getters.userInfo.userName.charAt(0).toUpperCase()
+  computed: {
+    avatar () {
+      return this.$store.getters.userInfo.userName.charAt(0).toUpperCase()
     }
   },
   methods: {

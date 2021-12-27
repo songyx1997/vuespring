@@ -29,7 +29,7 @@ router.beforeEach((to, from, next) => {
   NProgress.start()
   // 路由是否需要拦截
   if (to.meta.requireAuth) {
-    if (store.getters.userInfo.userId) {
+    if (store.getters.userInfo) {
       next()
     } else {
       // 重定向至登录和注册页面

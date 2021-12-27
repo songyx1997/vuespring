@@ -7,11 +7,17 @@ package com.example.enums;
  * @date 2021/10/7
  */
 public enum WebExceptionEnum {
-
+    /**
+     * 通用异常
+     */
     WEB_DEMO_000000("000000", "%s"),
-
+    /**
+     * 新增数据异常
+     */
     WEB_DEMO_000001("000001", "新增%s数据出现异常"),
-
+    /**
+     * 更新数据异常
+     */
     WEB_DEMO_000002("000002", "更新%s数据出现异常");
 
     private String code;

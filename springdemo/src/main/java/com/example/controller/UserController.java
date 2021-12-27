@@ -1,11 +1,9 @@
 package com.example.controller;
 
-import com.example.entity.Group;
 import com.example.entity.InfoMessage;
 import com.example.entity.User;
 import com.example.enums.WebExceptionEnum;
 import com.example.exception.WebException;
-import com.example.service.GroupService;
 import com.example.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -37,8 +35,6 @@ public class UserController {
 
     @Resource
     private UserService userService;
-    @Resource
-    private GroupService groupService;
 
     /**
      * <p>Title: login</p>
@@ -66,7 +62,7 @@ public class UserController {
                 userService.updateAllByKey(user);
                 LOG.info("返回登陆用户信息");
                 user.setUserPassword(null);
-                Map<String, Object> paraMap = new HashMap<>();
+                Map<String, Object> paraMap = new HashMap<>(1);
                 paraMap.put("user", user);
                 infoMessage.setParaMap(paraMap);
             }
@@ -110,7 +106,7 @@ public class UserController {
         }
         infoMessage.setReturnCode(InfoMessage.SUCCESS);
         infoMessage.setReturnMessage("注册成功！");
-        Map<String, Object> paraMap = new HashMap<>();
+        Map<String, Object> paraMap = new HashMap<>(1);
         LOG.info("返回注册用户信息");
         registerUser.setUserPassword(null);
         paraMap.put("user", registerUser);
@@ -160,17 +156,23 @@ public class UserController {
         return userService.selectUserInfoByUserId(user.getUserId());
     }
 
+    /**
+     * <p>Title: editUserInfo</p>
+     * <p>Description: 更新个人信息</p>
+     * @param user 待修改用户
+     * @return com.example.entity.InfoMessage
+     */
     @CrossOrigin
     @PostMapping(value = "/editUserInfo")
     public InfoMessage editUserInfo(@RequestBody User user) {
         String phone = StringUtils.isEmpty(user.getUserPhone()) ? user.getUserPhone() : user.getUserPhone().trim();
         LOG.info("更新个人信息，用户编号为{}，用户名为{}，小组编号为{}，手机号为{}，邮箱为{}", user.getUserId(), user.getUserName(),
-                user.getGroupId(), user.getUserPhone(), user.getUserEmail());
+                user.getGroupId(), phone, user.getUserEmail());
         try {
             userService.updateAllByKey(user);
             LOG.info("返回更新后的用户信息");
             User newUser = userService.selectUserInfoByUserId(user.getUserId());
-            Map<String, Object> paraMap = new HashMap<>();
+            Map<String, Object> paraMap = new HashMap<>(1);
             paraMap.put("user", newUser);
             infoMessage.setParaMap(paraMap);
         } catch (WebException e) {

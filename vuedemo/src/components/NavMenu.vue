@@ -1,28 +1,39 @@
 <template>
-  <div class="nav-menu">
-    <div class="nav-zoom" @click="zoomClick">
-      <i class="el-icon-s-fold" style="cursor: pointer;"></i>
+  <div>
+    <div class="nav-menu">
+      <div class="nav-zoom" @click="zoomClick">
+        <i class="el-icon-s-unfold" style="cursor: pointer;"></i>
+      </div>
+      <div class="nav-breadcrumb">
+        <el-breadcrumb separator="/">
+          <el-breadcrumb-item>
+            <a @click="homeClick">首页</a>
+          </el-breadcrumb-item>
+          <el-breadcrumb-item>
+            <a>{{ initBreadCrumbName() }}</a>
+          </el-breadcrumb-item>
+        </el-breadcrumb>
+      </div>
+      <div class="nav-avatar-container">
+        <el-dropdown size="medium" @command="handleCommand">
+          <el-avatar :size="40" shape="square"
+            ><span class="nav-avatar-img">{{ avatar }}</span></el-avatar
+          >
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item command="signOut">退出登录</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+      </div>
     </div>
-    <div class="nav-breadcrumb">
-      <el-breadcrumb separator="/">
-        <el-breadcrumb-item>
-          <a @click="homeClick">首页</a>
-        </el-breadcrumb-item>
-        <el-breadcrumb-item>
-          <a>{{ initBreadCrumbName() }}</a>
-        </el-breadcrumb-item>
-      </el-breadcrumb>
-    </div>
-    <div class="nav-avatar-container">
-      <el-dropdown size="medium" @command="handleCommand">
-        <el-avatar :size="40" shape="square"
-          ><span class="nav-avatar-img">{{ avatar }}</span></el-avatar
-        >
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item command="signOut">退出登录</el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
-    </div>
+    <el-drawer
+      direction="ltr"
+      size="210px"
+      :visible.sync="drawer"
+      :show-close="false"
+      :with-header="false"
+    >
+      <scroll-menu></scroll-menu>
+    </el-drawer>
   </div>
 </template>
 <style scoped>
@@ -51,7 +62,16 @@
 </style>
 <script>
 import { successInfo } from '@/utils/message'
+import ScrollMenu from './ScrollMenu.vue'
 export default {
+  data () {
+    return {
+      drawer: false
+    }
+  },
+  components: {
+    ScrollMenu
+  },
   computed: {
     avatar () {
       return this.$store.getters.userInfo.userName.charAt(0).toUpperCase()
@@ -59,7 +79,11 @@ export default {
   },
   methods: {
     zoomClick () {
-      this.$store.dispatch('sidebar/reverseSideBar')
+      let device = this.$store.getters.device
+      if (device === 'mobile') {
+        // 手机端侧边栏显示为抽屉
+        this.drawer = true
+      }
     },
     initBreadCrumbName () {
       return this.$route.meta.name

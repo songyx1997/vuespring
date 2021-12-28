@@ -33,13 +33,6 @@
 .index-main {
   padding: 20px;
 }
-@media screen and (max-width: 992px) {
-  .index-left {
-    flex-shrink: 0;
-    width: 65px;
-    height: inherit;
-  }
-}
 /* 切换动画 */
 .fade-leave-active,
 .fade-enter-active {

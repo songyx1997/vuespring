@@ -30,7 +30,7 @@
 <style scoped>
 .scroll-overall {
   background-color: var(--grey);
-  width: inherit;
+  width: 210px;
   height: 100%;
   position: fixed;
   top: 0;
@@ -82,17 +82,15 @@ export default {
       )
     },
     isCollapse () {
-      let openFlag = this.$store.getters.openFlag
+      var openFlag = this.$store.getters.openFlag
       $(function () {
         if (openFlag) {
-          $('div.index-left').css('width', '210px')
-          $('span.scroll-text').css('display', 'inline')
+          $('div.index-left').css('display', 'block')
         } else {
-          $('div.index-left').css('width', '65px')
-          $('span.scroll-text').css('display', 'none')
+          $('div.index-left').css('display', 'none')
         }
       })
-      return !this.$store.getters.openFlag
+      return false
     }
   },
   methods: {

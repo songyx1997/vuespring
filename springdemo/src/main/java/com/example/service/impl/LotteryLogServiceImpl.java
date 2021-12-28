@@ -6,6 +6,7 @@ import com.example.enums.NumberEnum;
 import com.example.enums.WebExceptionEnum;
 import com.example.exception.WebException;
 import com.example.service.LotteryLogService;
+import com.example.utils.DateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -41,7 +42,8 @@ public class LotteryLogServiceImpl implements LotteryLogService {
     @Override
     public void insert(LotteryLog lotteryLog) {
         lotteryLog.setLotteryStyle(NumberEnum.LOTTERY_LOG_LOTTERY_STYLE_0.getNumber());
-        LOG.info("初始化创建时间");
+        LOG.info("初始化主键、创建时间");
+        lotteryLog.setId(DateUtil.getCurrentTimeStr(DateUtil.FULL_PRIMARY_KEY_TIME));
         lotteryLog.setCreationTime(new Date());
         int updateNum = lotteryLogDao.insert(lotteryLog);
         if (updateNum != 1) {

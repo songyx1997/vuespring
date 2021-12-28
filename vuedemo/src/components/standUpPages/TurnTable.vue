@@ -25,7 +25,7 @@
 }
 </style>
 <script>
-import { confirmInfo, errorInfo, successInfo } from '@/utils/message'
+import { successInfo, errorInfo, cancelInfo } from '@/utils/message'
 export default {
   created () {
     this.init()
@@ -71,7 +71,10 @@ export default {
         .then(result => {
           this.loading = false
           if (result.data.returnCode === 'SUCCESS') {
-            if (result.data.paraMap.userNames.length <= 1) {
+            if (
+              result.data.paraMap.userNames == null ||
+              result.data.paraMap.userNames.length <= 1
+            ) {
               this.showFlag = false
             } else {
               this.prizes = this.initPrizes(result.data.paraMap.userNames)
@@ -108,28 +111,33 @@ export default {
       }, 3000)
     },
     endCallback (prize) {
-      confirmInfo(
-        '恭喜中奖人：' + prize.fonts[0].text + '！！请确认是否记录结果？',
-        'success',
-        this.insert(this.$store.getters.userInfo.userId, prize.id)
+      this.$confirm(
+        '已抽中：' + prize.fonts[0].text + '，是否记录该结果？',
+        '提示',
+        {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'success'
+        }
       )
-    },
-    insert (lotteryUserId, winnerUserId) {
-      this.$axios
-        .post('/lotteryLog/add', {
-          lotteryUserId: lotteryUserId,
-          winnerUserId: winnerUserId
+        .then(() => {
+          this.$axios
+            .post('/lotteryLog/add', {
+              lotteryUserId: this.$store.getters.userInfo.userId,
+              winnerUserId: prize.id
+            })
+            .then(result => {
+              if (result.data.returnCode === 'SUCCESS') {
+                successInfo(result.data.returnMessage)
+              } else {
+                errorInfo(result.data.returnMessage)
+              }
+            })
+            .catch(failResponse => {
+              errorInfo(failResponse)
+            })
         })
-        .then(result => {
-          if (result.data.returnCode === 'SUCCESS') {
-            successInfo(result.data.returnMessage)
-          } else {
-            errorInfo(result.data.returnMessage)
-          }
-        })
-        .catch(failResponse => {
-          errorInfo(failResponse)
-        })
+        .catch(() => cancelInfo('已取消'))
     }
   }
 }

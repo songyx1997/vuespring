@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,7 +38,7 @@ public class LotteryLogController {
      */
     @CrossOrigin
     @PostMapping(value = "/add")
-    public InfoMessage add(LotteryLog lotteryLog) {
+    public InfoMessage add(@RequestBody LotteryLog lotteryLog) {
         LOG.info("新增抽奖结果，抽奖人为{}，中奖人为{}", lotteryLog.getLotteryUserName(), lotteryLog.getWinnerUserName());
         try {
             lotteryLogService.insert(lotteryLog);
@@ -48,7 +49,7 @@ public class LotteryLogController {
             return infoMessage;
         }
         infoMessage.setReturnCode(InfoMessage.SUCCESS);
-        infoMessage.setReturnMessage("恭喜中奖人：" + lotteryLog.getWinnerUserName() + "！！");
+        infoMessage.setReturnMessage("新增记录成功！");
         return infoMessage;
     }
 }

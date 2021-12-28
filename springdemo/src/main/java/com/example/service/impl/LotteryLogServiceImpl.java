@@ -1,0 +1,59 @@
+package com.example.service.impl;
+
+import com.example.dao.LotteryLogDao;
+import com.example.entity.LotteryLog;
+import com.example.enums.NumberEnum;
+import com.example.enums.WebExceptionEnum;
+import com.example.exception.WebException;
+import com.example.service.LotteryLogService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.Date;
+import java.util.List;
+
+/**
+ * <p>Title: LotteryLogServiceImpl</p>
+ * <p>Description: 抽奖日志(LotteryLog)表服务实现类</p>
+ * @author songyx
+ * @date 2021/12/28
+ */
+@Service("lotteryLogService")
+public class LotteryLogServiceImpl implements LotteryLogService {
+
+    private static final Logger LOG = LoggerFactory.getLogger(LotteryLogServiceImpl.class);
+
+    @Resource
+    private LotteryLogDao lotteryLogDao;
+
+    @Override
+    public LotteryLog queryById(String id) {
+        return lotteryLogDao.queryById(id);
+    }
+
+    @Override
+    public List<LotteryLog> queryAll(LotteryLog lotteryLog) {
+        return lotteryLogDao.queryAll(lotteryLog);
+    }
+
+    @Override
+    public void insert(LotteryLog lotteryLog) {
+        lotteryLog.setLotteryStyle(NumberEnum.LOTTERY_LOG_LOTTERY_STYLE_0.getNumber());
+        LOG.info("初始化创建时间");
+        lotteryLog.setCreationTime(new Date());
+        int updateNum = lotteryLogDao.insert(lotteryLog);
+        if (updateNum != 1) {
+            throw new WebException(WebExceptionEnum.WEB_DEMO_000001, "抽奖日志表");
+        }
+    }
+
+    @Override
+    public void deleteById(String id) {
+        int deleteNum = lotteryLogDao.deleteById(id);
+        if (deleteNum != 1) {
+            throw new WebException(WebExceptionEnum.WEB_DEMO_000003, "抽奖日志表");
+        }
+    }
+}

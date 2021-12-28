@@ -73,7 +73,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<String> getUserNamesByUserId(String userId) {
+    public List<User> getUserNamesByUserId(String userId) {
         User currentUser = userDao.queryById(userId);
         String groupId = currentUser.getGroupId();
         if (StringUtils.isNotBlank(groupId)) {

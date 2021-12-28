@@ -1,10 +1,10 @@
 <template>
-  <div class="table-panel" v-loading="loading">
+  <div v-if="showFlag" class="table-panel" v-loading="loading">
     <LuckyWheel
       ref="tableId"
       width="360px"
       height="360px"
-      style="margin: 0 auto"
+      style="margin: 20px auto"
       :blocks="blocks"
       :prizes="prizes"
       :buttons="buttons"
@@ -14,15 +14,18 @@
       @end="endCallback"
     />
   </div>
+  <div v-else class="table-panel">
+    <el-empty description="未查询到小组成员"></el-empty>
+  </div>
 </template>
 <style scoped>
 .table-panel {
   overflow: auto;
-  padding: 20px 0;
+  height: 400px;
 }
 </style>
 <script>
-import { errorInfo } from '@/utils/message'
+import { confirmInfo, errorInfo, successInfo } from '@/utils/message'
 export default {
   created () {
     this.init()
@@ -30,6 +33,7 @@ export default {
   data () {
     return {
       loading: false,
+      showFlag: false,
       // 转盘配置项
       blocks: [{ padding: '3px', background: '#409eff' }],
       buttons: [
@@ -67,7 +71,12 @@ export default {
         .then(result => {
           this.loading = false
           if (result.data.returnCode === 'SUCCESS') {
-            this.prizes = this.initPrizes(result.data.paraMap.userNames)
+            if (result.data.paraMap.userNames.length <= 1) {
+              this.showFlag = false
+            } else {
+              this.prizes = this.initPrizes(result.data.paraMap.userNames)
+              this.showFlag = true
+            }
           } else {
             errorInfo(result.data.returnMessage)
           }
@@ -83,7 +92,8 @@ export default {
       for (let index = 0; index < userNames.length; index++) {
         prizes.push({
           name: index,
-          fonts: [{ text: userNames[index], top: '10px' }]
+          id: userNames[index].userId,
+          fonts: [{ text: userNames[index].userName, top: '10px' }]
         })
       }
       return prizes
@@ -91,16 +101,35 @@ export default {
     startCallback () {
       // 调用组件的play方法启动转盘
       this.$refs.tableId.play()
-      // 异步抽奖
       setTimeout(() => {
-        // 假设后端返回的中奖索引是0
-        const index = 0
+        let index = Math.round(Math.random() * (this.prizes.length - 1))
         // 调用stop停止旋转
         this.$refs.tableId.stop(index)
       }, 3000)
     },
     endCallback (prize) {
-      alert(prize.fonts[0].text)
+      confirmInfo(
+        '恭喜中奖人：' + prize.fonts[0].text + '！！请确认是否记录结果？',
+        'success',
+        this.insert(this.$store.getters.userInfo.userId, prize.id)
+      )
+    },
+    insert (lotteryUserId, winnerUserId) {
+      this.$axios
+        .post('/lotteryLog/add', {
+          lotteryUserId: lotteryUserId,
+          winnerUserId: winnerUserId
+        })
+        .then(result => {
+          if (result.data.returnCode === 'SUCCESS') {
+            successInfo(result.data.returnMessage)
+          } else {
+            errorInfo(result.data.returnMessage)
+          }
+        })
+        .catch(failResponse => {
+          errorInfo(failResponse)
+        })
     }
   }
 }

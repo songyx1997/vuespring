@@ -23,9 +23,17 @@ public class LotteryLog implements Serializable {
     */
     private String lotteryUserId;
     /**
+     * 抽奖人用户名
+     */
+    private String lotteryUserName;
+    /**
     * 中奖人编号
     */
     private String winnerUserId;
+    /**
+     * 中奖人用户名
+     */
+    private String winnerUserName;
     /**
     * 备用字段
     */
@@ -106,5 +114,21 @@ public class LotteryLog implements Serializable {
 
     public void setCreationTime(Date creationTime) {
         this.creationTime = creationTime;
+    }
+
+    public String getLotteryUserName() {
+        return lotteryUserName;
+    }
+
+    public void setLotteryUserName(String lotteryUserName) {
+        this.lotteryUserName = lotteryUserName;
+    }
+
+    public String getWinnerUserName() {
+        return winnerUserName;
+    }
+
+    public void setWinnerUserName(String winnerUserName) {
+        this.winnerUserName = winnerUserName;
     }
 }

@@ -18,7 +18,11 @@ public enum WebExceptionEnum {
     /**
      * 更新数据异常
      */
-    WEB_DEMO_000002("000002", "更新%s数据出现异常");
+    WEB_DEMO_000002("000002", "更新%s数据出现异常"),
+    /**
+     * 删除数据异常
+     */
+    WEB_DEMO_000003("000003", "删除%s数据出现异常");
 
     private String code;
 

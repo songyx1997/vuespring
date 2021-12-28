@@ -70,3 +70,8 @@ body {
   /* 修改选择框 */
   width: 100%;
 }
+
+.el-empty {
+  /* 调整无数据信息显示 */
+  height: inherit;
+}

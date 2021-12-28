@@ -84,8 +84,9 @@
         ON u.GROUP_ID = g.GROUP_ID WHERE u.USER_ID = #{userId}
     </select>
 
-    <select id="getUserNamesByGroupId" resultType="string">
-        SELECT USER_NAME FROM `USER` u WHERE GROUP_ID = #{groupId}
+    <!--通过小组编号查询全部小组成员名-->
+    <select id="getUserNamesByGroupId" resultMap="BaseResultMap">
+        SELECT USER_ID,USER_NAME FROM `USER` u WHERE GROUP_ID = #{groupId}
     </select>
 
     <!--新增所有列-->

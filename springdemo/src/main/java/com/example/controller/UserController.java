@@ -197,7 +197,7 @@ public class UserController {
     public InfoMessage getUsers(@RequestBody User user) {
         LOG.info("查询小组成员，当前用户编号{}，用户名为{}", user.getUserId(), user.getUserName());
         try {
-            List<String> userNames = userService.getUserNamesByUserId(user.getUserId());
+            List<User> userNames = userService.getUserNamesByUserId(user.getUserId());
             Map<String, Object> paraMap = new HashMap<>(1);
             paraMap.put("userNames", userNames);
             infoMessage.setParaMap(paraMap);

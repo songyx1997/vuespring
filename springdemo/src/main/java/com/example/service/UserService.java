@@ -54,7 +54,7 @@ public interface UserService {
      * <p>Title: getUserNamesByUserId</p>
      * <p>Description: 通过用户编号查询全部小组成员名</p>
      * @param userId 用户编号
-     * @return java.util.List<java.lang.String>
+     * @return java.util.List<com.example.entity.User>
      */
-    List<String> getUserNamesByUserId(String userId);
+    List<User> getUserNamesByUserId(String userId);
 }

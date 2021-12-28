@@ -10,16 +10,25 @@
 </style>
 <script>
 export default {
-  beforeDestroy () {
-    window.removeEventListener('resize', this.init)
+  data () {
+    return {
+      lineChart: {}
+    }
+  },
+  created () {
+    this.$nextTick(() => {
+      this.init()
+    })
   },
   mounted () {
-    this.init()
-    window.addEventListener('resize', this.init)
+    let _this = this
+    window.onresize = function () {
+      _this.lineChart.resize()
+    }
   },
   methods: {
     init () {
-      let lineChart = this.$echarts.init(this.$refs.lineChart)
+      this.lineChart = this.$echarts.init(this.$refs.lineChart)
       let months = [
         '1月',
         '2月',
@@ -94,8 +103,7 @@ export default {
           }
         ]
       }
-      lineChart.setOption(option)
-      lineChart.resize()
+      this.lineChart.setOption(option)
     }
   }
 }

@@ -84,6 +84,10 @@
         ON u.GROUP_ID = g.GROUP_ID WHERE u.USER_ID = #{userId}
     </select>
 
+    <select id="getUserNamesByGroupId" resultType="string">
+        SELECT USER_NAME FROM `USER` u WHERE GROUP_ID = #{groupId}
+    </select>
+
     <!--新增所有列-->
     <insert id="insert" keyProperty="userId" useGeneratedKeys="true">
         insert into SCRUM.USER(USER_ID, USER_NAME, GROUP_ID, USER_PASSWORD, USER_PHONE, USER_EMAIL, USER_ROLE, LAST_LOGIN_TIME, EXT1, EXT2, EXT3, CREATION_TIME, UPDATE_TIME)

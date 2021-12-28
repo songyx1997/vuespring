@@ -185,4 +185,29 @@ public class UserController {
         infoMessage.setReturnMessage("修改个人信息成功！");
         return infoMessage;
     }
+
+    /**
+     * <p>Title: getUsers</p>
+     * <p>Description: 查询小组成员</p>
+     * @param user 用户(用户编号、用户名)
+     * @return com.example.entity.InfoMessage
+     */
+    @CrossOrigin
+    @PostMapping(value = "/getUsers")
+    public InfoMessage getUsers(@RequestBody User user) {
+        LOG.info("查询小组成员，当前用户编号{}，用户名为{}", user.getUserId(), user.getUserName());
+        try {
+            List<String> userNames = userService.getUserNamesByUserId(user.getUserId());
+            Map<String, Object> paraMap = new HashMap<>(1);
+            paraMap.put("userNames", userNames);
+            infoMessage.setParaMap(paraMap);
+        } catch (WebException e) {
+            LOG.error("查询小组成员出现异常！", e);
+            infoMessage.setReturnCode(InfoMessage.FAIL);
+            infoMessage.setReturnMessage(e.getMessage());
+            return infoMessage;
+        }
+        infoMessage.setReturnCode(InfoMessage.SUCCESS);
+        return infoMessage;
+    }
 }

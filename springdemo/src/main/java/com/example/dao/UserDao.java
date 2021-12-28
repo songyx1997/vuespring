@@ -50,4 +50,12 @@ public interface UserDao {
      * @return com.example.entity.User
      */
     User selectUserInfoByUserId(String userId);
+
+    /**
+     * <p>Title: getUserNamesByGroupId</p>
+     * <p>Description: 通过小组编号查询全部小组成员名</p>
+     * @param groupId 小组编号
+     * @return java.util.List<java.lang.String>
+     */
+    List<String> getUserNamesByGroupId(String groupId);
 }

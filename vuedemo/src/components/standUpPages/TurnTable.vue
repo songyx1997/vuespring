@@ -1,9 +1,10 @@
 <template>
-  <div class="table-panel">
+  <div class="table-panel" v-loading="loading">
     <LuckyWheel
       ref="tableId"
       width="360px"
       height="360px"
+      style="margin: 0 auto"
       :blocks="blocks"
       :prizes="prizes"
       :buttons="buttons"
@@ -18,13 +19,18 @@
 .table-panel {
   overflow: auto;
   padding: 20px 0;
-  text-align: -webkit-center;
 }
 </style>
 <script>
+import { errorInfo } from '@/utils/message'
 export default {
+  created () {
+    this.init()
+  },
   data () {
     return {
+      loading: false,
+      // 转盘配置项
       blocks: [{ padding: '3px', background: '#409eff' }],
       buttons: [
         { radius: '35px', background: '#409eff' },
@@ -44,28 +50,44 @@ export default {
         fontSize: '15px',
         fontColor: '#f56c6c',
         fontWeight: 700
-      }
-    }
-  },
-  computed: {
-    prizes () {
-      return [
-        {
-          name: '1',
-          fonts: [{ text: '刘大', top: '10px' }]
-        },
-        {
-          name: '2',
-          fonts: [{ text: '张三', top: '10px' }]
-        },
-        {
-          name: '3',
-          fonts: [{ text: '赵四', top: '10px' }]
-        }
-      ]
+      },
+      // 初始化转盘数据
+      prizes: []
     }
   },
   methods: {
+    // 加载转盘数据
+    init () {
+      this.loading = true
+      this.$axios
+        .post('/user/getUsers', {
+          userId: this.$store.getters.userInfo.userId,
+          userName: this.$store.getters.userInfo.userName
+        })
+        .then(result => {
+          this.loading = false
+          if (result.data.returnCode === 'SUCCESS') {
+            this.prizes = this.initPrizes(result.data.paraMap.userNames)
+          } else {
+            errorInfo(result.data.returnMessage)
+          }
+        })
+        .catch(failResponse => {
+          this.loading = false
+          errorInfo(failResponse)
+        })
+    },
+    // 格式化小组用户
+    initPrizes (userNames) {
+      let prizes = []
+      for (let index = 0; index < userNames.length; index++) {
+        prizes.push({
+          name: index,
+          fonts: [{ text: userNames[index], top: '10px' }]
+        })
+      }
+      return prizes
+    },
     startCallback () {
       // 调用组件的play方法启动转盘
       this.$refs.tableId.play()

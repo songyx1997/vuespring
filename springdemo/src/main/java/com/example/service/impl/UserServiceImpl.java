@@ -71,4 +71,17 @@ public class UserServiceImpl implements UserService {
     public User selectUserInfoByUserId(String userId) {
         return userDao.selectUserInfoByUserId(userId);
     }
+
+    @Override
+    public List<String> getUserNamesByUserId(String userId) {
+        User currentUser = userDao.queryById(userId);
+        String groupId = currentUser.getGroupId();
+        if (StringUtils.isNotBlank(groupId)) {
+            LOG.info("当前用户小组编号为{}", groupId);
+            return userDao.getUserNamesByGroupId(groupId);
+        } else {
+            LOG.info("通过用户编号查询全部小组成员名，当前用户小组编号为空");
+            return null;
+        }
+    }
 }

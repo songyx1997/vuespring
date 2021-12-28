@@ -49,4 +49,12 @@ public interface UserService {
      * @return com.example.entity.User
      */
     User selectUserInfoByUserId(String userId);
+
+    /**
+     * <p>Title: getUserNamesByUserId</p>
+     * <p>Description: 通过用户编号查询全部小组成员名</p>
+     * @param userId 用户编号
+     * @return java.util.List<java.lang.String>
+     */
+    List<String> getUserNamesByUserId(String userId);
 }

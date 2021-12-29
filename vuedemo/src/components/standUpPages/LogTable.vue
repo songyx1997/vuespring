@@ -36,7 +36,7 @@
         layout="prev, pager, next"
         :page-size="5"
         :total="total"
-        :current-page="pageNum"
+        :current-page.sync="pageNum"
         @current-change="handleCurrentChange"
       >
       </el-pagination>
@@ -64,7 +64,6 @@ export default {
     '$store.getters.monitorFlag': function () {
       let monitorFlag = this.$store.getters.monitorFlag
       if (monitorFlag) {
-        // TODO
         this.pageNum = 1
         this.search(0, 5)
       }
@@ -77,7 +76,8 @@ export default {
         .get('/lotteryLog/search', {
           params: {
             offset: offset,
-            limit: limit
+            limit: limit,
+            lotteryUserId: this.$store.getters.userInfo.userId
           }
         })
         .then(result => {

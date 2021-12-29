@@ -1,12 +1,14 @@
 package com.example.service.impl;
 
 import com.example.dao.LotteryLogDao;
+import com.example.dao.UserDao;
 import com.example.entity.LotteryLog;
 import com.example.enums.NumberEnum;
 import com.example.enums.WebExceptionEnum;
 import com.example.exception.WebException;
 import com.example.service.LotteryLogService;
 import com.example.utils.DateUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -29,6 +31,8 @@ public class LotteryLogServiceImpl implements LotteryLogService {
 
     @Resource
     private LotteryLogDao lotteryLogDao;
+    @Resource
+    private UserDao userDao;
 
     @Override
     public LotteryLog queryById(String id) {
@@ -36,12 +40,19 @@ public class LotteryLogServiceImpl implements LotteryLogService {
     }
 
     @Override
-    public Map<String, Object> queryAllByLimit(int offset, int limit) {
-        List<LotteryLog> list = lotteryLogDao.queryAllByLimit(offset, limit);
+    public Map<String, Object> queryAllByLimit(int offset, int limit, String lotteryUserId) {
+        String lotteryUserGroupId = userDao.queryById(lotteryUserId).getGroupId();
+        LOG.info("抽奖人当前小组编号为{}", lotteryUserGroupId);
+        Map<String, Object> resultMap = new HashMap<>(2);
+        if (StringUtils.isBlank(lotteryUserGroupId)) {
+            resultMap.put("total", 0);
+            resultMap.put("list", null);
+            return resultMap;
+        }
+        List<LotteryLog> list = lotteryLogDao.queryAllByLimit(offset, limit, lotteryUserGroupId);
         LOG.info("共查询到{}条抽奖日志", list.size());
         int total = lotteryLogDao.queryTotalNum();
         LOG.info("总共有{}条记录", total);
-        Map<String, Object> resultMap = new HashMap<>(2);
         resultMap.put("total", total);
         resultMap.put("list", list);
         return resultMap;

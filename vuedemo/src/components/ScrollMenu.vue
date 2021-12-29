@@ -12,8 +12,6 @@
         background-color="#e4e7ed"
         text-color="#000000"
         active-text-color="#409eff"
-        :collapse="isCollapse"
-        :collapse-transition="false"
       >
         <el-menu-item
           v-for="route in routes"
@@ -73,6 +71,16 @@ export default {
       logoUrl: logo
     }
   },
+  watch: {
+    '$store.getters.openFlag': function () {
+      let openFlag = this.$store.getters.openFlag
+      if (openFlag) {
+        $('div.index-left').css('display', 'block')
+      } else {
+        $('div.index-left').css('display', 'none')
+      }
+    }
+  },
   computed: {
     routes () {
       // 去除第一个元素
@@ -80,17 +88,6 @@ export default {
         1,
         this.$router.options.routes[1].children.length
       )
-    },
-    isCollapse () {
-      var openFlag = this.$store.getters.openFlag
-      $(function () {
-        if (openFlag) {
-          $('div.index-left').css('display', 'block')
-        } else {
-          $('div.index-left').css('display', 'none')
-        }
-      })
-      return false
     }
   },
   methods: {

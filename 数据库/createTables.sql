@@ -35,6 +35,7 @@ CREATE TABLE `LOTTERY_LOG` (
   `ID` varchar(20) NOT NULL COMMENT '无意义主键',
   `LOTTERY_STYLE` char(1) DEFAULT NULL COMMENT '抽奖方式(0-turntable)',
   `LOTTERY_USER_ID` varchar(20) DEFAULT NULL COMMENT '抽奖人编号',
+  `LOTTERY_USER_GROUP_ID` varchar(20) NOT NULL COMMENT '抽奖人当前小组编号',
   `WINNER_USER_ID` varchar(20) DEFAULT NULL COMMENT '中奖人编号',
   `EXT1` varchar(60) DEFAULT NULL COMMENT '备用字段',
   `EXT2` varchar(60) DEFAULT NULL COMMENT '备用字段',

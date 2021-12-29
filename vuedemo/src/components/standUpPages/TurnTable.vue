@@ -128,6 +128,7 @@ export default {
           this.$axios
             .post('/lotteryLog/add', {
               lotteryUserId: this.$store.getters.userInfo.userId,
+              lotteryUserGroupId: this.$store.getters.userInfo.groupId,
               winnerUserId: prize.id
             })
             .then(result => {

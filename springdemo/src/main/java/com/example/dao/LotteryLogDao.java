@@ -26,9 +26,11 @@ public interface LotteryLogDao {
      * <p>Description: 查询指定行数据</p>
      * @param offset 查询起始位置
      * @param limit 查询条数
+     * @param lotteryUserGroupId 抽奖人当前小组编号
      * @return java.util.List<com.example.entity.LotteryLog>
      */
-    List<LotteryLog> queryAllByLimit(@Param("offset") int offset, @Param("limit") int limit);
+    List<LotteryLog> queryAllByLimit(@Param("offset") int offset, @Param("limit") int limit,
+                                     @Param("lotteryUserGroupId") String lotteryUserGroupId);
 
     /**
      * <p>Title: queryTotalNum</p>

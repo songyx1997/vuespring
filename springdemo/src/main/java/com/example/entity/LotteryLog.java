@@ -22,6 +22,10 @@ public class LotteryLog implements Serializable {
     */
     private String lotteryUserId;
     /**
+     * 抽奖人当前小组编号
+     */
+    private String lotteryUserGroupId;
+    /**
      * 抽奖人用户名
      */
     private String lotteryUserName;
@@ -72,6 +76,14 @@ public class LotteryLog implements Serializable {
 
     public void setLotteryUserId(String lotteryUserId) {
         this.lotteryUserId = lotteryUserId;
+    }
+
+    public String getLotteryUserGroupId() {
+        return lotteryUserGroupId;
+    }
+
+    public void setLotteryUserGroupId(String lotteryUserGroupId) {
+        this.lotteryUserGroupId = lotteryUserGroupId;
     }
 
     public String getWinnerUserId() {

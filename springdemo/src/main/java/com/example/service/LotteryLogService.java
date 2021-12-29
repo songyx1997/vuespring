@@ -26,9 +26,10 @@ public interface LotteryLogService {
      * <p>Description: 查询指定行数据</p>
      * @param offset 查询起始位置
      * @param limit 查询条数
+     * @param lotteryUserId 抽奖人编号
      * @return java.util.Map<java.lang.String,java.lang.Object>
      */
-    Map<String, Object> queryAllByLimit(int offset, int limit);
+    Map<String, Object> queryAllByLimit(int offset, int limit, String lotteryUserId);
 
     /**
      * <p>Title: queryAll</p>

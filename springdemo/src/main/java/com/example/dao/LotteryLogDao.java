@@ -1,6 +1,7 @@
 package com.example.dao;
 
 import com.example.entity.LotteryLog;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -19,6 +20,22 @@ public interface LotteryLogDao {
      * @return com.example.entity.LotteryLog
      */
     LotteryLog queryById(String id);
+
+    /**
+     * <p>Title: queryAllByLimit</p>
+     * <p>Description: 查询指定行数据</p>
+     * @param offset 查询起始位置
+     * @param limit 查询条数
+     * @return java.util.List<com.example.entity.LotteryLog>
+     */
+    List<LotteryLog> queryAllByLimit(@Param("offset") int offset, @Param("limit") int limit);
+
+    /**
+     * <p>Title: queryTotalNum</p>
+     * <p>Description: 查询日志总数</p>
+     * @return int
+     */
+    int queryTotalNum();
 
     /**
      * <p>Title: queryAll</p>

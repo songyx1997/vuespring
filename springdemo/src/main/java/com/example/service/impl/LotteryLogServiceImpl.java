@@ -13,7 +13,9 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>Title: LotteryLogServiceImpl</p>
@@ -32,6 +34,18 @@ public class LotteryLogServiceImpl implements LotteryLogService {
     @Override
     public LotteryLog queryById(String id) {
         return lotteryLogDao.queryById(id);
+    }
+
+    @Override
+    public Map<String, Object> queryAllByLimit(int offset, int limit) {
+        List<LotteryLog> list = lotteryLogDao.queryAllByLimit(offset, limit);
+        LOG.info("共查询到{}条抽奖日志", list.size());
+        int total = lotteryLogDao.queryTotalNum();
+        LOG.info("总共有{}条记录", total);
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("total", total);
+        resultMap.put("list", list);
+        return resultMap;
     }
 
     @Override

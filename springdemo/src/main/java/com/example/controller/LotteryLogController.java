@@ -7,12 +7,15 @@ import com.example.service.LotteryLogService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.Map;
 
 /**
  * <p>Title: LotteryLogController</p>
@@ -30,6 +33,20 @@ public class LotteryLogController {
     @Resource
     private LotteryLogService lotteryLogService;
 
+    /**
+     * <p>Title: search</p>
+     * <p>Description: 查询</p>
+     * @param offset 查询起始位置
+     * @param limit 查询条数
+     * @return java.util.List<com.example.entity.LotteryLog>
+     */
+    @CrossOrigin
+    @GetMapping(value = "/search")
+    public Map<String, Object> search(@RequestParam("offset") int offset, @RequestParam("limit") int limit) {
+        LOG.info("查询抽奖结果，查询起始位置{}，查询条数{}", offset, limit);
+        return lotteryLogService.queryAllByLimit(offset, limit);
+    }
+    
     /**
      * <p>Title: add</p>
      * <p>Description: 新增抽奖结果</p>

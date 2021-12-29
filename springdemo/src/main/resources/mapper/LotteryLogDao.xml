@@ -7,7 +7,9 @@
         <result property="id" column="ID" jdbcType="VARCHAR"/>
         <result property="lotteryStyle" column="LOTTERY_STYLE" jdbcType="VARCHAR"/>
         <result property="lotteryUserId" column="LOTTERY_USER_ID" jdbcType="VARCHAR"/>
+        <result property="lotteryUserName" column="LOTTERY_USER_NAME" jdbcType="VARCHAR"/>
         <result property="winnerUserId" column="WINNER_USER_ID" jdbcType="VARCHAR"/>
+        <result property="winnerUserName" column="WINNER_USER_NAME" jdbcType="VARCHAR"/>
         <result property="ext1" column="EXT1" jdbcType="VARCHAR"/>
         <result property="ext2" column="EXT2" jdbcType="VARCHAR"/>
         <result property="ext3" column="EXT3" jdbcType="VARCHAR"/>
@@ -20,6 +22,20 @@
           ID, LOTTERY_STYLE, LOTTERY_USER_ID, WINNER_USER_ID, EXT1, EXT2, EXT3, CREATION_TIME
         from SCRUM.LOTTERY_LOG
         where ID = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="BaseResultMap">
+        SELECT ll.ID,ll.LOTTERY_STYLE,ll.LOTTERY_USER_ID,u1.USER_NAME AS LOTTERY_USER_NAME,ll.WINNER_USER_ID,u2.USER_NAME AS WINNER_USER_NAME,ll.EXT1,ll. EXT2,ll.EXT3,ll.CREATION_TIME
+        FROM `LOTTERY_LOG` ll
+        LEFT JOIN `USER` u1 ON ll.LOTTERY_USER_ID = u1.USER_ID
+        LEFT JOIN `USER` u2 ON ll.WINNER_USER_ID = u2.USER_ID
+        ORDER BY ll.CREATION_TIME DESC,ll.ID DESC LIMIT #{offset},#{limit}
+    </select>
+
+    <!--查询日志总数-->
+    <select id="queryTotalNum" resultType="int">
+        SELECT COUNT(*) FROM `LOTTERY_LOG`
     </select>
 
     <!--通过实体作为筛选条件查询-->

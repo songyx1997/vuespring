@@ -30,7 +30,7 @@ body {
 
 .el-loading-mask {
   /* 加载页面背景透明 */
-  opacity: 0.5;
+  opacity: 0.7;
 }
 
 .el-avatar {
@@ -74,4 +74,18 @@ body {
 .el-empty {
   /* 调整无数据信息显示 */
   height: inherit;
+}
+
+.el-pagination {
+  /* 分页属性 */
+  text-align: right;
+  padding: 0;
+  margin: 20px -5px 0 0;
+}
+
+.el-table--fit {
+  /* 表格边框 */
+  border-top: 1px solid var(--grey);
+  border-right: 1px solid var(--grey);
+  border-left: 1px solid var(--grey);
 }

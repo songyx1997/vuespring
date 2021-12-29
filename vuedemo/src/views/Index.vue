@@ -31,7 +31,7 @@
   height: 50px;
 }
 .index-main {
-  padding: 20px;
+  padding: 15px 20px 20px 20px;
 }
 /* 切换动画 */
 .fade-leave-active,

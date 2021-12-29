@@ -3,6 +3,7 @@ package com.example.service;
 import com.example.entity.LotteryLog;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>Title: LotteryLogService</p>
@@ -19,6 +20,15 @@ public interface LotteryLogService {
      * @return com.example.entity.LotteryLog
      */
     LotteryLog queryById(String id);
+
+    /**
+     * <p>Title: queryAllByLimit</p>
+     * <p>Description: 查询指定行数据</p>
+     * @param offset 查询起始位置
+     * @param limit 查询条数
+     * @return java.util.Map<java.lang.String,java.lang.Object>
+     */
+    Map<String, Object> queryAllByLimit(int offset, int limit);
 
     /**
      * <p>Title: queryAll</p>

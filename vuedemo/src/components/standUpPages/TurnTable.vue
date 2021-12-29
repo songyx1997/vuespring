@@ -1,5 +1,5 @@
 <template>
-  <div v-if="showFlag" class="table-panel" v-loading="loading">
+  <div v-if="showFlag" class="table-panel">
     <LuckyWheel
       ref="tableId"
       width="360px"
@@ -14,7 +14,7 @@
       @end="endCallback"
     />
   </div>
-  <div v-else class="table-panel">
+  <div v-else class="table-panel" v-loading="loading">
     <el-empty description="未查询到小组成员"></el-empty>
   </div>
 </template>

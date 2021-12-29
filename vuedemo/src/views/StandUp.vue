@@ -10,24 +10,17 @@
         <line-chart></line-chart>
       </div>
     </el-col>
-    <el-col :xs="24" :sm="24">
-      <el-tabs v-model="activeName" type="border-card">
-        <el-tab-pane name="improvement">
-          <span slot="label"><i class="el-icon-view"></i>&nbsp;改进项</span>
-          <improvement-table></improvement-table>
-        </el-tab-pane>
-        <el-tab-pane name="log">
-          <span slot="label"><i class="el-icon-tickets"></i>&nbsp;日志</span>
-          <log-table></log-table>
-        </el-tab-pane>
-      </el-tabs>
+    <el-col :xs="24" :sm="24" style="padding-top: 20px;">
+      <improvement-table></improvement-table>
+    </el-col>
+    <el-col :xs="24" :sm="24" style="padding-top: 20px;">
+      <log-table></log-table>
     </el-col>
   </el-row>
 </template>
 <style scoped>
 .standup-chart {
   background: white;
-  margin-bottom: 20px;
 }
 </style>
 <script>
@@ -41,11 +34,6 @@ export default {
     LineChart,
     LogTable,
     ImprovementTable
-  },
-  data () {
-    return {
-      activeName: 'improvement'
-    }
   }
 }
 </script>

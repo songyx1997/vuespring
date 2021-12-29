@@ -104,6 +104,8 @@ export default {
       return prizes
     },
     startCallback () {
+      // 清除监听状态
+      this.$store.dispatch('monitor/endMonitor')
       // 调用组件的play方法启动转盘
       this.$refs.tableId.play()
       setTimeout(() => {
@@ -130,6 +132,8 @@ export default {
             })
             .then(result => {
               if (result.data.returnCode === 'SUCCESS') {
+                // 记录监听状态
+                this.$store.dispatch('monitor/startMonitor')
                 successInfo(result.data.returnMessage)
               } else {
                 errorInfo(result.data.returnMessage)

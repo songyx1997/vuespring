@@ -60,6 +60,16 @@ export default {
       tableData: []
     }
   },
+  watch: {
+    '$store.getters.monitorFlag': function () {
+      let monitorFlag = this.$store.getters.monitorFlag
+      if (monitorFlag) {
+        // TODO
+        this.pageNum = 1
+        this.search(0, 5)
+      }
+    }
+  },
   methods: {
     search (offset, limit) {
       this.loading = true

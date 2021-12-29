@@ -77,4 +77,27 @@ public class LotteryLogController {
         infoMessage.setReturnMessage("新增记录成功！");
         return infoMessage;
     }
+
+    /**
+     * <p>Title: delete</p>
+     * <p>Description: 删除</p>
+     * @param id 无意义主键
+     * @return com.example.entity.InfoMessage
+     */
+    @CrossOrigin
+    @GetMapping(value = "/delete")
+    public InfoMessage delete(@RequestParam("id") String id) {
+        LOG.info("待删除抽奖结果主键为{}", id);
+        try {
+            lotteryLogService.deleteById(id);
+        } catch (WebException e) {
+            LOG.error("删除抽奖结果出现异常！", e);
+            infoMessage.setReturnCode(InfoMessage.FAIL);
+            infoMessage.setReturnMessage(e.getMessage());
+            return infoMessage;
+        }
+        infoMessage.setReturnCode(InfoMessage.SUCCESS);
+        infoMessage.setReturnMessage("删除记录成功！");
+        return infoMessage;
+    }
 }

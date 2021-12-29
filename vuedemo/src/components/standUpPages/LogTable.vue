@@ -15,20 +15,16 @@
         <el-table-column property="winnerUserName" label="中奖人" width="100">
         </el-table-column>
         <el-table-column width="75">
-          <el-popconfirm
-            icon="el-icon-info"
-            icon-color="red"
-            title="确定删除所选的日志吗？"
-          >
+          <template slot-scope="scope">
             <el-button
-              slot="reference"
               type="danger"
               icon="el-icon-delete"
+              @click="deleteById(scope.row.id)"
               size="mini"
               round
               plain
             ></el-button>
-          </el-popconfirm>
+          </template>
         </el-table-column>
       </el-table>
       <el-pagination
@@ -45,7 +41,7 @@
 </template>
 <style scoped></style>
 <script>
-import { errorInfo } from '@/utils/message'
+import { successInfo, errorInfo, cancelInfo } from '@/utils/message'
 export default {
   created () {
     // 初始化查询第一页
@@ -94,6 +90,33 @@ export default {
       // 清空上一页数据
       this.tableData = []
       this.search((val - 1) * 5, 5)
+    },
+    deleteById (id) {
+      this.$confirm('确定删除所选的日志吗？', '删除确认', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(() => {
+          this.loading = true
+          this.$axios
+            .get('/lotteryLog/delete', { params: { id: id } })
+            .then(result => {
+              if (result.data.returnCode === 'SUCCESS') {
+                successInfo(result.data.returnMessage)
+                this.pageNum = 1
+                this.search(0, 5)
+                this.loading = false
+              } else {
+                errorInfo(result.data.returnMessage)
+              }
+            })
+            .catch(failResponse => {
+              this.loading = false
+              errorInfo(failResponse)
+            })
+        })
+        .catch(() => cancelInfo('已取消'))
     }
   }
 }

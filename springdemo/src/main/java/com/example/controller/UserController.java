@@ -9,9 +9,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -146,14 +148,14 @@ public class UserController {
     /**
      * <p>Title: selectUserInfo</p>
      * <p>Description: 查询用户信息</p>
-     * @param user 用户(用户编号)
+     * @param userId 用户编号
      * @return com.example.entity.User
      */
     @CrossOrigin
-    @PostMapping(value = "/selectUserInfo")
-    public User selectUserInfo(@RequestBody User user) {
-        LOG.info("查询用户信息，用户编号为{}", user.getUserId());
-        return userService.selectUserInfoByUserId(user.getUserId());
+    @GetMapping(value = "/selectUserInfo")
+    public User selectUserInfo(@RequestParam("userId") String userId) {
+        LOG.info("查询用户信息，用户编号为{}", userId);
+        return userService.selectUserInfoByUserId(userId);
     }
 
     /**
@@ -189,15 +191,16 @@ public class UserController {
     /**
      * <p>Title: getUsers</p>
      * <p>Description: 查询小组成员</p>
-     * @param user 用户(用户编号、用户名)
+     * @param userId 用户编号
+     * @param userName 用户名
      * @return com.example.entity.InfoMessage
      */
     @CrossOrigin
-    @PostMapping(value = "/getUsers")
-    public InfoMessage getUsers(@RequestBody User user) {
-        LOG.info("查询小组成员，当前用户编号{}，用户名为{}", user.getUserId(), user.getUserName());
+    @GetMapping(value = "/getUsers")
+    public InfoMessage getUsers(@RequestParam("userId") String userId, @RequestParam("userName") String userName) {
+        LOG.info("查询小组成员，当前用户编号{}，用户名为{}", userId, userName);
         try {
-            List<User> userNames = userService.getUserNamesByUserId(user.getUserId());
+            List<User> userNames = userService.getUserNamesByUserId(userId);
             Map<String, Object> paraMap = new HashMap<>(1);
             paraMap.put("userNames", userNames);
             infoMessage.setParaMap(paraMap);

@@ -22,7 +22,7 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public Group queryById(String groupId) {
-        return this.groupDao.queryById(groupId);
+        return groupDao.queryById(groupId);
     }
 
     @Override
@@ -32,13 +32,13 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public Group insert(Group group) {
-        this.groupDao.insert(group);
+        groupDao.insert(group);
         return group;
     }
 
     @Override
     public Group update(Group group) {
-        this.groupDao.update(group);
-        return this.queryById(group.getGroupId());
+        groupDao.update(group);
+        return queryById(group.getGroupId());
     }
 }

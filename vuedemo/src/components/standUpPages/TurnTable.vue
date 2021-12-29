@@ -64,9 +64,11 @@ export default {
     init () {
       this.loading = true
       this.$axios
-        .post('/user/getUsers', {
-          userId: this.$store.getters.userInfo.userId,
-          userName: this.$store.getters.userInfo.userName
+        .get('/user/getUsers', {
+          params: {
+            userId: this.$store.getters.userInfo.userId,
+            userName: this.$store.getters.userInfo.userName
+          }
         })
         .then(result => {
           this.loading = false

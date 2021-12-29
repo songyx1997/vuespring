@@ -218,7 +218,11 @@ export default {
     // 查询用户信息（通过用户编号）
     selectUserInfo (userId) {
       this.$axios
-        .post('/user/selectUserInfo', { userId: userId })
+        .get('/user/selectUserInfo', {
+          params: {
+            userId: userId
+          }
+        })
         .then(result => {
           // 记录新的用户信息
           this.$store.dispatch('user/getUserInfo', result.data)

@@ -2,7 +2,7 @@
   <el-tabs v-model="activeName" type="border-card">
     <el-tab-pane name="log">
       <span slot="label"><i class="el-icon-tickets"></i>&nbsp;日志</span>
-      <el-table :data="tableData" highlight-current-row  v-loading="loading">
+      <el-table :data="tableData" highlight-current-row v-loading="loading">
         <el-table-column
           property="creationTime"
           :sortable="true"

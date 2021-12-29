@@ -42,7 +42,7 @@ public class LotteryLogServiceImpl implements LotteryLogService {
         LOG.info("共查询到{}条抽奖日志", list.size());
         int total = lotteryLogDao.queryTotalNum();
         LOG.info("总共有{}条记录", total);
-        Map<String, Object> resultMap = new HashMap<>();
+        Map<String, Object> resultMap = new HashMap<>(2);
         resultMap.put("total", total);
         resultMap.put("list", list);
         return resultMap;

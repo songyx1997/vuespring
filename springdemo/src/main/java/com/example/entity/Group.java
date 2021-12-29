@@ -1,6 +1,5 @@
 package com.example.entity;
 
-import java.util.Date;
 import java.io.Serializable;
 
 /**
@@ -33,11 +32,11 @@ public class Group implements Serializable {
     /**
     * 创建时间
     */
-    private Date creationTime;
+    private String creationTime;
     /**
     * 更新时间
     */
-    private Date updateTime;
+    private String updateTime;
 
     public String getGroupId() {
         return groupId;
@@ -79,19 +78,19 @@ public class Group implements Serializable {
         this.ext3 = ext3;
     }
 
-    public Date getCreationTime() {
+    public String getCreationTime() {
         return creationTime;
     }
 
-    public void setCreationTime(Date creationTime) {
+    public void setCreationTime(String creationTime) {
         this.creationTime = creationTime;
     }
 
-    public Date getUpdateTime() {
+    public String getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(Date updateTime) {
+    public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
     }
 }

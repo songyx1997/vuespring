@@ -5,6 +5,7 @@ import com.example.entity.User;
 import com.example.enums.WebExceptionEnum;
 import com.example.exception.WebException;
 import com.example.service.UserService;
+import com.example.utils.DateUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -60,7 +60,7 @@ public class UserController {
             } else {
                 LOG.info("记录登陆时间，更新入库");
                 User user = users.isEmpty() ? anoUsers.get(0) : users.get(0);
-                user.setLastLoginTime(new Date());
+                user.setLastLoginTime(DateUtil.getCurrentTimeStr(DateUtil.FULL_STANDARD_TIME));
                 userService.updateAllByKey(user);
                 LOG.info("返回登陆用户信息");
                 user.setUserPassword(null);

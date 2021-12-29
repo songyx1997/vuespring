@@ -71,11 +71,6 @@ export default {
           }
         })
         .then(result => {
-          if (result.data.total === 0) {
-            this.total = 0
-            this.tableData = []
-            return
-          }
           this.total = result.data.total
           this.tableData = result.data.list
           this.loading = false

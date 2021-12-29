@@ -1,6 +1,5 @@
 package com.example.entity;
 
-import java.util.Date;
 import java.io.Serializable;
 
 /**
@@ -45,7 +44,7 @@ public class User implements Serializable {
     /**
     * 最后登录时间
     */
-    private Date lastLoginTime;
+    private String lastLoginTime;
     /**
     * 备用字段
     */
@@ -61,11 +60,11 @@ public class User implements Serializable {
     /**
     * 创建时间
     */
-    private Date creationTime;
+    private String creationTime;
     /**
     * 更新时间
     */
-    private Date updateTime;
+    private String updateTime;
     
     public String getUserId() {
         return userId;
@@ -131,11 +130,11 @@ public class User implements Serializable {
         this.userRole = userRole;
     }
 
-    public Date getLastLoginTime() {
+    public String getLastLoginTime() {
         return lastLoginTime;
     }
 
-    public void setLastLoginTime(Date lastLoginTime) {
+    public void setLastLoginTime(String lastLoginTime) {
         this.lastLoginTime = lastLoginTime;
     }
 
@@ -163,19 +162,19 @@ public class User implements Serializable {
         this.ext3 = ext3;
     }
 
-    public Date getCreationTime() {
+    public String getCreationTime() {
         return creationTime;
     }
 
-    public void setCreationTime(Date creationTime) {
+    public void setCreationTime(String creationTime) {
         this.creationTime = creationTime;
     }
 
-    public Date getUpdateTime() {
+    public String getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(Date updateTime) {
+    public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
     }
 }

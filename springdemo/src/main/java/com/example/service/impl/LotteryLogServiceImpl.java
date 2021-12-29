@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,7 +57,7 @@ public class LotteryLogServiceImpl implements LotteryLogService {
         lotteryLog.setLotteryStyle(NumberEnum.LOTTERY_LOG_LOTTERY_STYLE_0.getNumber());
         LOG.info("初始化主键、创建时间");
         lotteryLog.setId(DateUtil.getCurrentTimeStr(DateUtil.FULL_PRIMARY_KEY_TIME));
-        lotteryLog.setCreationTime(new Date());
+        lotteryLog.setCreationTime(DateUtil.getCurrentTimeStr(DateUtil.FULL_STANDARD_TIME));
         int updateNum = lotteryLogDao.insert(lotteryLog);
         if (updateNum != 1) {
             throw new WebException(WebExceptionEnum.WEB_DEMO_000001, "抽奖日志表");

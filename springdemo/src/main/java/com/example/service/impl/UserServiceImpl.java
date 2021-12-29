@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -47,7 +46,7 @@ public class UserServiceImpl implements UserService {
         user.setUserRole(NumberEnum.USER_USER_ROLE_1.getNumber());
         user.setGroupId(StringUtils.EMPTY);
         user.setUserPhone(StringUtils.EMPTY);
-        Date currentTime = new Date();
+        String currentTime = DateUtil.getCurrentTimeStr(DateUtil.FULL_STANDARD_TIME);
         user.setCreationTime(currentTime);
         user.setLastLoginTime(currentTime);
         user.setUpdateTime(currentTime);
@@ -60,7 +59,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateAllByKey(User user) {
         LOG.info("更新修改时间");
-        user.setUpdateTime(new Date());
+        user.setUpdateTime(DateUtil.getCurrentTimeStr(DateUtil.FULL_STANDARD_TIME));
         int updateNum = userDao.updateAllByKey(user);
         if (updateNum != 1) {
             throw new WebException(WebExceptionEnum.WEB_DEMO_000002, "用户表");

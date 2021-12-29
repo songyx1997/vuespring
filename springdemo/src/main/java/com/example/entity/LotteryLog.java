@@ -1,6 +1,5 @@
 package com.example.entity;
 
-import java.util.Date;
 import java.io.Serializable;
 
 /**
@@ -49,8 +48,7 @@ public class LotteryLog implements Serializable {
     /**
     * 创建时间
     */
-    private Date creationTime;
-
+    private String creationTime;
 
     public String getId() {
         return id;
@@ -108,11 +106,11 @@ public class LotteryLog implements Serializable {
         this.ext3 = ext3;
     }
 
-    public Date getCreationTime() {
+    public String getCreationTime() {
         return creationTime;
     }
 
-    public void setCreationTime(Date creationTime) {
+    public void setCreationTime(String creationTime) {
         this.creationTime = creationTime;
     }
 

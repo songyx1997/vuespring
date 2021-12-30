@@ -92,6 +92,7 @@ export default {
       this.search((val - 1) * 5, 5)
     },
     deleteById (id) {
+      this.$store.dispatch('monitor/endMonitor')
       this.$confirm('确定删除所选的日志吗？', '删除确认', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -108,7 +109,7 @@ export default {
                 this.pageNum = 1
                 this.search(0, 5)
                 // 记录监听状态
-                this.$store.dispatch('monitor/startDelete')
+                this.$store.dispatch('monitor/startMonitor')
               } else {
                 errorInfo(result.data.returnMessage)
               }

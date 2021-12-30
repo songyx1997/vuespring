@@ -31,7 +31,7 @@
 .line-chart-panel {
   width: 95%;
   margin: 0 auto;
-  height: 328px;
+  height: 381px;
 }
 </style>
 <script>
@@ -54,7 +54,7 @@ export default {
   created () {
     this.$nextTick(() => {
       this.init()
-      this.getHistogramData(10)
+      this.getHistogramData(50)
     })
   },
   mounted () {
@@ -64,16 +64,10 @@ export default {
     }
   },
   watch: {
-    '$store.getters.deleteFlag': function () {
-      let deleteFlag = this.$store.getters.deleteFlag
-      if (deleteFlag) {
-        this.getHistogramData(10)
-      }
-    },
     '$store.getters.monitorFlag': function () {
       let monitorFlag = this.$store.getters.monitorFlag
       if (monitorFlag) {
-        this.getHistogramData(10)
+        this.getHistogramData(50)
       }
     }
   },
@@ -94,6 +88,7 @@ export default {
             type: 'category',
             axisTick: { show: false },
             splitLine: { show: true },
+            axisLine: { show: false },
             data: []
           }
         ],
@@ -113,6 +108,8 @@ export default {
               fontWeight: 500,
               color: '#868890'
             },
+            // 柱子宽度
+            barWidth: 20,
             data: []
           }
         ]
@@ -162,20 +159,16 @@ export default {
     },
     // 获取图表指定颜色
     getColorByIndex (index) {
-      index = index % 12
+      index = index % 8
       let colors = [
-        '#f59311',
-        '#fa4343',
-        '#16afcc',
-        '#85c021',
-        '#d12a6a',
-        '#0e72cc',
-        '#6ca30f',
-        '#f59311',
-        '#fa4343',
-        '#16afcc',
-        '#6ca30f',
-        '#0e72cc'
+        '#00b1ed',
+        '#f56c6c',
+        '#e6a23c',
+        '#fde000',
+        '#67c23a',
+        '#409eff',
+        '#c1242a',
+        '#800080'
       ]
       return colors[index]
     }

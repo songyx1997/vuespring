@@ -2,9 +2,9 @@
   <div v-if="showFlag" class="table-panel">
     <LuckyWheel
       ref="tableId"
-      width="360px"
-      height="360px"
-      style="margin: 20px auto"
+      width="390px"
+      height="390px"
+      style="margin: 30px auto"
       :blocks="blocks"
       :prizes="prizes"
       :buttons="buttons"
@@ -21,7 +21,7 @@
 <style scoped>
 .table-panel {
   overflow: auto;
-  height: 400px;
+  height: 450px;
 }
 </style>
 <script>

@@ -52,4 +52,13 @@ public interface LotteryLogService {
      * @param id 主键
      */
     void deleteById(String id);
+
+    /**
+     * <p>Title: getHistogramData</p>
+     * <p>Description: 统计中奖人次数</p>
+     * @param limit 查询总次数
+     * @param lotteryUserId 抽奖人编号
+     * @return java.util.Map<java.lang.String,java.lang.Integer>
+     */
+    Map<String, Integer> getHistogramData(int limit, String lotteryUserId);
 }

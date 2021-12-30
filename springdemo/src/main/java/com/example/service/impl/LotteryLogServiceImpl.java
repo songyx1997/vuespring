@@ -82,4 +82,26 @@ public class LotteryLogServiceImpl implements LotteryLogService {
             throw new WebException(WebExceptionEnum.WEB_DEMO_000003, "抽奖日志表");
         }
     }
+
+    @Override
+    public Map<String, Integer> getHistogramData(int limit, String lotteryUserId) {
+        String lotteryUserGroupId = userDao.queryById(lotteryUserId).getGroupId();
+        LOG.info("抽奖人当前小组编号为{}", lotteryUserGroupId);
+        Map<String, Integer> resultMap = new HashMap<>(2);
+        if (StringUtils.isBlank(lotteryUserGroupId)) {
+            return resultMap;
+        }
+        List<LotteryLog> list = lotteryLogDao.queryAllByLimit(0, limit, lotteryUserGroupId);
+        for (LotteryLog lotteryLog : list) {
+            String winnerUserName = lotteryLog.getWinnerUserName();
+            if (resultMap.get(winnerUserName) == null) {
+                int num = 1;
+                resultMap.put(winnerUserName, num);
+            } else {
+                int num = resultMap.get(winnerUserName) + 1;
+                resultMap.replace(winnerUserName, num);
+            }
+        }
+        return resultMap;
+    }
 }

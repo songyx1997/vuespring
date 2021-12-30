@@ -100,4 +100,18 @@ public class LotteryLogController {
         infoMessage.setReturnMessage("删除记录成功！");
         return infoMessage;
     }
+
+    /**
+     * <p>Title: getHistogramData</p>
+     * <p>Description: 统计中奖人次数</p>
+     * @param limit 查询总次数
+     * @param lotteryUserId 抽奖人编号
+     * @return java.util.Map<java.lang.String,java.lang.Integer>
+     */
+    @CrossOrigin
+    @GetMapping(value = "/getHistogramData")
+    public Map<String, Integer> getHistogramData(@RequestParam("limit") int limit, @RequestParam("lotteryUserId") String lotteryUserId) {
+        LOG.info("统计中奖人次数，查询总次数{}，抽奖人编号{}", limit, lotteryUserId);
+        return lotteryLogService.getHistogramData(limit, lotteryUserId);
+    }
 }

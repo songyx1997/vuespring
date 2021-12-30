@@ -102,11 +102,13 @@ export default {
           this.$axios
             .get('/lotteryLog/delete', { params: { id: id } })
             .then(result => {
+              this.loading = false
               if (result.data.returnCode === 'SUCCESS') {
                 successInfo(result.data.returnMessage)
                 this.pageNum = 1
                 this.search(0, 5)
-                this.loading = false
+                // 记录监听状态
+                this.$store.dispatch('monitor/startDelete')
               } else {
                 errorInfo(result.data.returnMessage)
               }

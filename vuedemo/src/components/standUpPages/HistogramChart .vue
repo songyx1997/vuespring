@@ -36,17 +36,16 @@
 </style>
 <script>
 import { errorInfo } from '@/utils/message'
-import { randomHex } from '@/utils/random'
 export default {
   data () {
     return {
       activeName: 'histogram',
       items: [
+        { value: 10, text: '10次' },
+        { value: 50, text: '50次' },
         { value: 100, text: '100次' },
         { value: 200, text: '200次' },
-        { value: 300, text: '300次' },
-        { value: 400, text: '400次' },
-        { value: 500, text: '500次' }
+        { value: 400, text: '400次' }
       ],
       histogram: {},
       loading: false
@@ -55,13 +54,27 @@ export default {
   created () {
     this.$nextTick(() => {
       this.init()
-      this.getHistogramData(100)
+      this.getHistogramData(10)
     })
   },
   mounted () {
     let _this = this
     window.onresize = function () {
       _this.histogram.resize()
+    }
+  },
+  watch: {
+    '$store.getters.deleteFlag': function () {
+      let deleteFlag = this.$store.getters.deleteFlag
+      if (deleteFlag) {
+        this.getHistogramData(10)
+      }
+    },
+    '$store.getters.monitorFlag': function () {
+      let monitorFlag = this.$store.getters.monitorFlag
+      if (monitorFlag) {
+        this.getHistogramData(10)
+      }
     }
   },
   methods: {
@@ -107,7 +120,7 @@ export default {
       this.histogram.setOption(option)
     },
     handleCommand (command) {
-      console.log(command)
+      this.getHistogramData(command)
     },
     // 统计中奖人次数
     getHistogramData (limit) {
@@ -132,15 +145,39 @@ export default {
     formatData (data) {
       let userNames = []
       let times = []
-      for (let index in data) {
-        userNames.push(index)
-        times.push({ value: data[index], itemStyle: { color: randomHex() } })
+      let index = 0
+      for (let userName in data) {
+        userNames.push(userName)
+        times.push({
+          value: data[userName],
+          itemStyle: { color: this.getColorByIndex(index) }
+        })
+        index++
       }
       // 加载数据
       let option = this.histogram.getOption()
       option.xAxis[0].data = userNames
       option.series[0].data = times
       this.histogram.setOption(option, true)
+    },
+    // 获取图表指定颜色
+    getColorByIndex (index) {
+      index = index % 12
+      let colors = [
+        '#f59311',
+        '#fa4343',
+        '#16afcc',
+        '#85c021',
+        '#d12a6a',
+        '#0e72cc',
+        '#6ca30f',
+        '#f59311',
+        '#fa4343',
+        '#16afcc',
+        '#6ca30f',
+        '#0e72cc'
+      ]
+      return colors[index]
     }
   }
 }

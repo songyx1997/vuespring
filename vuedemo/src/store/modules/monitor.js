@@ -1,6 +1,8 @@
 const state = {
-  // 用于同步页面上的数据
-  monitorFlag: false
+  // 确定时同步数据
+  monitorFlag: false,
+  // 删除时同步数据
+  deleteFlag: false
 }
 
 const mutations = {
@@ -9,6 +11,12 @@ const mutations = {
   },
   END_MONITOR (state) {
     state.monitorFlag = false
+  },
+  START_DELETE (state) {
+    state.deleteFlag = true
+  },
+  END_DELETE (state) {
+    state.deleteFlag = false
   }
 }
 
@@ -18,6 +26,12 @@ const actions = {
   },
   endMonitor ({ commit }) {
     commit('END_MONITOR')
+  },
+  startDelete ({ commit }) {
+    commit('START_DELETE')
+  },
+  endDelete ({ commit }) {
+    commit('END_DELETE')
   }
 }
 

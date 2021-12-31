@@ -10,10 +10,10 @@
         <histogram-chart></histogram-chart>
       </div>
     </el-col>
-    <el-col :xs="24" :sm="24" style="padding-top: 20px;">
+    <el-col :xs="24" :sm="24">
       <log-table></log-table>
     </el-col>
-    <el-col :xs="24" :sm="24" style="padding-top: 20px;">
+    <el-col :xs="24" :sm="24">
       <improvement-table></improvement-table>
     </el-col>
   </el-row>

@@ -20,7 +20,12 @@
           </el-dropdown-menu>
         </el-dropdown>
       </span>
-      <div ref="histogram" class="line-chart-panel" v-loading="loading"></div>
+      <div v-if="showFlag" v-loading="loading1">
+        <div class="line-chart-panel" ref="histogram"></div>
+      </div>
+      <div v-else class="line-chart-panel" v-loading="loading2">
+        <el-empty description="未查询到统计数据"></el-empty>
+      </div>
     </el-tab-pane>
   </el-tabs>
 </template>
@@ -47,20 +52,24 @@ export default {
         { value: 200, text: '200次' },
         { value: 400, text: '400次' }
       ],
+      loading1: false,
+      loading2: false,
+      showFlag: false,
+      // 初始化图表数据
       histogram: {},
-      loading: false
+      userNames: [],
+      times: []
     }
   },
   created () {
-    this.$nextTick(() => {
-      this.init()
-      this.getHistogramData(50)
-    })
+    this.getHistogramData(50)
   },
   mounted () {
     let _this = this
     window.onresize = function () {
-      _this.histogram.resize()
+      if (_this.showFlag) {
+        _this.histogram.resize()
+      }
     }
   },
   watch: {
@@ -89,7 +98,7 @@ export default {
             axisTick: { show: false },
             splitLine: { show: true },
             axisLine: { show: false },
-            data: []
+            data: this.userNames
           }
         ],
         yAxis: [
@@ -110,7 +119,7 @@ export default {
             },
             // 柱子宽度
             barWidth: 20,
-            data: []
+            data: this.times
           }
         ]
       }
@@ -121,7 +130,8 @@ export default {
     },
     // 统计中奖人次数
     getHistogramData (limit) {
-      this.loading = true
+      this.loading1 = true
+      this.loading2 = true
       this.$axios
         .get('/lotteryLog/getHistogramData', {
           params: {
@@ -130,11 +140,32 @@ export default {
           }
         })
         .then(result => {
-          this.formatData(result.data)
-          this.loading = false
+          let formatedData = this.formatData(result.data)
+          this.userNames = formatedData.userNames
+          this.times = formatedData.times
+          if (this.showFlag && formatedData.count !== 0) {
+            // 已有柱形图
+            this.refresh(formatedData)
+          } else if (this.showFlag && formatedData.count === 0) {
+            // 数据被清空
+            this.showFlag = false
+            this.histogram.dispose()
+          } else if (!this.showFlag && formatedData.count !== 0) {
+            // 初始化柱形图
+            this.showFlag = true
+            this.$nextTick(() => {
+              this.init()
+            })
+          } else {
+            // 初始化无数据
+            this.showFlag = false
+          }
+          this.loading1 = false
+          this.loading2 = false
         })
         .catch(failResponse => {
-          this.loading = false
+          this.loading1 = false
+          this.loading2 = false
           errorInfo(failResponse)
         })
     },
@@ -151,10 +182,17 @@ export default {
         })
         index++
       }
+      return {
+        times: times,
+        userNames: userNames,
+        count: index
+      }
+    },
+    refresh (formatedData) {
       // 加载数据
       let option = this.histogram.getOption()
-      option.xAxis[0].data = userNames
-      option.series[0].data = times
+      option.xAxis[0].data = formatedData.userNames
+      option.series[0].data = formatedData.times
       this.histogram.setOption(option, true)
     },
     // 获取图表指定颜色

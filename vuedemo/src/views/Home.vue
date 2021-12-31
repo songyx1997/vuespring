@@ -1,6 +1,6 @@
 <template>
   <el-row :gutter="20">
-    <el-col style="padding-bottom:20px" :xs="24" :sm="24" :lg="6">
+    <el-col :xs="24" :sm="24" :lg="6">
       <user-info-card></user-info-card>
     </el-col>
     <el-col :xs="24" :sm="24" :lg="18">

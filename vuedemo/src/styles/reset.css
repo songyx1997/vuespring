@@ -89,3 +89,8 @@ body {
   border-right: 1px solid var(--grey);
   border-left: 1px solid var(--grey);
 }
+
+.el-col {
+  /* 布局时每行添加下边距离 */
+  padding-bottom: 20px;
+}

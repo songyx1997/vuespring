@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dao.StandUpItemRecordDao">
+
+    <resultMap id="BaseResultMap" type="com.example.entity.StandUpItemRecord">
+        <!--@Table STAND_UP_ITEM_RECORD-->
+        <result property="id" column="ID" jdbcType="VARCHAR"/>
+        <result property="currentUserGroupId" column="CURRENT_USER_GROUP_ID" jdbcType="VARCHAR"/>
+        <result property="proposerUserId" column="PROPOSER_USER_ID" jdbcType="VARCHAR"/>
+        <result property="principalUserId" column="PRINCIPAL_USER_ID" jdbcType="VARCHAR"/>
+        <result property="itemStyle" column="ITEM_STYLE" jdbcType="VARCHAR"/>
+        <result property="itemDescription" column="ITEM_DESCRIPTION" jdbcType="VARCHAR"/>
+        <result property="measure" column="MEASURE" jdbcType="VARCHAR"/>
+        <result property="state" column="STATE" jdbcType="VARCHAR"/>
+        <result property="priority" column="PRIORITY" jdbcType="VARCHAR"/>
+        <result property="remark" column="REMARK" jdbcType="VARCHAR"/>
+        <result property="ext1" column="EXT1" jdbcType="VARCHAR"/>
+        <result property="ext2" column="EXT2" jdbcType="VARCHAR"/>
+        <result property="ext3" column="EXT3" jdbcType="VARCHAR"/>
+        <result property="creationTime" column="CREATION_TIME" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="UPDATE_TIME" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="BaseResultMap">
+        select
+          ID, CURRENT_USER_GROUP_ID, PROPOSER_USER_ID, PRINCIPAL_USER_ID, ITEM_STYLE, ITEM_DESCRIPTION, MEASURE, STATE, PRIORITY, REMARK, EXT1, EXT2, EXT3, CREATION_TIME, UPDATE_TIME
+        from SCRUM.STAND_UP_ITEM_RECORD
+        where ID = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="BaseResultMap">
+        select
+          ID, CURRENT_USER_GROUP_ID, PROPOSER_USER_ID, PRINCIPAL_USER_ID, ITEM_STYLE, ITEM_DESCRIPTION, MEASURE, STATE, PRIORITY, REMARK, EXT1, EXT2, EXT3, CREATION_TIME, UPDATE_TIME
+        from SCRUM.STAND_UP_ITEM_RECORD
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="BaseResultMap">
+        select
+          ID, CURRENT_USER_GROUP_ID, PROPOSER_USER_ID, PRINCIPAL_USER_ID, ITEM_STYLE, ITEM_DESCRIPTION, MEASURE, STATE, PRIORITY, REMARK, EXT1, EXT2, EXT3, CREATION_TIME, UPDATE_TIME
+        from SCRUM.STAND_UP_ITEM_RECORD
+        <where>
+            <if test="id != null and id != ''">
+                and ID = #{id}
+            </if>
+            <if test="currentUserGroupId != null and currentUserGroupId != ''">
+                and CURRENT_USER_GROUP_ID = #{currentUserGroupId}
+            </if>
+            <if test="proposerUserId != null and proposerUserId != ''">
+                and PROPOSER_USER_ID = #{proposerUserId}
+            </if>
+            <if test="principalUserId != null and principalUserId != ''">
+                and PRINCIPAL_USER_ID = #{principalUserId}
+            </if>
+            <if test="itemStyle != null and itemStyle != ''">
+                and ITEM_STYLE = #{itemStyle}
+            </if>
+            <if test="itemDescription != null and itemDescription != ''">
+                and ITEM_DESCRIPTION = #{itemDescription}
+            </if>
+            <if test="measure != null and measure != ''">
+                and MEASURE = #{measure}
+            </if>
+            <if test="state != null and state != ''">
+                and STATE = #{state}
+            </if>
+            <if test="priority != null and priority != ''">
+                and PRIORITY = #{priority}
+            </if>
+            <if test="remark != null and remark != ''">
+                and REMARK = #{remark}
+            </if>
+            <if test="ext1 != null and ext1 != ''">
+                and EXT1 = #{ext1}
+            </if>
+            <if test="ext2 != null and ext2 != ''">
+                and EXT2 = #{ext2}
+            </if>
+            <if test="ext3 != null and ext3 != ''">
+                and EXT3 = #{ext3}
+            </if>
+            <if test="creationTime != null">
+                and CREATION_TIME = #{creationTime}
+            </if>
+            <if test="updateTime != null">
+                and UPDATE_TIME = #{updateTime}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into SCRUM.STAND_UP_ITEM_RECORD(CURRENT_USER_GROUP_ID, PROPOSER_USER_ID, PRINCIPAL_USER_ID, ITEM_STYLE, ITEM_DESCRIPTION, MEASURE, STATE, PRIORITY, REMARK, EXT1, EXT2, EXT3, CREATION_TIME, UPDATE_TIME)
+        values (#{currentUserGroupId}, #{proposerUserId}, #{principalUserId}, #{itemStyle}, #{itemDescription}, #{measure}, #{state}, #{priority}, #{remark}, #{ext1}, #{ext2}, #{ext3}, #{creationTime}, #{updateTime})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update SCRUM.STAND_UP_ITEM_RECORD
+        <set>
+            <if test="currentUserGroupId != null and currentUserGroupId != ''">
+                CURRENT_USER_GROUP_ID = #{currentUserGroupId},
+            </if>
+            <if test="proposerUserId != null and proposerUserId != ''">
+                PROPOSER_USER_ID = #{proposerUserId},
+            </if>
+            <if test="principalUserId != null and principalUserId != ''">
+                PRINCIPAL_USER_ID = #{principalUserId},
+            </if>
+            <if test="itemStyle != null and itemStyle != ''">
+                ITEM_STYLE = #{itemStyle},
+            </if>
+            <if test="itemDescription != null and itemDescription != ''">
+                ITEM_DESCRIPTION = #{itemDescription},
+            </if>
+            <if test="measure != null and measure != ''">
+                MEASURE = #{measure},
+            </if>
+            <if test="state != null and state != ''">
+                STATE = #{state},
+            </if>
+            <if test="priority != null and priority != ''">
+                PRIORITY = #{priority},
+            </if>
+            <if test="remark != null and remark != ''">
+                REMARK = #{remark},
+            </if>
+            <if test="ext1 != null and ext1 != ''">
+                EXT1 = #{ext1},
+            </if>
+            <if test="ext2 != null and ext2 != ''">
+                EXT2 = #{ext2},
+            </if>
+            <if test="ext3 != null and ext3 != ''">
+                EXT3 = #{ext3},
+            </if>
+            <if test="creationTime != null">
+                CREATION_TIME = #{creationTime},
+            </if>
+            <if test="updateTime != null">
+                UPDATE_TIME = #{updateTime},
+            </if>
+        </set>
+        where ID = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from SCRUM.STAND_UP_ITEM_RECORD where ID = #{id}
+    </delete>
+
+</mapper>

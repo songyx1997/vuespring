@@ -14,6 +14,10 @@ public class StandUpItemRecord implements Serializable {
     */
     private String id;
     /**
+    * 当前用户小组编号
+    */
+    private String currentUserGroupId;
+    /**
     * 提出人编号
     */
     private String proposerUserId;
@@ -72,6 +76,14 @@ public class StandUpItemRecord implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getCurrentUserGroupId() {
+        return currentUserGroupId;
+    }
+
+    public void setCurrentUserGroupId(String currentUserGroupId) {
+        this.currentUserGroupId = currentUserGroupId;
     }
 
     public String getProposerUserId() {

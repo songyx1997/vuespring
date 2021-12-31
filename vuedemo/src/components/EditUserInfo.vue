@@ -7,7 +7,6 @@
       circle
       plain
       @click="open"
-      v-loading.fullscreen.lock="fullscreenLoading"
     ></el-button>
     <el-dialog
       title="个人信息修改"
@@ -19,6 +18,7 @@
         :model="editForm"
         :rules="rules"
         label-width="0px"
+        v-loading="loading"
       >
         <el-form-item prop="userName">
           <el-input
@@ -67,7 +67,7 @@ export default {
   data () {
     return {
       // 初始化全屏加载
-      fullscreenLoading: false,
+      loading: false,
       // 初始化弹框不可见
       formVisible: false,
       editForm: {
@@ -89,12 +89,12 @@ export default {
   },
   methods: {
     open () {
-      this.fullscreenLoading = true
+      this.loading = true
       // 获取所有项目组
       this.$axios
         .get('/group/getAllGroups')
         .then(result => {
-          this.fullscreenLoading = false
+          this.loading = false
           let defaultGroup = {}
           defaultGroup.groupId = ''
           defaultGroup.groupName = '无'
@@ -104,7 +104,7 @@ export default {
           this.formVisible = true
         })
         .catch(failResponse => {
-          this.fullscreenLoading = false
+          this.loading = false
           errorInfo(failResponse)
         })
     },
@@ -112,7 +112,7 @@ export default {
       let _this = this
       this.$refs['editForm'].validate(valid => {
         if (valid) {
-          this.fullscreenLoading = true
+          this.loading = true
           this.$axios
             .post('/user/editUserInfo', {
               userId: this.$store.getters.userInfo.userId,
@@ -122,7 +122,7 @@ export default {
               userEmail: this.editForm.userEmail
             })
             .then(result => {
-              this.fullscreenLoading = false
+              this.loading = false
               if (result.data.returnCode === 'SUCCESS') {
                 // 记录新的用户信息
                 _this.$store.dispatch(
@@ -136,7 +136,7 @@ export default {
               }
             })
             .catch(failResponse => {
-              this.fullscreenLoading = false
+              this.loading = false
               errorInfo(failResponse)
             })
         }

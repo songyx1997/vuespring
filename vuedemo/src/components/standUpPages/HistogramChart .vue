@@ -36,7 +36,8 @@
 .line-chart-panel {
   width: 95%;
   margin: 0 auto;
-  height: 381px;
+  height: 378px;
+  border: 1.5px dashed var(--grey);
 }
 </style>
 <script>
@@ -86,26 +87,25 @@ export default {
       let option = {
         tooltip: {},
         grid: {
-          top: '6%',
+          top: '8%',
           left: '1%',
           right: '2%',
-          bottom: '1%',
+          bottom: '3%',
           containLabel: true
         },
         xAxis: [
           {
             type: 'category',
             axisTick: { show: false },
-            splitLine: { show: true },
+            splitLine: { show: false },
             axisLine: { show: false },
             data: this.userNames
           }
         ],
         yAxis: [
           {
-            type: 'value',
-            axisTick: { show: false },
-            splitLine: { show: true }
+            show: false,
+            type: 'value'
           }
         ],
         series: [

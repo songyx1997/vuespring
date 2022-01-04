@@ -12,6 +12,8 @@
         background-color="#e4e7ed"
         text-color="#000000"
         active-text-color="#409eff"
+        :default-active="activeMenu"
+        @select="handleSelect"
       >
         <el-menu-item
           v-for="route in routes"
@@ -67,7 +69,8 @@ import logo from '@/assets/logo.png'
 export default {
   data () {
     return {
-      logoUrl: logo
+      logoUrl: logo,
+      activeMenu: ''
     }
   },
   computed: {
@@ -81,10 +84,14 @@ export default {
   },
   methods: {
     imgClick () {
+      this.activeMenu = ''
       this.$router.push({
         path: this.$router.options.routes[1].children[0].path,
         replace: true
       })
+    },
+    handleSelect (keyPath) {
+      this.activeMenu = keyPath
     }
   }
 }

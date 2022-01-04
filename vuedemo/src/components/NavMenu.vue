@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="nav-menu">
-      <div class="nav-zoom" @click="zoomClick">
-        <i class="el-icon-s-unfold" style="cursor: pointer;"></i>
+      <div :style="navZoom" @click="zoomClick">
+        <i :class="zoomIcon"></i>
       </div>
       <div class="nav-breadcrumb">
         <el-breadcrumb separator="/">
@@ -44,10 +44,6 @@
   background: white;
   box-shadow: 0 1px 4px var(--grey);
 }
-.nav-zoom {
-  padding-left: 15px;
-  padding-right: 15px;
-}
 .nav-breadcrumb {
   flex: 1;
 }
@@ -66,7 +62,9 @@ import ScrollMenu from './ScrollMenu.vue'
 export default {
   data () {
     return {
-      drawer: false
+      drawer: false,
+      zoomIcon: 'el-icon-s-grid',
+      navZoom: { padding: '2px 8px 0 16px' }
     }
   },
   components: {
@@ -77,6 +75,19 @@ export default {
       return this.$store.getters.userInfo.userName.charAt(0).toUpperCase()
     }
   },
+  watch: {
+    '$store.getters.openFlag': function () {
+      let openFlag = this.$store.getters.openFlag
+      if (openFlag) {
+        this.zoomIcon = 'el-icon-s-grid'
+        this.navZoom = { padding: '2px 8px 0 16px' }
+      } else {
+        this.zoomIcon = 'el-icon-s-unfold'
+        this.navZoom = { padding: '2px 8px 0 10px', cursor: 'pointer' }
+      }
+    }
+  },
+
   methods: {
     zoomClick () {
       let device = this.$store.getters.device

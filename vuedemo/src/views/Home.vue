@@ -9,17 +9,13 @@
           <span slot="label"
             ><i class="el-icon-edit-outline"></i>&nbsp;CSS笔记</span
           >
-          <div class="home-notes">
-            <article class="markdown-body"><notes></notes></article>
-          </div>
+          <div class="markdown-body"><notes></notes></div>
         </el-tab-pane>
         <el-tab-pane name="vuenotes">
           <span slot="label"
             ><i class="el-icon-edit-outline"></i>&nbsp;VUE笔记</span
           >
-          <div class="home-notes">
-            <article class="markdown-body"><vue-notes></vue-notes></article>
-          </div>
+          <div class="markdown-body"><vue-notes></vue-notes></div>
         </el-tab-pane>
         <el-tab-pane name="editPassword">
           <span slot="label"><i class="el-icon-lock"></i>&nbsp;修改密码</span>
@@ -29,11 +25,6 @@
     </el-col>
   </el-row>
 </template>
-<style scoped>
-.home-notes {
-  text-align: left;
-}
-</style>
 <script>
 import UserInfoCard from '../components/UserInfoCard.vue'
 import EditPassword from '../components/EditPassword.vue'

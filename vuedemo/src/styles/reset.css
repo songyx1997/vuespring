@@ -9,6 +9,13 @@ body {
   background-color: var(--lightgrey);
 }
 
+.markdown-body body {
+  position: relative;
+  text-align: left;
+  padding: 0 10px;
+  background-color: white;
+}
+
 .el-tabs__item {
   font-weight: 900;
 }

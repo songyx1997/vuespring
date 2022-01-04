@@ -1,6 +1,8 @@
 <template>
   <div class="index-panel">
-    <div class="index-left"><scroll-menu></scroll-menu></div>
+    <div class="index-left" :style="defaultSidebar">
+      <scroll-menu></scroll-menu>
+    </div>
     <div class="index-right">
       <div class="index-header"><nav-menu></nav-menu></div>
       <div class="index-main">
@@ -38,7 +40,6 @@
 .fade-enter-active {
   transition: all 0.5s;
 }
-
 .fade-enter,
 .fade-leave-to {
   opacity: 0;
@@ -49,6 +50,11 @@ import NavMenu from '../components/NavMenu.vue'
 import ScrollMenu from '../components/ScrollMenu.vue'
 import ResizeHandler from '../utils/resizeHandle'
 export default {
+  data () {
+    return {
+      defaultSidebar: { display: 'block' }
+    }
+  },
   components: {
     NavMenu,
     ScrollMenu,
@@ -59,6 +65,16 @@ export default {
   computed: {
     key () {
       return this.$route.path
+    }
+  },
+  watch: {
+    '$store.getters.openFlag': function () {
+      let openFlag = this.$store.getters.openFlag
+      if (openFlag) {
+        this.defaultSidebar = { display: 'block' }
+      } else {
+        this.defaultSidebar = { display: 'none' }
+      }
     }
   }
 }

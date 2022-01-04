@@ -8,6 +8,8 @@ import 'element-ui/lib/theme-chalk/index.css'
 // 载入基本样式
 import './styles/base.css'
 import './styles/reset.css'
+// 载入markdown样式
+import 'github-markdown-css'
 // 进度条
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'

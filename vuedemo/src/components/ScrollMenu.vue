@@ -64,21 +64,10 @@
 </style>
 <script>
 import logo from '@/assets/logo.png'
-import $ from 'jquery'
 export default {
   data () {
     return {
       logoUrl: logo
-    }
-  },
-  watch: {
-    '$store.getters.openFlag': function () {
-      let openFlag = this.$store.getters.openFlag
-      if (openFlag) {
-        $('div.index-left').css('display', 'block')
-      } else {
-        $('div.index-left').css('display', 'none')
-      }
     }
   },
   computed: {

@@ -1,27 +1,30 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import store from './store'
+// 载入Element样式
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-import store from './store'
-import LuckyWheel from '@lucky-canvas/vue'
+// 载入基本样式
 import './styles/base.css'
 import './styles/reset.css'
-import 'github-markdown-css'
+// 进度条
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
-
-// 设置反向代理
-var axios = require('axios')
-axios.defaults.baseURL = 'http://localhost:8001/api'
-// 全局注册
-Vue.prototype.$axios = axios
-Vue.config.productionTip = false
-Vue.use(ElementUI)
-Vue.use(LuckyWheel)
+// 幸运转盘
+import LuckyWheel from '@lucky-canvas/vue'
+// 载入echarts
 var echarts = require('echarts')
 Vue.prototype.$echarts = echarts
-// 配置进度条
+// 设置axios反向代理
+var axios = require('axios')
+Vue.prototype.$axios = axios
+axios.defaults.baseURL = 'http://localhost:8001/api'
+// 关闭相同路由跳转报错
+Vue.config.productionTip = false
+// 全局配置
+Vue.use(ElementUI)
+Vue.use(LuckyWheel)
 NProgress.configure({ showSpinner: false })
 
 // 访问每一个路由前调用

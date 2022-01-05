@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -193,24 +194,20 @@ public class UserController {
      * <p>Description: 查询小组成员</p>
      * @param userId 用户编号
      * @param userName 用户名
-     * @return com.example.entity.InfoMessage
+     * @return java.util.List<com.example.entity.User>
      */
     @CrossOrigin
     @GetMapping(value = "/getUsers")
-    public InfoMessage getUsers(@RequestParam("userId") String userId, @RequestParam("userName") String userName) {
+    public List<User> getUsers(@RequestParam("userId") String userId, @RequestParam("userName") String userName) {
         LOG.info("查询小组成员，当前用户编号{}，用户名为{}", userId, userName);
-        try {
-            List<User> userNames = userService.getUserNamesByUserId(userId);
-            Map<String, Object> paraMap = new HashMap<>(1);
-            paraMap.put("userNames", userNames);
-            infoMessage.setParaMap(paraMap);
-        } catch (WebException e) {
-            LOG.error("查询小组成员出现异常！", e);
-            infoMessage.setReturnCode(InfoMessage.FAIL);
-            infoMessage.setReturnMessage(e.getMessage());
-            return infoMessage;
+        List<User> userNames = userService.getUserNamesByUserId(userId);
+        LOG.info("共查询到{}个小组成员", userNames.size());
+        if (userNames.isEmpty()) {
+            User user = new User();
+            user.setUserId(userId);
+            user.setUserName(userName);
+            return Collections.singletonList(user);
         }
-        infoMessage.setReturnCode(InfoMessage.SUCCESS);
-        return infoMessage;
+        return userNames;
     }
 }

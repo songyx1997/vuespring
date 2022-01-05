@@ -72,18 +72,11 @@ export default {
         })
         .then(result => {
           this.loading = false
-          if (result.data.returnCode === 'SUCCESS') {
-            if (
-              result.data.paraMap.userNames == null ||
-              result.data.paraMap.userNames.length <= 1
-            ) {
-              this.showFlag = false
-            } else {
-              this.prizes = this.initPrizes(result.data.paraMap.userNames)
-              this.showFlag = true
-            }
+          if (result.data == null || result.data.length <= 1) {
+            this.showFlag = false
           } else {
-            errorInfo(result.data.returnMessage)
+            this.prizes = this.initPrizes(result.data)
+            this.showFlag = true
           }
         })
         .catch(failResponse => {

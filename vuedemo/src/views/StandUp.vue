@@ -27,6 +27,9 @@
   border: 0;
   box-shadow: none;
 }
+.el-col {
+  padding-bottom: 20px;
+}
 </style>
 <script>
 import HistogramChart from '../components/standUpPages/HistogramChart .vue'

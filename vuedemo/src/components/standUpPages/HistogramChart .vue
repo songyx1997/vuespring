@@ -36,8 +36,8 @@
 .line-chart-panel {
   width: 95%;
   margin: 0 auto;
-  height: 378px;
-  border: 1.5px dashed var(--grey);
+  height: 377px;
+  border: 2px dashed var(--grey);
 }
 </style>
 <script>

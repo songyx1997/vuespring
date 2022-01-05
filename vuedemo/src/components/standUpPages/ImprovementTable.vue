@@ -1,96 +1,128 @@
 <template>
   <el-tabs v-model="activeName" type="border-card">
     <el-tab-pane name="improvement">
-      <span slot="label"
-        ><i class="el-icon-view"></i>&nbsp;改进项&nbsp;<el-button
-          type="text"
-          icon="el-icon-plus"
-          @click="openDialog"
-        ></el-button
-      ></span>
+      <span slot="label" @click="openDialog">
+        <el-tooltip
+          class="item"
+          effect="dark"
+          content="点击新增改进项"
+          placement="top-start"
+        >
+          <el-button type="text" icon="el-icon-view"></el-button> </el-tooltip
+        >&nbsp;改进项</span
+      >
       <!-- 弹窗 -->
       <el-dialog
-        title="改进项修改"
+        title="改进项新增"
         :visible.sync="formVisible"
         :close-on-click-modal="false"
       >
         <el-form
           ref="itemForm"
           :model="itemForm"
-          :inline="true"
-          label-width="0px"
+          label-position="top"
           v-loading="dialogLoading"
         >
-          <el-form-item>
-            <el-select
-              v-model="itemForm.proposerUserName"
-              filterable
-              placeholder="提出人"
-            >
-              <!-- <el-option
-              v-for="group in groups"
-              :key="group.groupId"
-              :label="group.groupName"
-              :value="group.groupId"
-            >
-            </el-option> -->
-            </el-select>
+          <el-row :gutter="15">
+            <el-col :xs="12" :sm="12">
+              <el-form-item label="提出人">
+                <el-select
+                  v-model="itemForm.proposerUserName"
+                  filterable
+                  placeholder="请选择"
+                >
+                  <el-option
+                    v-for="member in members"
+                    :key="member.id"
+                    :label="member.name"
+                    :value="member.id"
+                  >
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :xs="12" :sm="12">
+              <el-form-item label="负责人">
+                <el-select
+                  v-model="itemForm.principalUserName"
+                  filterable
+                  placeholder="请选择"
+                >
+                  <el-option
+                    v-for="member in members"
+                    :key="member.id"
+                    :label="member.name"
+                    :value="member.id"
+                  >
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row :gutter="15">
+            <el-col :xs="8" :sm="8">
+              <el-form-item label="类型">
+                <el-select
+                  v-model="itemForm.itemStyle"
+                  filterable
+                  placeholder="请选择"
+                >
+                  <el-option
+                    v-for="itemStyle in itemStyles"
+                    :key="itemStyle.id"
+                    :label="itemStyle.name"
+                    :value="itemStyle.id"
+                  >
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :xs="8" :sm="8">
+              <el-form-item label="状态">
+                <el-select
+                  v-model="itemForm.state"
+                  filterable
+                  placeholder="请选择"
+                >
+                  <el-option
+                    v-for="state in states"
+                    :key="state.id"
+                    :label="state.name"
+                    :value="state.id"
+                  >
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :xs="8" :sm="8">
+              <el-form-item label="优先级">
+                <el-select
+                  v-model="itemForm.priority"
+                  filterable
+                  placeholder="请选择"
+                >
+                  <el-option
+                    v-for="priority in prioritys"
+                    :key="priority.id"
+                    :label="priority.name"
+                    :value="priority.id"
+                  >
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-form-item label="项目说明">
+            <el-input
+              type="textarea"
+              v-model="itemForm.itemDescription"
+            ></el-input>
           </el-form-item>
-          <el-form-item>
-            <el-select
-              v-model="itemForm.principalUserName"
-              filterable
-              placeholder="负责人"
-            >
-              <!-- <el-option
-              v-for="group in groups"
-              :key="group.groupId"
-              :label="group.groupName"
-              :value="group.groupId"
-            >
-            </el-option> -->
-            </el-select>
+          <el-form-item label="措施">
+            <el-input type="textarea" v-model="itemForm.measure"></el-input>
           </el-form-item>
-          <el-form-item>
-            <el-select
-              v-model="itemForm.itemStyle"
-              filterable
-              placeholder="类型"
-            >
-              <!-- <el-option
-              v-for="group in groups"
-              :key="group.groupId"
-              :label="group.groupName"
-              :value="group.groupId"
-            >
-            </el-option> -->
-            </el-select>
-          </el-form-item>
-          <el-form-item>
-            <el-select v-model="itemForm.state" filterable placeholder="状态">
-              <!-- <el-option
-              v-for="group in groups"
-              :key="group.groupId"
-              :label="group.groupName"
-              :value="group.groupId"
-            >
-            </el-option> -->
-            </el-select>
-          </el-form-item>
-          <el-form-item>
-            <el-select
-              v-model="itemForm.priority"
-              filterable
-              placeholder="优先级"
-            >
-              <!-- <el-option
-              v-for="group in groups"
-              :key="group.groupId"
-              :label="group.groupName"
-              :value="group.groupId"
-            >
-            </el-option> -->
-            </el-select>
+          <el-form-item label="备注">
+            <el-input type="textarea" v-model="itemForm.remark"></el-input>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -160,7 +192,14 @@
     </el-tab-pane>
   </el-tabs>
 </template>
+<style scoped>
+/* 调整表格样式 */
+.el-form-item {
+  margin: 0;
+}
+</style>
 <script>
+import { getSelections } from '@/utils/commonRequest'
 export default {
   data () {
     return {
@@ -168,8 +207,32 @@ export default {
       // 初始化弹框不可见
       formVisible: false,
       dialogLoading: false,
-      itemForm: {},
-      users: {},
+      itemForm: {
+        proposerUserName: this.$store.getters.userInfo.userId,
+        principalUserName: this.$store.getters.userInfo.userId,
+        itemStyle: '1',
+        state: '0',
+        priority: '1',
+        itemDescription: '',
+        measure: '',
+        remark: ''
+      },
+      members: {},
+      itemStyles: [
+        { id: '0', name: '风险项' },
+        { id: '1', name: '待改进项' },
+        { id: '2', name: '跟进项' }
+      ],
+      states: [
+        { id: '0', name: '待处理' },
+        { id: '1', name: '活动中' },
+        { id: '2', name: '已关闭' }
+      ],
+      prioritys: [
+        { id: '0', name: '低' },
+        { id: '1', name: '中' },
+        { id: '2', name: '高' }
+      ],
       tableData: [
         {
           proposerUserName: '尼古拉斯',
@@ -189,23 +252,18 @@ export default {
     openDialog () {
       this.loading = true
       this.formVisible = true
-      // // 获取所有项目组
-      // this.$axios
-      //   .get('/group/getAllGroups')
-      //   .then(result => {
-      //     this.loading = false
-      //     let defaultGroup = {}
-      //     defaultGroup.groupId = ''
-      //     defaultGroup.groupName = '无'
-      //     result.data.splice(0, 0, defaultGroup)
-      //     this.groups = result.data
-      //     // 打开弹框
-      //     this.formVisible = true
-      //   })
-      //   .catch(failResponse => {
-      //     this.loading = false
-      //     errorInfo(failResponse)
-      //   })
+      // 获取同小组的成员
+      this.members = getSelections(
+        '/user/getUsers',
+        {
+          userId: this.$store.getters.userInfo.userId,
+          userName: this.$store.getters.userInfo.userName
+        },
+        'userId',
+        'userName',
+        null
+      )
+      this.loading = false
     },
     confirm () {
       console.log('测试')

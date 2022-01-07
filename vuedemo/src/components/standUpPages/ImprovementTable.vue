@@ -8,12 +8,16 @@
           content="点击新增改进项"
           placement="top-start"
         >
-          <el-button type="text" icon="el-icon-view"></el-button> </el-tooltip
+          <el-button
+            type="text"
+            icon="el-icon-setting"
+          ></el-button> </el-tooltip
         >&nbsp;改进项</span
       >
       <!-- 弹窗 -->
       <el-dialog
         title="改进项新增"
+        v-loading="loading"
         :visible.sync="formVisible"
         :close-on-click-modal="false"
       >
@@ -21,13 +25,14 @@
           ref="itemForm"
           :model="itemForm"
           label-position="top"
-          v-loading="dialogLoading"
+          v-loading="loading"
+          :rules="rules"
         >
           <el-row :gutter="15">
             <el-col :xs="12" :sm="12">
               <el-form-item label="提出人">
                 <el-select
-                  v-model="itemForm.proposerUserName"
+                  v-model="itemForm.proposerUserId"
                   filterable
                   placeholder="请选择"
                 >
@@ -44,7 +49,7 @@
             <el-col :xs="12" :sm="12">
               <el-form-item label="负责人">
                 <el-select
-                  v-model="itemForm.principalUserName"
+                  v-model="itemForm.principalUserId"
                   filterable
                   placeholder="请选择"
                 >
@@ -112,17 +117,29 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-form-item label="项目说明">
+          <el-form-item label="项目说明" prop="itemDescription">
             <el-input
-              type="textarea"
               v-model="itemForm.itemDescription"
+              type="textarea"
+              maxlength="80"
+              show-word-limit
             ></el-input>
           </el-form-item>
           <el-form-item label="措施">
-            <el-input type="textarea" v-model="itemForm.measure"></el-input>
+            <el-input
+              v-model="itemForm.measure"
+              type="textarea"
+              maxlength="80"
+              show-word-limit
+            ></el-input>
           </el-form-item>
           <el-form-item label="备注">
-            <el-input type="textarea" v-model="itemForm.remark"></el-input>
+            <el-input
+              v-model="itemForm.remark"
+              type="textarea"
+              maxlength="80"
+              show-word-limit
+            ></el-input>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -131,7 +148,12 @@
         </div>
       </el-dialog>
       <!-- 展示表格 -->
-      <el-table :data="tableData" :max-height="400" highlight-current-row>
+      <el-table
+        :data="tableData"
+        :max-height="400"
+        highlight-current-row
+        v-loading="loading"
+      >
         <el-table-column label="操作" width="125">
           <el-button
             type="primary"
@@ -156,7 +178,7 @@
           width="100"
         >
         </el-table-column>
-        <el-table-column prop="itemStyle" label="类型" width="70">
+        <el-table-column prop="itemStyle" label="类型" width="80">
           <template slot-scope="scope">
             <el-tag type="warning">{{ scope.row.itemStyle }}</el-tag>
           </template>
@@ -189,43 +211,53 @@
         >
         </el-table-column>
       </el-table>
+      <el-pagination
+        background
+        layout="prev, pager, next"
+        :page-size="5"
+        :total="total"
+        :current-page.sync="pageNum"
+        @current-change="handleCurrentChange"
+      >
+      </el-pagination>
     </el-tab-pane>
   </el-tabs>
 </template>
-<style scoped>
-/* 调整表格样式 */
-.el-form-item {
-  margin: 0;
-}
-</style>
 <script>
 import { getSelections } from '@/utils/commonRequest'
+import { successInfo, errorInfo } from '@/utils/message'
 export default {
+  created () {
+    // 初始化查询第一页
+    this.search(0, 5)
+  },
   data () {
     return {
       activeName: 'improvement',
       // 初始化弹框不可见
       formVisible: false,
-      dialogLoading: false,
-      itemForm: {
-        proposerUserName: this.$store.getters.userInfo.userId,
-        principalUserName: this.$store.getters.userInfo.userId,
-        itemStyle: '1',
-        state: '0',
+      loading: false,
+      defaultForm: {
+        currentUserGroupId: this.$store.getters.userInfo.groupId,
+        proposerUserId: this.$store.getters.userInfo.userId,
+        principalUserId: this.$store.getters.userInfo.userId,
+        itemStyle: '2',
+        state: '1',
         priority: '1',
         itemDescription: '',
         measure: '',
         remark: ''
       },
+      itemForm: {},
       members: {},
       itemStyles: [
         { id: '0', name: '风险项' },
-        { id: '1', name: '待改进项' },
-        { id: '2', name: '跟进项' }
+        { id: '1', name: '跟进项' },
+        { id: '2', name: '待改进项' }
       ],
       states: [
-        { id: '0', name: '待处理' },
-        { id: '1', name: '活动中' },
+        { id: '0', name: '活动中' },
+        { id: '1', name: '待处理' },
         { id: '2', name: '已关闭' }
       ],
       prioritys: [
@@ -233,25 +265,20 @@ export default {
         { id: '1', name: '中' },
         { id: '2', name: '高' }
       ],
-      tableData: [
-        {
-          proposerUserName: '尼古拉斯',
-          principalUserName: '阿列克谢',
-          itemDescription: '',
-          itemStyle: '风险项',
-          measure: '',
-          state: '活动',
-          priority: '高',
-          remark: '',
-          creationTime: '2021-12-14 07:11:23'
-        }
-      ]
+      rules: {
+        itemDescription: [
+          { required: true, message: '请输入内容', trigger: 'blur' }
+        ]
+      },
+      total: 0,
+      pageNum: 1,
+      tableData: []
     }
   },
   methods: {
     openDialog () {
+      this.itemForm = { ...this.defaultForm }
       this.loading = true
-      this.formVisible = true
       // 获取同小组的成员
       this.members = getSelections(
         '/user/getUsers',
@@ -264,15 +291,78 @@ export default {
         null
       )
       this.loading = false
+      this.formVisible = true
+    },
+    search (offset, limit) {
+      this.loading = true
+      this.$axios
+        .get('/standUpItemRecord/search', {
+          params: {
+            offset: offset,
+            limit: limit,
+            currentUserGroupId: this.$store.getters.userInfo.groupId
+          }
+        })
+        .then(result => {
+          this.total = result.data.total
+          this.tableData = this.formatTable(result.data.list)
+          this.loading = false
+        })
+        .catch(failResponse => {
+          this.loading = false
+          errorInfo(failResponse)
+        })
+    },
+    handleCurrentChange (val) {
+      // 清空上一页数据
+      this.tableData = []
+      this.search((val - 1) * 5, 5)
     },
     confirm () {
-      console.log('测试')
+      this.$refs['itemForm'].validate(valid => {
+        if (valid) {
+          this.loading = true
+          this.$axios
+            .post('/standUpItemRecord/add', this.itemForm)
+            .then(result => {
+              if (result.data.returnCode === 'SUCCESS') {
+                this.resetForm()
+                this.pageNum = 1
+                this.search(0, 5)
+                successInfo(result.data.returnMessage)
+              } else {
+                errorInfo(result.data.returnMessage)
+              }
+            })
+            .catch(failResponse => {
+              errorInfo(failResponse)
+            })
+          this.loading = false
+        }
+      })
     },
     // 重置表单
     resetForm () {
       // 关闭弹框
       this.formVisible = false
       this.$refs['itemForm'].resetFields()
+      this.itemForm = { ...this.defaultForm }
+    },
+    formatTable (data) {
+      for (let index = 0; index < data.length; index++) {
+        data[index].itemStyle = this.getCn(
+          data[index].itemStyle,
+          this.itemStyles
+        )
+        data[index].state = this.getCn(data[index].state, this.states)
+        data[index].priority = this.getCn(data[index].priority, this.prioritys)
+      }
+      return data
+    },
+    getCn (id, items) {
+      for (let index = 0; index < items.length; index++) {
+        if (items[index].id === id) return items[index].name
+      }
     }
   }
 }

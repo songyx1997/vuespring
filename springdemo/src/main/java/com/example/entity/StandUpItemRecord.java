@@ -22,9 +22,17 @@ public class StandUpItemRecord implements Serializable {
     */
     private String proposerUserId;
     /**
+     * 提出人姓名
+     */
+    private String proposerUserName;
+    /**
     * 负责人编号
     */
     private String principalUserId;
+    /**
+     * 负责人姓名
+     */
+    private String principalUserName;
     /**
     * 项目类型(0-风险项、1-待改进项、2-跟进项)
     */
@@ -188,5 +196,21 @@ public class StandUpItemRecord implements Serializable {
 
     public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getProposerUserName() {
+        return proposerUserName;
+    }
+
+    public void setProposerUserName(String proposerUserName) {
+        this.proposerUserName = proposerUserName;
+    }
+
+    public String getPrincipalUserName() {
+        return principalUserName;
+    }
+
+    public void setPrincipalUserName(String principalUserName) {
+        this.principalUserName = principalUserName;
     }
 }

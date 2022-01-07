@@ -24,21 +24,21 @@ public enum NumberEnum {
      */
     STAND_UP_ITEM_RECORD_ITEM_STYLE_0("0", "风险项"),
     /**
-     * 站会项目记录表-项目类型(1-待改进项)
+     * 站会项目记录表-项目类型(1-跟进项)
      */
-    STAND_UP_ITEM_RECORD_ITEM_STYLE_1("1", "待改进项"),
+    STAND_UP_ITEM_RECORD_ITEM_STYLE_1("1", "跟进项"),
     /**
-     * 站会项目记录表-项目类型(2-跟进项)
+     * 站会项目记录表-项目类型(2-待改进项)
      */
-    STAND_UP_ITEM_RECORD_ITEM_STYLE_2("2", "跟进项"),
+    STAND_UP_ITEM_RECORD_ITEM_STYLE_2("2", "待改进项"),
     /**
-     * 站会项目记录表-状态(0-待处理)
+     * 站会项目记录表-状态(0-活动中)
      */
-    STAND_UP_ITEM_RECORD_STATE_0("0", "待处理"),
+    STAND_UP_ITEM_RECORD_STATE_0("0", "活动中"),
     /**
-     * 站会项目记录表-状态(1-活动中)
+     * 站会项目记录表-状态(1-待处理)
      */
-    STAND_UP_ITEM_RECORD_STATE_1("1", "活动中"),
+    STAND_UP_ITEM_RECORD_STATE_1("1", "待处理"),
     /**
      * 站会项目记录表-状态(2-已关闭)
      */

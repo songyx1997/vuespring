@@ -1,5 +1,9 @@
 package com.example.service;
 
+import com.example.entity.StandUpItemRecord;
+
+import java.util.Map;
+
 /**
  * <p>Title: StandUpItemRecordService</p>
  * <p>Description: 站会项目记录表(StandUpItemRecord)表服务接口</p>
@@ -8,4 +12,20 @@ package com.example.service;
  */
 public interface StandUpItemRecordService {
 
+    /**
+     * <p>Title: insert</p>
+     * <p>Description: 新增数据</p>
+     * @param standUpItemRecord 实例对象
+     */
+    void insert(StandUpItemRecord standUpItemRecord);
+
+    /**
+     * <p>Title: queryAllByLimit</p>
+     * <p>Description: 查询指定行数据</p>
+     * @param offset 查询起始位置
+     * @param limit 查询条数
+     * @param currentUserGroupId 当前用户小组编号
+     * @return java.util.Map<java.lang.String,java.lang.Object>
+     */
+    Map<String, Object> queryAllByLimit(int offset, int limit, String currentUserGroupId);
 }

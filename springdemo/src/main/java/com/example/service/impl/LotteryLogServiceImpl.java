@@ -94,12 +94,14 @@ public class LotteryLogServiceImpl implements LotteryLogService {
         List<LotteryLog> list = lotteryLogDao.queryAllByLimit(0, limit, lotteryUserGroupId);
         for (LotteryLog lotteryLog : list) {
             String winnerUserName = lotteryLog.getWinnerUserName();
-            if (resultMap.get(winnerUserName) == null) {
-                int num = 1;
-                resultMap.put(winnerUserName, num);
-            } else {
-                int num = resultMap.get(winnerUserName) + 1;
-                resultMap.replace(winnerUserName, num);
+            if (winnerUserName != null) {
+                if (resultMap.get(winnerUserName) == null) {
+                    int num = 1;
+                    resultMap.put(winnerUserName, num);
+                } else {
+                    int num = resultMap.get(winnerUserName) + 1;
+                    resultMap.replace(winnerUserName, num);
+                }
             }
         }
         return resultMap;

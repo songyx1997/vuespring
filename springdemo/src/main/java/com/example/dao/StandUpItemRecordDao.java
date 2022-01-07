@@ -26,9 +26,18 @@ public interface StandUpItemRecordDao {
      * <p>Description: 查询指定行数据</p>
      * @param offset 查询起始位置
      * @param limit 查询条数
+     * @param currentUserGroupId 当前用户小组编号
      * @return java.util.List<com.example.entity.StandUpItemRecord>
      */
-    List<StandUpItemRecord> queryAllByLimit(@Param("offset") int offset, @Param("limit") int limit);
+    List<StandUpItemRecord> queryAllByLimit(@Param("offset") int offset, @Param("limit") int limit,
+                                            @Param("currentUserGroupId") String currentUserGroupId);
+
+    /**
+     * <p>Title: queryTotalNum</p>
+     * <p>Description: 查询日志总数</p>
+     * @return int
+     */
+    int queryTotalNum();
 
     /**
      * <p>Title: queryAll</p>

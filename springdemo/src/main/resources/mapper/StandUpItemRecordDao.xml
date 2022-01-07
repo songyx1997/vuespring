@@ -8,6 +8,8 @@
         <result property="currentUserGroupId" column="CURRENT_USER_GROUP_ID" jdbcType="VARCHAR"/>
         <result property="proposerUserId" column="PROPOSER_USER_ID" jdbcType="VARCHAR"/>
         <result property="principalUserId" column="PRINCIPAL_USER_ID" jdbcType="VARCHAR"/>
+        <result property="proposerUserName" column="PROPOSER_USER_NAME" jdbcType="VARCHAR"/>
+        <result property="principalUserName" column="PRINCIPAL_USER_NAME" jdbcType="VARCHAR"/>
         <result property="itemStyle" column="ITEM_STYLE" jdbcType="VARCHAR"/>
         <result property="itemDescription" column="ITEM_DESCRIPTION" jdbcType="VARCHAR"/>
         <result property="measure" column="MEASURE" jdbcType="VARCHAR"/>
@@ -31,10 +33,17 @@
 
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="BaseResultMap">
-        select
-          ID, CURRENT_USER_GROUP_ID, PROPOSER_USER_ID, PRINCIPAL_USER_ID, ITEM_STYLE, ITEM_DESCRIPTION, MEASURE, STATE, PRIORITY, REMARK, EXT1, EXT2, EXT3, CREATION_TIME, UPDATE_TIME
-        from SCRUM.STAND_UP_ITEM_RECORD
-        limit #{offset}, #{limit}
+        SELECT suir.ID,u1.USER_NAME AS PROPOSER_USER_NAME,u2.USER_NAME AS PRINCIPAL_USER_NAME,suir .ITEM_STYLE ,suir .ITEM_DESCRIPTION ,suir .MEASURE ,suir.STATE ,suir .PRIORITY ,suir .REMARK ,suir.CREATION_TIME
+        FROM `STAND_UP_ITEM_RECORD` suir
+                 LEFT JOIN `USER` u1 ON suir.PROPOSER_USER_ID = u1.USER_ID
+                 LEFT JOIN `USER` u2 ON suir.PRINCIPAL_USER_ID = u2.USER_ID
+        WHERE suir.CURRENT_USER_GROUP_ID = #{currentUserGroupId}
+        ORDER BY suir.CREATION_TIME DESC,suir.ID DESC LIMIT #{offset}, #{limit}
+    </select>
+
+    <!--查询站会项目记录总数-->
+    <select id="queryTotalNum" resultType="int">
+        SELECT COUNT(*) FROM `STAND_UP_ITEM_RECORD`
     </select>
 
     <!--通过实体作为筛选条件查询-->
@@ -93,8 +102,8 @@
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into SCRUM.STAND_UP_ITEM_RECORD(CURRENT_USER_GROUP_ID, PROPOSER_USER_ID, PRINCIPAL_USER_ID, ITEM_STYLE, ITEM_DESCRIPTION, MEASURE, STATE, PRIORITY, REMARK, EXT1, EXT2, EXT3, CREATION_TIME, UPDATE_TIME)
-        values (#{currentUserGroupId}, #{proposerUserId}, #{principalUserId}, #{itemStyle}, #{itemDescription}, #{measure}, #{state}, #{priority}, #{remark}, #{ext1}, #{ext2}, #{ext3}, #{creationTime}, #{updateTime})
+        insert into SCRUM.STAND_UP_ITEM_RECORD(ID, CURRENT_USER_GROUP_ID, PROPOSER_USER_ID, PRINCIPAL_USER_ID, ITEM_STYLE, ITEM_DESCRIPTION, MEASURE, STATE, PRIORITY, REMARK, EXT1, EXT2, EXT3, CREATION_TIME, UPDATE_TIME)
+        values (#{id}, #{currentUserGroupId}, #{proposerUserId}, #{principalUserId}, #{itemStyle}, #{itemDescription}, #{measure}, #{state}, #{priority}, #{remark}, #{ext1}, #{ext2}, #{ext3}, #{creationTime}, #{updateTime})
     </insert>
 
     <!--通过主键修改数据-->

@@ -36,6 +36,10 @@ router.beforeEach((to, from, next) => {
   if (to.meta.requireAuth) {
     if (store.getters.userInfo) {
       next()
+      // 添加页面标题
+      if (to.meta.name) {
+        document.title = 'SCRUM ' + '| ' + to.meta.name
+      }
     } else {
       // 重定向至登录和注册页面
       next({

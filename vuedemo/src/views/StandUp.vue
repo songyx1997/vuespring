@@ -19,14 +19,6 @@
   </el-row>
 </template>
 <style scoped>
-.standup-chart {
-  background: white;
-}
-.el-tabs--border-card {
-  /* 清除卡片样式 */
-  border: 0;
-  box-shadow: none;
-}
 .el-col {
   padding-bottom: 20px;
 }

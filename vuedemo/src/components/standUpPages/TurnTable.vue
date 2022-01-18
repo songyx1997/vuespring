@@ -1,32 +1,42 @@
 <template>
-  <div v-if="showFlag" class="table-panel">
-    <LuckyWheel
-      ref="tableId"
-      width="390px"
-      height="390px"
-      style="margin: 30px auto"
-      :blocks="blocks"
-      :prizes="prizes"
-      :buttons="buttons"
-      :defaultConfig="defaultConfig"
-      :defaultStyle="defaultStyle"
-      @start="startCallback"
-      @end="endCallback"
-    />
-  </div>
-  <div v-else class="table-panel" v-loading="loading">
-    <el-empty description="未查询到小组成员"></el-empty>
-  </div>
+  <base-panel>
+    <template #headLeft><i class="el-icon-loading"></i>&nbsp;转盘</template>
+    <template #headRight> </template>
+    <template #body>
+      <div v-if="showFlag" class="table-panel">
+        <LuckyWheel
+          ref="tableId"
+          width="400px"
+          height="400px"
+          style="margin: 10px auto"
+          :blocks="blocks"
+          :prizes="prizes"
+          :buttons="buttons"
+          :defaultConfig="defaultConfig"
+          :defaultStyle="defaultStyle"
+          @start="startCallback"
+          @end="endCallback"
+        />
+      </div>
+      <div v-else class="table-panel" v-loading="loading">
+        <el-empty description="未查询到小组成员"></el-empty>
+      </div>
+    </template>
+  </base-panel>
 </template>
 <style scoped>
 .table-panel {
   overflow: auto;
-  height: 450px;
+  height: 420px;
 }
 </style>
 <script>
 import { successInfo, errorInfo, cancelInfo } from '@/utils/message'
+import BasePanel from '../BasePanel.vue'
 export default {
+  components: {
+    BasePanel
+  },
   created () {
     this.init()
   },

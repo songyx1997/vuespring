@@ -1,51 +1,54 @@
 <template>
-  <el-tabs v-model="activeName" type="border-card">
-    <el-tab-pane name="histogram">
-      <span slot="label"
-        ><i class="el-icon-s-data"></i>&nbsp;近期抽奖结果
-        <el-dropdown
-          size="medium"
-          @command="handleCommand"
-          trigger="click"
-          placement="bottom"
-        >
-          <i class="el-icon-date"></i>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item
-              v-for="item in items"
-              :command="item.value"
-              :key="item.value"
-              >{{ item.text }}</el-dropdown-item
-            >
-          </el-dropdown-menu>
-        </el-dropdown>
-      </span>
+  <base-panel>
+    <template #headLeft>
+      <i class="el-icon-s-data"></i>&nbsp;近期抽奖结果
+    </template>
+    <template #headRight>
+      <el-select
+        style="width:85px"
+        v-model="selectTime"
+        size="mini"
+        @change="handleChange"
+      >
+        <el-option
+          v-for="item in items"
+          :key="item.value"
+          :label="item.text"
+          :value="item.value"
+        ></el-option>
+      </el-select>
+    </template>
+    <template #body>
       <div v-if="showFlag" v-loading="loading1">
         <div class="line-chart-panel" ref="histogram"></div>
       </div>
       <div v-else class="line-chart-panel" v-loading="loading2">
         <el-empty description="未查询到统计数据"></el-empty>
       </div>
-    </el-tab-pane>
-  </el-tabs>
+    </template>
+  </base-panel>
 </template>
 <style scoped>
 .el-icon-date {
   color: var(--blue);
 }
 .line-chart-panel {
-  width: 95%;
+  width: 100%;
   margin: 0 auto;
-  height: 377px;
+  height: 420px;
   border: 2px dashed var(--grey);
+  box-sizing: border-box;
 }
 </style>
 <script>
 import { errorInfo } from '@/utils/message'
+import BasePanel from '../BasePanel.vue'
 export default {
+  components: {
+    BasePanel
+  },
   data () {
     return {
-      activeName: 'histogram',
       items: [
         { value: 10, text: '10次' },
         { value: 50, text: '50次' },
@@ -59,7 +62,8 @@ export default {
       // 初始化图表数据
       histogram: {},
       userNames: [],
-      times: []
+      times: [],
+      selectTime: 50
     }
   },
   created () {
@@ -125,8 +129,8 @@ export default {
       }
       this.histogram.setOption(option)
     },
-    handleCommand (command) {
-      this.getHistogramData(command)
+    handleChange (value) {
+      this.getHistogramData(value)
     },
     // 统计中奖人次数
     getHistogramData (limit) {

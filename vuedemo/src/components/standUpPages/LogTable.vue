@@ -1,7 +1,7 @@
 <template>
-  <el-tabs v-model="activeName" type="border-card">
-    <el-tab-pane name="log">
-      <span slot="label"><i class="el-icon-tickets"></i>&nbsp;日志</span>
+  <base-panel>
+    <template #headLeft> <i class="el-icon-tickets"></i>&nbsp;日志 </template>
+    <template #body>
       <el-table :data="tableData" highlight-current-row v-loading="loading">
         <el-table-column
           property="creationTime"
@@ -14,16 +14,14 @@
         </el-table-column>
         <el-table-column property="winnerUserName" label="中奖人" width="100">
         </el-table-column>
-        <el-table-column width="75">
+        <el-table-column width="80">
           <template slot-scope="scope">
             <el-button
               type="danger"
-              icon="el-icon-delete"
-              @click="deleteById(scope.row.id)"
               size="mini"
-              round
-              plain
-            ></el-button>
+              @click="deleteById(scope.row.id)"
+              >删除</el-button
+            >
           </template>
         </el-table-column>
       </el-table>
@@ -36,20 +34,23 @@
         @current-change="handleCurrentChange"
       >
       </el-pagination>
-    </el-tab-pane>
-  </el-tabs>
+    </template>
+  </base-panel>
 </template>
 <style scoped></style>
 <script>
 import { successInfo, errorInfo, cancelInfo } from '@/utils/message'
+import BasePanel from '../BasePanel.vue'
 export default {
+  components: {
+    BasePanel
+  },
   created () {
     // 初始化查询第一页
     this.search(0, 5)
   },
   data () {
     return {
-      activeName: 'log',
       total: 0,
       pageNum: 1,
       loading: false,

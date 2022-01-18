@@ -1,239 +1,231 @@
 <template>
-  <el-tabs v-model="activeName" type="border-card">
-    <el-tab-pane name="improvement">
-      <span slot="label" @click="openDialog">
-        <el-tooltip
-          class="item"
-          effect="dark"
-          content="点击新增改进项"
-          placement="top-start"
+  <div>
+    <base-panel>
+      <template #headLeft>
+        <i class="el-icon-view"></i>&nbsp;改进项
+      </template>
+      <template #headRight>
+        <el-button type="success" size="mini" @click="openDialog"
+          >新增</el-button
         >
-          <el-button
-            type="text"
-            icon="el-icon-setting"
-          ></el-button> </el-tooltip
-        >&nbsp;改进项</span
-      >
-      <!-- 弹窗 -->
-      <el-dialog
-        title="改进项新增"
-        v-loading="loading"
-        :visible.sync="formVisible"
-        :close-on-click-modal="false"
-      >
-        <el-form
-          ref="itemForm"
-          :model="itemForm"
-          label-position="top"
+      </template>
+      <template #body>
+        <!-- 展示表格 -->
+        <el-table
+          :data="tableData"
+          :max-height="400"
+          highlight-current-row
           v-loading="loading"
-          :rules="rules"
         >
-          <el-row :gutter="15">
-            <el-col :xs="12" :sm="12">
-              <el-form-item label="提出人">
-                <el-select
-                  v-model="itemForm.proposerUserId"
-                  filterable
-                  placeholder="请选择"
-                >
-                  <el-option
-                    v-for="member in members"
-                    :key="member.id"
-                    :label="member.name"
-                    :value="member.id"
-                  >
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :xs="12" :sm="12">
-              <el-form-item label="负责人">
-                <el-select
-                  v-model="itemForm.principalUserId"
-                  filterable
-                  placeholder="请选择"
-                >
-                  <el-option
-                    v-for="member in members"
-                    :key="member.id"
-                    :label="member.name"
-                    :value="member.id"
-                  >
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row :gutter="15">
-            <el-col :xs="8" :sm="8">
-              <el-form-item label="类型">
-                <el-select
-                  v-model="itemForm.itemStyle"
-                  filterable
-                  placeholder="请选择"
-                >
-                  <el-option
-                    v-for="itemStyle in itemStyles"
-                    :key="itemStyle.id"
-                    :label="itemStyle.name"
-                    :value="itemStyle.id"
-                  >
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :xs="8" :sm="8">
-              <el-form-item label="状态">
-                <el-select
-                  v-model="itemForm.state"
-                  filterable
-                  placeholder="请选择"
-                >
-                  <el-option
-                    v-for="state in states"
-                    :key="state.id"
-                    :label="state.name"
-                    :value="state.id"
-                  >
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :xs="8" :sm="8">
-              <el-form-item label="优先级">
-                <el-select
-                  v-model="itemForm.priority"
-                  filterable
-                  placeholder="请选择"
-                >
-                  <el-option
-                    v-for="priority in prioritys"
-                    :key="priority.id"
-                    :label="priority.name"
-                    :value="priority.id"
-                  >
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-form-item label="项目说明" prop="itemDescription">
-            <el-input
-              v-model="itemForm.itemDescription"
-              type="textarea"
-              maxlength="80"
-              show-word-limit
-            ></el-input>
-          </el-form-item>
-          <el-form-item label="措施">
-            <el-input
-              v-model="itemForm.measure"
-              type="textarea"
-              maxlength="80"
-              show-word-limit
-            ></el-input>
-          </el-form-item>
-          <el-form-item label="备注">
-            <el-input
-              v-model="itemForm.remark"
-              type="textarea"
-              maxlength="80"
-              show-word-limit
-            ></el-input>
-          </el-form-item>
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-          <el-button @click="resetForm">取 消</el-button>
-          <el-button type="primary" @click="confirm">确 定</el-button>
-        </div>
-      </el-dialog>
-      <!-- 展示表格 -->
-      <el-table
-        :data="tableData"
-        :max-height="400"
-        highlight-current-row
+          <el-table-column label="操作" width="150">
+            <el-button type="primary" size="mini">修改</el-button>
+            <el-button type="danger" size="mini">删除</el-button>
+          </el-table-column>
+          <el-table-column
+            property="proposerUserName"
+            label="提出人"
+            width="100"
+          >
+          </el-table-column>
+          <el-table-column
+            property="principalUserName"
+            label="负责人"
+            width="100"
+          >
+          </el-table-column>
+          <el-table-column prop="itemStyle" label="类型" width="80">
+            <template slot-scope="scope">
+              <el-tag type="warning">{{ scope.row.itemStyle }}</el-tag>
+            </template>
+          </el-table-column>
+          <el-table-column prop="state" label="状态" width="70">
+            <template slot-scope="scope">
+              <el-tag>{{ scope.row.state }}</el-tag>
+            </template>
+          </el-table-column>
+          <el-table-column prop="priority" label="优先级" width="70">
+            <template slot-scope="scope">
+              <el-tag>{{ scope.row.priority }}</el-tag>
+            </template>
+          </el-table-column>
+          <el-table-column
+            property="itemDescription"
+            label="说明"
+            min-width="400"
+          >
+          </el-table-column>
+          <el-table-column property="measure" label="改进措施" min-width="200">
+          </el-table-column>
+          <el-table-column property="remark" label="备注" min-width="100">
+          </el-table-column>
+          <el-table-column
+            property="creationTime"
+            :sortable="true"
+            label="创建时间"
+            width="160"
+          >
+          </el-table-column>
+        </el-table>
+        <el-pagination
+          background
+          layout="prev, pager, next"
+          :page-size="5"
+          :total="total"
+          :current-page.sync="pageNum"
+          @current-change="handleCurrentChange"
+        >
+        </el-pagination>
+      </template>
+    </base-panel>
+    <!-- 弹窗 -->
+    <el-dialog
+      title="改进项新增"
+      v-loading="loading"
+      :visible.sync="formVisible"
+      :close-on-click-modal="false"
+    >
+      <el-form
+        ref="itemForm"
+        :model="itemForm"
+        label-position="top"
         v-loading="loading"
+        :rules="rules"
       >
-        <el-table-column label="操作" width="125">
-          <el-button
-            type="primary"
-            icon="el-icon-edit"
-            size="mini"
-            round
-            plain
-          ></el-button>
-          <el-button
-            type="danger"
-            icon="el-icon-delete"
-            size="mini"
-            round
-            plain
-          ></el-button>
-        </el-table-column>
-        <el-table-column property="proposerUserName" label="提出人" width="100">
-        </el-table-column>
-        <el-table-column
-          property="principalUserName"
-          label="负责人"
-          width="100"
-        >
-        </el-table-column>
-        <el-table-column prop="itemStyle" label="类型" width="80">
-          <template slot-scope="scope">
-            <el-tag type="warning">{{ scope.row.itemStyle }}</el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column prop="state" label="状态" width="70">
-          <template slot-scope="scope">
-            <el-tag>{{ scope.row.state }}</el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column prop="priority" label="优先级" width="70">
-          <template slot-scope="scope">
-            <el-tag>{{ scope.row.priority }}</el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column
-          property="itemDescription"
-          label="说明"
-          min-width="400"
-        >
-        </el-table-column>
-        <el-table-column property="measure" label="改进措施" min-width="200">
-        </el-table-column>
-        <el-table-column property="remark" label="备注" min-width="100">
-        </el-table-column>
-        <el-table-column
-          property="creationTime"
-          :sortable="true"
-          label="创建时间"
-          width="160"
-        >
-        </el-table-column>
-      </el-table>
-      <el-pagination
-        background
-        layout="prev, pager, next"
-        :page-size="5"
-        :total="total"
-        :current-page.sync="pageNum"
-        @current-change="handleCurrentChange"
-      >
-      </el-pagination>
-    </el-tab-pane>
-  </el-tabs>
+        <el-row :gutter="15">
+          <el-col :xs="12" :sm="12">
+            <el-form-item label="提出人">
+              <el-select
+                v-model="itemForm.proposerUserId"
+                filterable
+                placeholder="请选择"
+              >
+                <el-option
+                  v-for="member in members"
+                  :key="member.id"
+                  :label="member.name"
+                  :value="member.id"
+                >
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :xs="12" :sm="12">
+            <el-form-item label="负责人">
+              <el-select
+                v-model="itemForm.principalUserId"
+                filterable
+                placeholder="请选择"
+              >
+                <el-option
+                  v-for="member in members"
+                  :key="member.id"
+                  :label="member.name"
+                  :value="member.id"
+                >
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="15">
+          <el-col :xs="8" :sm="8">
+            <el-form-item label="类型">
+              <el-select
+                v-model="itemForm.itemStyle"
+                filterable
+                placeholder="请选择"
+              >
+                <el-option
+                  v-for="itemStyle in itemStyles"
+                  :key="itemStyle.id"
+                  :label="itemStyle.name"
+                  :value="itemStyle.id"
+                >
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :xs="8" :sm="8">
+            <el-form-item label="状态">
+              <el-select
+                v-model="itemForm.state"
+                filterable
+                placeholder="请选择"
+              >
+                <el-option
+                  v-for="state in states"
+                  :key="state.id"
+                  :label="state.name"
+                  :value="state.id"
+                >
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :xs="8" :sm="8">
+            <el-form-item label="优先级">
+              <el-select
+                v-model="itemForm.priority"
+                filterable
+                placeholder="请选择"
+              >
+                <el-option
+                  v-for="priority in prioritys"
+                  :key="priority.id"
+                  :label="priority.name"
+                  :value="priority.id"
+                >
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-form-item label="项目说明" prop="itemDescription">
+          <el-input
+            v-model="itemForm.itemDescription"
+            type="textarea"
+            maxlength="80"
+            show-word-limit
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="措施">
+          <el-input
+            v-model="itemForm.measure"
+            type="textarea"
+            maxlength="80"
+            show-word-limit
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="备注">
+          <el-input
+            v-model="itemForm.remark"
+            type="textarea"
+            maxlength="80"
+            show-word-limit
+          ></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="resetForm">取 消</el-button>
+        <el-button type="primary" @click="confirm">确 定</el-button>
+      </div>
+    </el-dialog>
+  </div>
 </template>
 <script>
 import { getSelections } from '@/utils/commonRequest'
 import { successInfo, errorInfo } from '@/utils/message'
+import BasePanel from '../BasePanel.vue'
 export default {
+  components: {
+    BasePanel
+  },
   created () {
     // 初始化查询第一页
     this.search(0, 5)
   },
   data () {
     return {
-      activeName: 'improvement',
       // 初始化弹框不可见
       formVisible: false,
       loading: false,

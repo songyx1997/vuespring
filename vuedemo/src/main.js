@@ -32,6 +32,7 @@ NProgress.configure({ showSpinner: false })
 // 访问每一个路由前调用
 router.beforeEach((to, from, next) => {
   NProgress.start()
+  document.title = 'SCRUM'
   // 路由是否需要拦截
   if (to.meta.requireAuth) {
     if (store.getters.userInfo) {

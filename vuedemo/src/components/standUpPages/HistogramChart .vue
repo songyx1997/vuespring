@@ -5,8 +5,8 @@
     </template>
     <template #headRight>
       <el-select
-        style="width:85px"
-        v-model="selectTime"
+        style="width:90px"
+        v-model="selectedTimes"
         size="mini"
         @change="handleChange"
       >
@@ -63,7 +63,7 @@ export default {
       histogram: {},
       userNames: [],
       times: [],
-      selectTime: 50
+      selectedTimes: 50
     }
   },
   created () {

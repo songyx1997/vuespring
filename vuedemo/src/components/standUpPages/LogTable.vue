@@ -1,6 +1,6 @@
 <template>
   <base-panel>
-    <template #headLeft> <i class="el-icon-tickets"></i>&nbsp;日志 </template>
+    <template #headLeft><i class="el-icon-tickets"></i>&nbsp;日志</template>
     <template #body>
       <el-table :data="tableData" highlight-current-row v-loading="loading">
         <el-table-column

@@ -1,9 +1,7 @@
 <template>
   <div>
     <base-panel>
-      <template #headLeft>
-        <i class="el-icon-view"></i>&nbsp;改进项
-      </template>
+      <template #headLeft><i class="el-icon-view"></i>&nbsp;改进项</template>
       <template #headRight>
         <el-button type="success" size="mini" @click="openDialog"
           >新增</el-button
@@ -101,9 +99,9 @@
               >
                 <el-option
                   v-for="member in members"
-                  :key="member.id"
-                  :label="member.name"
-                  :value="member.id"
+                  :key="member.userId"
+                  :label="member.userName"
+                  :value="member.userId"
                 >
                 </el-option>
               </el-select>
@@ -118,9 +116,9 @@
               >
                 <el-option
                   v-for="member in members"
-                  :key="member.id"
-                  :label="member.name"
-                  :value="member.id"
+                  :key="member.userId"
+                  :label="member.userName"
+                  :value="member.userId"
                 >
                 </el-option>
               </el-select>
@@ -213,7 +211,6 @@
   </div>
 </template>
 <script>
-import { getSelections } from '@/utils/commonRequest'
 import { successInfo, errorInfo } from '@/utils/message'
 import BasePanel from '../BasePanel.vue'
 export default {
@@ -272,16 +269,19 @@ export default {
       this.itemForm = { ...this.defaultForm }
       this.loading = true
       // 获取同小组的成员
-      this.members = getSelections(
-        '/user/getUsers',
-        {
-          userId: this.$store.getters.userInfo.userId,
-          userName: this.$store.getters.userInfo.userName
-        },
-        'userId',
-        'userName',
-        null
-      )
+      this.$axios
+        .get('/user/getUsers', {
+          params: {
+            userId: this.$store.getters.userInfo.userId,
+            userName: this.$store.getters.userInfo.userName
+          }
+        })
+        .then(result => {
+          this.members = result.data
+        })
+        .catch(failResponse => {
+          errorInfo(failResponse)
+        })
       this.loading = false
       this.formVisible = true
     },
@@ -297,7 +297,8 @@ export default {
         })
         .then(result => {
           this.total = result.data.total
-          this.tableData = this.formatTable(result.data.list)
+          this.tableData =
+            result.data.list == null ? [] : this.formatTable(result.data.list)
           this.loading = false
         })
         .catch(failResponse => {

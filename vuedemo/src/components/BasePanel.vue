@@ -12,6 +12,7 @@
 <style scoped>
 .panel-overall {
   background-color: white;
+  border: 1.5px solid var(--grey);
 }
 .panel-head {
   display: flex;

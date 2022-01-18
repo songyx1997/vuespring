@@ -1,7 +1,24 @@
 <template>
   <base-panel>
     <template #headLeft><i class="el-icon-loading"></i>&nbsp;转盘</template>
-    <template #headRight> </template>
+    <template #headRight>
+      <el-select
+        style="width:160px"
+        v-model="selectedMembers"
+        multiple
+        collapse-tags
+        size="mini"
+        @change="handleChange"
+      >
+        <el-option
+          v-for="prize in prizes"
+          :key="prize.id"
+          :label="prize.fonts[0].text"
+          :value="prize.id"
+        >
+        </el-option>
+      </el-select>
+    </template>
     <template #body>
       <div v-if="showFlag" class="table-panel">
         <LuckyWheel
@@ -66,7 +83,8 @@ export default {
         fontWeight: 700
       },
       // 初始化转盘数据
-      prizes: []
+      prizes: [],
+      selectedMembers: []
     }
   },
   methods: {
@@ -85,7 +103,7 @@ export default {
           if (result.data == null || result.data.length <= 1) {
             this.showFlag = false
           } else {
-            this.prizes = this.initPrizes(result.data)
+            this.initPrizes(result.data)
             this.showFlag = true
           }
         })
@@ -96,15 +114,17 @@ export default {
     },
     // 格式化小组用户
     initPrizes (userNames) {
-      let prizes = []
       for (let index = 0; index < userNames.length; index++) {
-        prizes.push({
+        this.prizes.push({
           name: index,
           id: userNames[index].userId,
           fonts: [{ text: userNames[index].userName, top: '10px' }]
         })
+        this.selectedMembers.push(userNames[index].userId)
       }
-      return prizes
+    },
+    handleChange () {
+      console.log(this.selectedMembers)
     },
     startCallback () {
       // 清除监听状态

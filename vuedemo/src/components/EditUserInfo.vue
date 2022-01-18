@@ -31,9 +31,9 @@
           <el-select v-model="editForm.groupId" filterable placeholder="项目组">
             <el-option
               v-for="group in groups"
-              :key="group.id"
-              :label="group.name"
-              :value="group.id"
+              :key="group.groupId"
+              :label="group.groupName"
+              :value="group.groupId"
             >
             </el-option>
           </el-select>
@@ -62,7 +62,6 @@
 </template>
 <script>
 import { successInfo, errorInfo } from '@/utils/message'
-import { getSelections } from '@/utils/commonRequest'
 import { onlyCheckUserName, checkPhone } from '@/utils/validate'
 export default {
   data () {
@@ -92,13 +91,15 @@ export default {
     open () {
       this.loading = true
       // 获取所有项目组
-      this.groups = getSelections(
-        '/group/getAllGroups',
-        null,
-        'groupId',
-        'groupName',
-        '无'
-      )
+      this.$axios
+        .get('/group/getAllGroups')
+        .then(result => {
+          result.data.splice(0, 0, { groupId: '', groupName: '无' })
+          this.groups = result.data
+        })
+        .catch(failResponse => {
+          errorInfo(failResponse)
+        })
       this.loading = false
       // 打开弹框
       this.formVisible = true

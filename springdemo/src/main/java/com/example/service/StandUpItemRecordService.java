@@ -29,4 +29,11 @@ public interface StandUpItemRecordService {
      * @return java.util.Map<java.lang.String,java.lang.Object>
      */
     Map<String, Object> queryAllByLimit(int offset, int limit, String currentUserGroupId, String itemStyle);
+
+    /**
+     * <p>Title: deleteById</p>
+     * <p>Description: 通过主键删除数据</p>
+     * @param id 主键
+     */
+    void deleteById(String id);
 }

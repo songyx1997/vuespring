@@ -19,10 +19,10 @@
       </el-select>
     </template>
     <template #body>
-      <div v-if="showFlag" v-loading="loading1">
+      <div v-if="showFlag">
         <div class="line-chart-panel" ref="histogram"></div>
       </div>
-      <div v-else class="line-chart-panel" v-loading="loading2">
+      <div v-else class="line-chart-panel" v-loading="loading">
         <el-empty description="未查询到统计数据"></el-empty>
       </div>
     </template>
@@ -51,23 +51,22 @@ export default {
     return {
       items: [
         { value: 10, text: '10次' },
+        { value: 20, text: '20次' },
         { value: 50, text: '50次' },
         { value: 100, text: '100次' },
-        { value: 200, text: '200次' },
-        { value: 400, text: '400次' }
+        { value: 200, text: '200次' }
       ],
-      loading1: false,
-      loading2: false,
+      loading: false,
       showFlag: false,
       // 初始化图表数据
       histogram: {},
       userNames: [],
       times: [],
-      selectedTimes: 50
+      selectedTimes: 20
     }
   },
   created () {
-    this.getHistogramData(50)
+    this.getHistogramData(20)
   },
   mounted () {
     let _this = this
@@ -81,7 +80,7 @@ export default {
     '$store.getters.monitorFlag': function () {
       let monitorFlag = this.$store.getters.monitorFlag
       if (monitorFlag) {
-        this.getHistogramData(50)
+        this.getHistogramData(20)
       }
     }
   },
@@ -134,8 +133,7 @@ export default {
     },
     // 统计中奖人次数
     getHistogramData (limit) {
-      this.loading1 = true
-      this.loading2 = true
+      this.loading = true
       this.$axios
         .get('/lotteryLog/getHistogramData', {
           params: {
@@ -164,12 +162,10 @@ export default {
             // 初始化无数据
             this.showFlag = false
           }
-          this.loading1 = false
-          this.loading2 = false
+          this.loading = false
         })
         .catch(failResponse => {
-          this.loading1 = false
-          this.loading2 = false
+          this.loading = false
           errorInfo(failResponse)
         })
     },

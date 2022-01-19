@@ -29,8 +29,17 @@
           v-loading="loading"
         >
           <el-table-column label="操作" width="150">
-            <el-button type="primary" size="mini">修改</el-button>
-            <el-button type="danger" size="mini">删除</el-button>
+            <template slot-scope="scope">
+              <el-button type="primary" size="mini" @click="edit(scope.row)"
+                >修改</el-button
+              >
+              <el-button
+                type="danger"
+                size="mini"
+                @click="deleteById(scope.row.id)"
+                >删除</el-button
+              >
+            </template>
           </el-table-column>
           <el-table-column
             property="proposerUserName"
@@ -224,7 +233,7 @@
   </div>
 </template>
 <script>
-import { successInfo, errorInfo } from '@/utils/message'
+import { successInfo, errorInfo, cancelInfo } from '@/utils/message'
 import BasePanel from '../BasePanel.vue'
 export default {
   components: {
@@ -353,6 +362,36 @@ export default {
     handleChange (value) {
       this.selectedItemStyle = value
       this.search(0, 5)
+    },
+    edit (row) {
+      console.log(row)
+    },
+    deleteById (id) {
+      this.$confirm('确定删除所选的记录吗？', '删除确认', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(() => {
+          this.loading = true
+          this.$axios
+            .get('/standUpItemRecord/delete', { params: { id: id } })
+            .then(result => {
+              this.loading = false
+              if (result.data.returnCode === 'SUCCESS') {
+                successInfo(result.data.returnMessage)
+                this.pageNum = 1
+                this.search(0, 5)
+              } else {
+                errorInfo(result.data.returnMessage)
+              }
+            })
+            .catch(failResponse => {
+              this.loading = false
+              errorInfo(failResponse)
+            })
+        })
+        .catch(() => cancelInfo('已取消'))
     },
     // 重置表单
     resetForm () {

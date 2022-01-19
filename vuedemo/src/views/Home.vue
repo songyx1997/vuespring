@@ -25,6 +25,11 @@
     </el-col>
   </el-row>
 </template>
+<style scoped>
+.el-col {
+  padding-bottom: 20px;
+}
+</style>
 <script>
 import UserInfoCard from '../components/UserInfoCard.vue'
 import EditPassword from '../components/EditPassword.vue'

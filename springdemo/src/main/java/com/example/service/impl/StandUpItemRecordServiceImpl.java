@@ -60,4 +60,12 @@ public class StandUpItemRecordServiceImpl implements StandUpItemRecordService {
         resultMap.put("list", list);
         return resultMap;
     }
+
+    @Override
+    public void deleteById(String id) {
+        int deleteNum = standUpItemRecordDao.deleteById(id);
+        if (deleteNum != 1) {
+            throw new WebException(WebExceptionEnum.WEB_DEMO_000003, "站会项目记录表");
+        }
+    }
 }

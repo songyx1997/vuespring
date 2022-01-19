@@ -337,6 +337,7 @@ export default {
       this.search((val - 1) * 5, 5)
     },
     confirm () {
+      let currentSelectedItemStyle = this.itemForm.itemStyle
       this.$refs['itemForm'].validate(valid => {
         if (valid) {
           this.loading = true
@@ -346,6 +347,7 @@ export default {
               if (result.data.returnCode === 'SUCCESS') {
                 this.resetForm()
                 this.pageNum = 1
+                this.selectedItemStyle = currentSelectedItemStyle
                 this.search(0, 5)
                 successInfo(result.data.returnMessage)
               } else {
@@ -364,7 +366,8 @@ export default {
       this.search(0, 5)
     },
     edit (row) {
-      console.log(row)
+      this.itemForm = row
+      this.formVisible = true
     },
     deleteById (id) {
       this.$confirm('确定删除所选的记录吗？', '删除确认', {

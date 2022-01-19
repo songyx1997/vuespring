@@ -33,7 +33,8 @@
 
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="BaseResultMap">
-        SELECT suir.ID,u1.USER_NAME AS PROPOSER_USER_NAME,u2.USER_NAME AS PRINCIPAL_USER_NAME,suir .ITEM_STYLE ,suir .ITEM_DESCRIPTION ,suir .MEASURE ,suir.STATE ,suir .PRIORITY ,suir .REMARK ,suir.CREATION_TIME
+        SELECT suir.ID,u1.USER_NAME AS PROPOSER_USER_NAME,u2.USER_NAME AS PRINCIPAL_USER_NAME,suir .ITEM_STYLE ,suir .ITEM_DESCRIPTION ,
+        suir .MEASURE ,suir.STATE ,suir .PRIORITY ,suir .REMARK ,suir.CREATION_TIME, suir.PROPOSER_USER_ID, suir.PRINCIPAL_USER_ID
         FROM `STAND_UP_ITEM_RECORD` suir
                  LEFT JOIN `USER` u1 ON suir.PROPOSER_USER_ID = u1.USER_ID
                  LEFT JOIN `USER` u2 ON suir.PRINCIPAL_USER_ID = u2.USER_ID

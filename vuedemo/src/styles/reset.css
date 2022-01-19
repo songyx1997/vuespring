@@ -105,3 +105,9 @@ body {
   padding: 0;
   font-weight: bold;
 }
+
+.el-input--mini .el-input__inner {
+  /* 迷你选择器高度 */
+  height: 30px;
+  line-height: 30px;
+}

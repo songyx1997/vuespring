@@ -31,13 +31,14 @@
         FROM `LOTTERY_LOG` ll
         LEFT JOIN `USER` u1 ON ll.LOTTERY_USER_ID = u1.USER_ID
         LEFT JOIN `USER` u2 ON ll.WINNER_USER_ID = u2.USER_ID
-        where LOTTERY_USER_GROUP_ID = #{lotteryUserGroupId} AND ll.LOTTERY_STYLE = '0'
+        WHERE LOTTERY_USER_GROUP_ID = #{lotteryUserGroupId} AND ll.LOTTERY_STYLE = '0'
         ORDER BY ll.CREATION_TIME DESC,ll.ID DESC LIMIT #{offset},#{limit}
     </select>
 
     <!--查询日志总数-->
     <select id="queryTotalNum" resultType="int">
         SELECT COUNT(*) FROM `LOTTERY_LOG`
+        WHERE LOTTERY_USER_GROUP_ID = #{lotteryUserGroupId} AND LOTTERY_STYLE = '0'
     </select>
 
     <!--通过实体作为筛选条件查询-->

@@ -45,16 +45,16 @@ public class StandUpItemRecordServiceImpl implements StandUpItemRecordService {
     }
 
     @Override
-    public Map<String, Object> queryAllByLimit(int offset, int limit, String currentUserGroupId) {
+    public Map<String, Object> queryAllByLimit(int offset, int limit, String currentUserGroupId, String itemStyle) {
         Map<String, Object> resultMap = new HashMap<>(2);
         if (StringUtils.isBlank(currentUserGroupId)) {
             resultMap.put("total", 0);
             resultMap.put("list", null);
             return resultMap;
         }
-        List<StandUpItemRecord> list = standUpItemRecordDao.queryAllByLimit(offset, limit, currentUserGroupId);
+        List<StandUpItemRecord> list = standUpItemRecordDao.queryAllByLimit(offset, limit, currentUserGroupId, itemStyle);
         LOG.info("共查询到{}条站会项目记录", list.size());
-        int total = standUpItemRecordDao.queryTotalNum();
+        int total = standUpItemRecordDao.queryTotalNum(currentUserGroupId, itemStyle);
         LOG.info("总共有{}条记录", total);
         resultMap.put("total", total);
         resultMap.put("list", list);

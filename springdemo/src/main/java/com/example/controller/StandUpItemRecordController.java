@@ -73,13 +73,14 @@ public class StandUpItemRecordController {
      * @param offset 查询起始位置
      * @param limit 查询条数
      * @param currentUserGroupId 当前用户小组编号
+     * @param itemStyle 项目类型(0-风险项、1-跟进项、2-待改进项)
      * @return java.util.Map<java.lang.String,java.lang.Object>
      */
     @CrossOrigin
     @GetMapping(value = "/search")
     public Map<String, Object> search(@RequestParam("offset") int offset, @RequestParam("limit") int limit,
-                                      @RequestParam("currentUserGroupId") String currentUserGroupId) {
-        LOG.info("查询项目记录，查询起始位置{}，查询条数{}", offset, limit);
-        return standUpItemRecordService.queryAllByLimit(offset, limit, currentUserGroupId);
+                                      @RequestParam("currentUserGroupId") String currentUserGroupId, @RequestParam("itemStyle") String itemStyle) {
+        LOG.info("查询项目记录，查询起始位置={}，查询条数={}，项目类型(0-风险项、1-跟进项、2-待改进项)={}", offset, limit, itemStyle);
+        return standUpItemRecordService.queryAllByLimit(offset, limit, currentUserGroupId, itemStyle);
     }
 }

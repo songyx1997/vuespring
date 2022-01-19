@@ -6,6 +6,19 @@
         <el-button type="success" size="mini" @click="openDialog"
           >新增</el-button
         >
+        <el-select
+          style="width:110px"
+          v-model="selectedItemStyle"
+          size="mini"
+          @change="handleChange"
+        >
+          <el-option
+            v-for="itemStyle in itemStyles"
+            :key="itemStyle.id"
+            :label="itemStyle.name"
+            :value="itemStyle.id"
+          ></el-option>
+        </el-select>
       </template>
       <template #body>
         <!-- 展示表格 -->
@@ -36,12 +49,12 @@
               <el-tag type="warning">{{ scope.row.itemStyle }}</el-tag>
             </template>
           </el-table-column>
-          <el-table-column prop="state" label="状态" width="70">
+          <el-table-column prop="state" label="状态" width="80">
             <template slot-scope="scope">
               <el-tag>{{ scope.row.state }}</el-tag>
             </template>
           </el-table-column>
-          <el-table-column prop="priority" label="优先级" width="70">
+          <el-table-column prop="priority" label="优先级" width="80">
             <template slot-scope="scope">
               <el-tag>{{ scope.row.priority }}</el-tag>
             </template>
@@ -261,7 +274,9 @@ export default {
       },
       total: 0,
       pageNum: 1,
-      tableData: []
+      tableData: [],
+      // 初始化查询条件
+      selectedItemStyle: '1'
     }
   },
   methods: {
@@ -292,7 +307,8 @@ export default {
           params: {
             offset: offset,
             limit: limit,
-            currentUserGroupId: this.$store.getters.userInfo.groupId
+            currentUserGroupId: this.$store.getters.userInfo.groupId,
+            itemStyle: this.selectedItemStyle
           }
         })
         .then(result => {
@@ -333,6 +349,10 @@ export default {
           this.loading = false
         }
       })
+    },
+    handleChange (value) {
+      this.selectedItemStyle = value
+      this.search(0, 5)
     },
     // 重置表单
     resetForm () {

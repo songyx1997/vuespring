@@ -51,7 +51,7 @@ public class LotteryLogServiceImpl implements LotteryLogService {
         }
         List<LotteryLog> list = lotteryLogDao.queryAllByLimit(offset, limit, lotteryUserGroupId);
         LOG.info("共查询到{}条抽奖日志", list.size());
-        int total = lotteryLogDao.queryTotalNum();
+        int total = lotteryLogDao.queryTotalNum(lotteryUserGroupId);
         LOG.info("总共有{}条记录", total);
         resultMap.put("total", total);
         resultMap.put("list", list);

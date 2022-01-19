@@ -31,12 +31,12 @@
   border-right: 1.5px solid var(--grey);
 }
 .panel-head-right {
-  padding: 0 15px;
+  padding: 0 10px;
   color: black;
 }
 .panel-body {
   text-align: left;
-  padding: 15px;
+  padding: 10px;
 }
 </style>
 <script>

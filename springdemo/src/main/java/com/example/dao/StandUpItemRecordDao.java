@@ -27,17 +27,21 @@ public interface StandUpItemRecordDao {
      * @param offset 查询起始位置
      * @param limit 查询条数
      * @param currentUserGroupId 当前用户小组编号
+     * @param itemStyle 项目类型(0-风险项、1-跟进项、2-待改进项)
      * @return java.util.List<com.example.entity.StandUpItemRecord>
      */
     List<StandUpItemRecord> queryAllByLimit(@Param("offset") int offset, @Param("limit") int limit,
-                                            @Param("currentUserGroupId") String currentUserGroupId);
+                                            @Param("currentUserGroupId") String currentUserGroupId,
+                                            @Param("itemStyle") String itemStyle);
 
     /**
      * <p>Title: queryTotalNum</p>
      * <p>Description: 查询日志总数</p>
+     * @param currentUserGroupId 当前用户小组编号
+     * @param itemStyle 项目类型(0-风险项、1-跟进项、2-待改进项)
      * @return int
      */
-    int queryTotalNum();
+    int queryTotalNum(@Param("currentUserGroupId") String currentUserGroupId, @Param("itemStyle") String itemStyle);
 
     /**
      * <p>Title: queryAll</p>

@@ -11,10 +11,10 @@
         @change="handleChange"
       >
         <el-option
-          v-for="prize in prizes"
-          :key="prize.id"
-          :label="prize.fonts[0].text"
-          :value="prize.id"
+          v-for="member in members"
+          :key="member.userId"
+          :label="member.userName"
+          :value="member.userId"
         >
         </el-option>
       </el-select>
@@ -82,13 +82,17 @@ export default {
         fontColor: '#f56c6c',
         fontWeight: 700
       },
-      // 初始化转盘数据
+      // 转盘数据
+      initalPrize: [],
       prizes: [],
+      // 小组成员
+      members: [],
+      // 已选中的小组成员
       selectedMembers: []
     }
   },
   methods: {
-    // 加载转盘数据
+    // 初始化获取数据
     init () {
       this.loading = true
       this.$axios
@@ -103,7 +107,7 @@ export default {
           if (result.data == null || result.data.length <= 1) {
             this.showFlag = false
           } else {
-            this.initPrizes(result.data)
+            this.formatData(result.data)
             this.showFlag = true
           }
         })
@@ -112,19 +116,35 @@ export default {
           errorInfo(failResponse)
         })
     },
-    // 格式化小组用户
-    initPrizes (userNames) {
-      for (let index = 0; index < userNames.length; index++) {
-        this.prizes.push({
+    // 格式化数据
+    formatData (data) {
+      for (let index = 0; index < data.length; index++) {
+        let initalPrize = {
           name: index,
-          id: userNames[index].userId,
-          fonts: [{ text: userNames[index].userName, top: '10px' }]
-        })
-        this.selectedMembers.push(userNames[index].userId)
+          id: data[index].userId,
+          fonts: [{ text: data[index].userName, top: '10px' }]
+        }
+        this.initalPrize.push(initalPrize)
+        this.prizes.push(initalPrize)
+        this.selectedMembers.push(data[index].userId)
       }
+      this.members = data
     },
-    handleChange () {
-      console.log(this.selectedMembers)
+    handleChange (value) {
+      this.loading = true
+      if (value.length <= 1) {
+        cancelInfo('至少保留两名成员！')
+      } else {
+        this.prizes = []
+        for (let index = 0; index < this.initalPrize.length; index++) {
+          if (value.indexOf(this.initalPrize[index].id) > -1) {
+            this.prizes.push(this.initalPrize[index])
+          }
+        }
+        // 重新加载转盘
+        this.$refs.tableId.init()
+      }
+      this.loading = false
     },
     startCallback () {
       // 清除监听状态

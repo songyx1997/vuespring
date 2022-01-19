@@ -35,9 +35,10 @@ public interface LotteryLogDao {
     /**
      * <p>Title: queryTotalNum</p>
      * <p>Description: 查询日志总数</p>
+     * @param lotteryUserGroupId 抽奖人当前小组编号
      * @return int
      */
-    int queryTotalNum();
+    int queryTotalNum(String lotteryUserGroupId);
 
     /**
      * <p>Title: queryAll</p>

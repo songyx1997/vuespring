@@ -25,7 +25,8 @@ public interface StandUpItemRecordService {
      * @param offset 查询起始位置
      * @param limit 查询条数
      * @param currentUserGroupId 当前用户小组编号
+     * @param itemStyle 项目类型(0-风险项、1-跟进项、2-待改进项)
      * @return java.util.Map<java.lang.String,java.lang.Object>
      */
-    Map<String, Object> queryAllByLimit(int offset, int limit, String currentUserGroupId);
+    Map<String, Object> queryAllByLimit(int offset, int limit, String currentUserGroupId, String itemStyle);
 }

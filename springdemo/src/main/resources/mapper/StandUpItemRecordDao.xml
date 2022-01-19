@@ -37,13 +37,14 @@
         FROM `STAND_UP_ITEM_RECORD` suir
                  LEFT JOIN `USER` u1 ON suir.PROPOSER_USER_ID = u1.USER_ID
                  LEFT JOIN `USER` u2 ON suir.PRINCIPAL_USER_ID = u2.USER_ID
-        WHERE suir.CURRENT_USER_GROUP_ID = #{currentUserGroupId}
-        ORDER BY suir.CREATION_TIME DESC,suir.ID DESC LIMIT #{offset}, #{limit}
+        WHERE suir.CURRENT_USER_GROUP_ID = #{currentUserGroupId} AND suir.ITEM_STYLE = #{itemStyle}
+        ORDER BY suir.STATE,suir.PRIORITY DESC,suir.CREATION_TIME DESC,suir.ID DESC LIMIT #{offset}, #{limit}
     </select>
 
     <!--查询站会项目记录总数-->
     <select id="queryTotalNum" resultType="int">
         SELECT COUNT(*) FROM `STAND_UP_ITEM_RECORD`
+        WHERE CURRENT_USER_GROUP_ID = #{currentUserGroupId} AND ITEM_STYLE = #{itemStyle}
     </select>
 
     <!--通过实体作为筛选条件查询-->

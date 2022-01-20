@@ -36,4 +36,11 @@ public interface StandUpItemRecordService {
      * @param id 主键
      */
     void deleteById(String id);
+
+    /**
+     * <p>Title: update</p>
+     * <p>Description: 更新数据</p>
+     * @param standUpItemRecord 实例对象
+     */
+    void update(StandUpItemRecord standUpItemRecord);
 }

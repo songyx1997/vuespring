@@ -3,9 +3,7 @@
     <base-panel>
       <template #headLeft><i class="el-icon-view"></i>&nbsp;改进项</template>
       <template #headRight>
-        <el-button type="success" size="mini" @click="openDialog"
-          >新增</el-button
-        >
+        <el-button type="success" size="mini" @click="add">新增</el-button>
         <el-select
           style="width:110px"
           v-model="selectedItemStyle"
@@ -99,7 +97,7 @@
     </base-panel>
     <!-- 弹窗 -->
     <el-dialog
-      title="改进项新增"
+      title="改进项变更"
       v-loading="loading"
       :visible.sync="formVisible"
       :close-on-click-modal="false"
@@ -227,7 +225,9 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="resetForm">取 消</el-button>
-        <el-button type="primary" @click="confirm">确 定</el-button>
+        <el-button type="primary" @click="confirm(addOrEditUrl)"
+          >确 定</el-button
+        >
       </div>
     </el-dialog>
   </div>
@@ -285,14 +285,14 @@ export default {
       pageNum: 1,
       tableData: [],
       // 初始化查询条件
-      selectedItemStyle: '1'
+      selectedItemStyle: '1',
+      addOrEditUrl: ''
     }
   },
   methods: {
-    openDialog () {
-      this.itemForm = { ...this.defaultForm }
+    // 获取同小组的成员
+    getUsers () {
       this.loading = true
-      // 获取同小组的成员
       this.$axios
         .get('/user/getUsers', {
           params: {
@@ -307,7 +307,12 @@ export default {
           errorInfo(failResponse)
         })
       this.loading = false
+    },
+    add () {
+      this.itemForm = { ...this.defaultForm }
+      this.getUsers()
       this.formVisible = true
+      this.addOrEditUrl = '/standUpItemRecord/add'
     },
     search (offset, limit) {
       this.loading = true
@@ -336,13 +341,14 @@ export default {
       this.tableData = []
       this.search((val - 1) * 5, 5)
     },
-    confirm () {
+    // 弹框中的确认按钮
+    confirm (url) {
       let currentSelectedItemStyle = this.itemForm.itemStyle
       this.$refs['itemForm'].validate(valid => {
         if (valid) {
           this.loading = true
           this.$axios
-            .post('/standUpItemRecord/add', this.itemForm)
+            .post(url, this.itemForm)
             .then(result => {
               if (result.data.returnCode === 'SUCCESS') {
                 this.resetForm()
@@ -366,8 +372,13 @@ export default {
       this.search(0, 5)
     },
     edit (row) {
-      this.itemForm = row
+      this.itemForm = { ...row }
+      this.itemForm.itemStyle = this.getNum(row.itemStyle, this.itemStyles)
+      this.itemForm.state = this.getNum(row.state, this.states)
+      this.itemForm.priority = this.getNum(row.priority, this.prioritys)
+      this.getUsers()
       this.formVisible = true
+      this.addOrEditUrl = '/standUpItemRecord/edit'
     },
     deleteById (id) {
       this.$confirm('确定删除所选的记录吗？', '删除确认', {
@@ -417,6 +428,11 @@ export default {
     getCn (id, items) {
       for (let index = 0; index < items.length; index++) {
         if (items[index].id === id) return items[index].name
+      }
+    },
+    getNum (name, items) {
+      for (let index = 0; index < items.length; index++) {
+        if (items[index].name === name) return items[index].id
       }
     }
   }

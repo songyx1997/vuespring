@@ -45,16 +45,11 @@ public class StandUpItemRecordController {
     @PostMapping(value = "/add")
     public InfoMessage add(@RequestBody StandUpItemRecord standUpItemRecord) {
         LOG.info("新增项目记录");
-        String itemDescription = standUpItemRecord.getItemDescription();
-        String measure = standUpItemRecord.getMeasure();
-        String remark = standUpItemRecord.getRemark();
         try {
             if (StringUtils.isBlank(standUpItemRecord.getCurrentUserGroupId())) {
                 throw new WebException(WebExceptionEnum.WEB_DEMO_000000, "当前用户未设置项目组！");
             }
-            standUpItemRecord.setItemDescription(StringUtils.isBlank(itemDescription) ? StringUtils.EMPTY : itemDescription.trim());
-            standUpItemRecord.setMeasure(StringUtils.isBlank(measure) ? StringUtils.EMPTY : measure.trim());
-            standUpItemRecord.setRemark(StringUtils.isBlank(remark) ? StringUtils.EMPTY : remark);
+            preprocessingParam(standUpItemRecord);
             standUpItemRecordService.insert(standUpItemRecord);
         } catch (WebException e) {
             LOG.error("新增项目记录出现异常！", e);
@@ -64,6 +59,30 @@ public class StandUpItemRecordController {
         }
         infoMessage.setReturnCode(InfoMessage.SUCCESS);
         infoMessage.setReturnMessage("新增记录成功！");
+        return infoMessage;
+    }
+
+    /**
+     * <p>Title: edit</p>
+     * <p>Description: 修改项目记录</p>
+     * @param standUpItemRecord 记录内容
+     * @return com.example.entity.InfoMessage
+     */
+    @CrossOrigin
+    @PostMapping(value = "/edit")
+    public InfoMessage edit(@RequestBody StandUpItemRecord standUpItemRecord) {
+        LOG.info("修改项目记录");
+        try {
+            preprocessingParam(standUpItemRecord);
+            standUpItemRecordService.update(standUpItemRecord);
+        } catch (WebException e) {
+            LOG.error("修改项目记录出现异常！", e);
+            infoMessage.setReturnCode(InfoMessage.FAIL);
+            infoMessage.setReturnMessage(e.getMessage());
+            return infoMessage;
+        }
+        infoMessage.setReturnCode(InfoMessage.SUCCESS);
+        infoMessage.setReturnMessage("修改记录成功！");
         return infoMessage;
     }
 
@@ -105,5 +124,14 @@ public class StandUpItemRecordController {
         infoMessage.setReturnCode(InfoMessage.SUCCESS);
         infoMessage.setReturnMessage("删除记录成功！");
         return infoMessage;
+    }
+
+    private void preprocessingParam(StandUpItemRecord standUpItemRecord) {
+        standUpItemRecord.setItemDescription(StringUtils.isBlank(standUpItemRecord.getItemDescription()) ?
+                StringUtils.EMPTY : standUpItemRecord.getItemDescription().trim());
+        standUpItemRecord.setMeasure(StringUtils.isBlank(standUpItemRecord.getMeasure()) ?
+                StringUtils.EMPTY : standUpItemRecord.getMeasure().trim());
+        standUpItemRecord.setRemark(StringUtils.isBlank(standUpItemRecord.getRemark()) ?
+                StringUtils.EMPTY : standUpItemRecord.getRemark());
     }
 }

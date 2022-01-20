@@ -68,4 +68,14 @@ public class StandUpItemRecordServiceImpl implements StandUpItemRecordService {
             throw new WebException(WebExceptionEnum.WEB_DEMO_000003, "站会项目记录表");
         }
     }
+
+    @Override
+    public void update(StandUpItemRecord standUpItemRecord) {
+        LOG.info("修改更新时间");
+        standUpItemRecord.setUpdateTime(DateUtil.getCurrentTimeStr(DateUtil.FULL_STANDARD_TIME));
+        int updateNum = standUpItemRecordDao.update(standUpItemRecord);
+        if (updateNum != 1) {
+            throw new WebException(WebExceptionEnum.WEB_DEMO_000002, "站会项目记录表");
+        }
+    }
 }
